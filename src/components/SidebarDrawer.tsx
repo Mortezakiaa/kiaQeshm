@@ -10,6 +10,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import MenuIcon from "@mui/icons-material/Menu";
+import Typography from "@mui/material/Typography";
 
 type Anchor = "right";
 
@@ -70,7 +72,12 @@ export default function SidebarDrawer() {
   return (
     <div>
       <React.Fragment key={"right"}>
-        <Button onClick={toggleDrawer("right", true)}>right</Button>
+        <Button
+          onClick={toggleDrawer("right", true)}
+          color="primary"
+        >
+          <MenuIcon />
+        </Button>
         <Drawer
           anchor={"right"}
           open={state["right"]}

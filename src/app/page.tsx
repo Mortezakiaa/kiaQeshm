@@ -1,12 +1,10 @@
 'use client'
-import SidebarDrawer from "@/components/SideBarDrawer";
-import BaseLayout from "@/template/BaseLayout";
+import MainLayout from "@/template/MainLayout";
 
 export default function Home() {
   return (
    <>
-      <SidebarDrawer/>
-      <BaseLayout/>
+      <MainLayout/>
    </>
   );
 }
