@@ -1,5 +1,5 @@
 'use client'
-import Header from "@/components/Header";
+import SidebarDrawer from "@/components/SidebarDrawer";
 import { Grid } from "@mui/material";
 
 
@@ -7,7 +7,7 @@ export default function MainLayout() {
   return (
     <>
       <Grid container>
-        <Header/>
+        <SidebarDrawer/>
       </Grid>
     </>
   );
