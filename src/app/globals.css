@@ -1,10 +1,11 @@
 @font-face {
-  font-family: Vazir;
-  src: url("../../public/fonts/ttf/Vazirmatn-Regular.ttf");
-  src: url("../../public/fonts/ttf//Vazirmatn-Black.ttf");
-  font-weight: 900;
+  font-family: 'Vazirmatn';
+  src: url('../../public/fonts/webfonts/Vazirmatn-Medium.woff2') format('woff2 supports variations'),
+       url('../../public/fonts/webfonts/Vazirmatn-Medium.woff2') format('woff2-variations');
+  font-weight: 100 900;
   font-style: normal;
+  font-display: swap;
 }
-body {
-  font-family: Vazir !important;
+body *{
+  font-family: Vazirmatn !important;
 }
