@@ -1,13 +1,15 @@
-'use client'
-import SidebarDrawer from "@/components/SidebarDrawer";
+"use client";
+import Sidebar from "@/components/Sidebar";
 import { Grid } from "@mui/material";
 
-
-export default function MainLayout() {
+export interface childProps {
+  children: React.ReactNode;
+}
+export default function MainLayout({ children }: childProps) {
   return (
     <>
       <Grid container>
-        <SidebarDrawer/>
+        <Sidebar>{children}</Sidebar>
       </Grid>
     </>
   );

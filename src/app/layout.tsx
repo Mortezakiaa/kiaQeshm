@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import "./globals.css";
+import MainLayout from "@/template/MainLayout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body dir="rtl" className={inter.className}>
+    <html lang="en" dir="rtl">
+      <body className={inter.className}>
         <AppRouterCacheProvider>
-          {children}
+          <MainLayout>{children}</MainLayout>
         </AppRouterCacheProvider>
       </body>
     </html>
