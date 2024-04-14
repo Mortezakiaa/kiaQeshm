@@ -10,7 +10,25 @@ export default function page() {
       </Grid>
       <Grid container display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
-          <TextField fullWidth label="کد تفضیلی" variant="outlined" />
+          <TextField sx={{
+            '& .MuiFormLabel-root':{
+              right:'8%',
+              transformOrigin:'top right',
+            },
+            '& .mui-14lo706':{
+              // float:"right",
+              position:'absolute',
+              top:'-10%',
+            },
+            '& .MuiOutlinedInput-notchedOutline':{
+              // top:0
+            },
+            '& .Mui-focused .MuiOutlinedInput-notchedOutline':{
+              top:0,
+            },
+            '& legend':{
+            }
+          }} fullWidth label="کد تفضیلی" variant="outlined" />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <TextField fullWidth label="توضیحات" variant="outlined" />
