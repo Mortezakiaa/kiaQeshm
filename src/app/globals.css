@@ -9,3 +9,6 @@
 body *{
   font-family: Vazirmatn !important;
 }
+.DatePickerContainer > div:first-child{
+  width: 100% !important;
+}

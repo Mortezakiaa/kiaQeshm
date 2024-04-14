@@ -6,33 +6,32 @@ import { IconButton, InputAdornment, TextField } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 export default function DatePickerTime() {
   return (
-    <div>
-
-        <DatePicker
-          style={{ width: "100%" }}
-          render={(value, openCalender) => (
-            <TextField
-              onClick={openCalender}
-              value={value}
-              label="تاریخ"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    style={{position: "absolute", left: 10}}
-                  >
-                    <IconButton onClick={openCalender}>
-                      <CalendarMonthIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-          calendar={persian}
-          locale={persian_fa}
-          calendarPosition="bottom-left"
-        />
+    <div className="DatePickerContainer">
+      <DatePicker
+        render={(value, openCalender) => (
+          <TextField
+            fullWidth
+            onClick={openCalender}
+            value={value}
+            label="تاریخ"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  style={{ position: "absolute", left: 10 }}
+                >
+                  <IconButton onClick={openCalender}>
+                    <CalendarMonthIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
+        calendar={persian}
+        locale={persian_fa}
+        calendarPosition="bottom-left"
+      />
     </div>
   );
 }

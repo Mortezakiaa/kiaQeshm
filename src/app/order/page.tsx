@@ -5,30 +5,30 @@ import { Grid, TextField } from "@mui/material";
 export default function page() {
   return (
     <div dir="rtl">
+      <Grid item xs={12} sm={6} md={4}>
+        <AddNewCustomerModal />
+      </Grid>
       <Grid container display={"flex"} spacing={2}>
-        <Grid item sm={6} md={4}>
-          <TextField sx={{width:'100%'}} label="کد تفضیلی" variant="outlined" />
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField fullWidth label="کد تفضیلی" variant="outlined" />
         </Grid>
-        <Grid item sm={6} md={4}>
-          <TextField sx={{width:'100%'}} label="توضیحات" variant="outlined" />
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField fullWidth label="توضیحات" variant="outlined" />
         </Grid>
-        <Grid item sm={6} md={4}>
-          <TextField sx={{width:'100%'}} label="نام فروشنده" variant="outlined" />
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField fullWidth label="نام فروشنده" variant="outlined" />
         </Grid>
-        <Grid item sm={6} md={4}>
-          <TextField sx={{width:'100%'}} label="شرح" variant="outlined" />
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField fullWidth label="شرح" variant="outlined" />
         </Grid>
-        <Grid item sm={6} md={4}>
-          <TextField sx={{width:'100%'}} label="کد کارشناس فروش" variant="outlined" />
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField fullWidth label="کد کارشناس فروش" variant="outlined" />
         </Grid>
-        <Grid item sm={6} md={4}>
-          <TextField sx={{width:'100%'}} label="کد انبار" variant="outlined" />
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField fullWidth label="کد انبار" variant="outlined" />
         </Grid>
-        <Grid item sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <DatePickerTime />
-        </Grid>
-        <Grid item sm={6} md={4}>
-          <AddNewCustomerModal />
         </Grid>
       </Grid>
     </div>
