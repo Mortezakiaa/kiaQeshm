@@ -4,19 +4,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MobileSizeDrawer from "./MobileSizeDrawer";
 import { useState } from "react";
 import Link from "next/link";
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 const drawerWidth = 200;
 
@@ -44,18 +42,23 @@ export default function Sidebar({ children }: any) {
       <Toolbar />
       <Divider />
       <List>
-        {["سفارشات"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <Link href={'/order'} style={{listStyle:'none' , width:'100%'}}>
+        <ListItem disablePadding>
+          <Link href={"/order"} style={{
+              color:'',
+              listStyle: "none",
+              width: "100%",
+              textDecoration:'none'
+            }}>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InventoryIcon sx={{color:'black'}}/>
               </ListItemIcon>
-              <Typography variant="subtitle1" color={"InfoText"}>{text}</Typography>
+              <Typography variant="subtitle1" color={"black"}>
+                سفارشات
+              </Typography>
             </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
+          </Link>
+        </ListItem>
       </List>
     </div>
   );
