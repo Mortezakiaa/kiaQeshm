@@ -4,6 +4,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { Metadata } from "next";
+import EditableTable from "@/components/EditableTable";
 
 export const metadata: Metadata = {
   title: "ثبت سفارشات",
@@ -78,6 +79,7 @@ export default function page() {
           <Button variant="outlined">اضافه کردن</Button>
         </Grid>
       </Grid>
+      <EditableTable/>
     </div>
   );
 }

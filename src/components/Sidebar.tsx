@@ -15,6 +15,8 @@ import MobileSizeDrawer from "./MobileSizeDrawer";
 import { useState } from "react";
 import Link from "next/link";
 import InventoryIcon from '@mui/icons-material/Inventory';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const drawerWidth = 200;
 
@@ -40,6 +42,10 @@ export default function Sidebar({ children }: any) {
   const drawer = (
     <div>
       <Toolbar />
+        {/* <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon /> 
+             <ChevronRightIcon />
+        </IconButton> */}
       <Divider />
       <List>
         <ListItem disablePadding>
