@@ -17,8 +17,8 @@ import CheckIcon from "@mui/icons-material/Check";
 export default function StickyHeadTable() {
   const [editMode, setEditMode] = useState(false);
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper sx={{ width: "100%", overflow: "hidden"}}>
+      <TableContainer sx={{ maxHeight: 440}}>
         <Table stickyHeader sx={{
           '& th':{
             backgroundColor:'#424242',

@@ -78,8 +78,10 @@ export default function page() {
         <Grid item xs={12} sm={6} md={4}>
           <Button variant="outlined">اضافه کردن</Button>
         </Grid>
+        <Grid item sm={12}>
+          <EditableTable/>
+        </Grid>
       </Grid>
-      <EditableTable/>
     </div>
   );
 }
