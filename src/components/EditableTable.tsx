@@ -20,7 +20,7 @@ export default function EditableTable() {
   const [Insert , setInsert] = useState<InsertOrderData>()
   return (
     <Paper sx={{ width: "100%"}}>
-      <TableContainer sx={{ maxHeight: 440}}>
+      <TableContainer sx={{ maxHeight: 440}}> 
         <Table stickyHeader sx={{
           '& th':{
             backgroundColor:'#424242',
