@@ -1,4 +1,4 @@
-export interface InsertOrder {
+export interface InsertOrderData {
   InventoryCode: number
   AccountingCode:number
   num2: number
@@ -21,4 +21,18 @@ export interface InsertOrder {
     }
   ];
   discount:number
+}
+
+
+export interface DatePickerArguments {
+  DateValue: string | undefined;
+  onChange: (e: any) => void;
+}
+
+export interface MobileDrawer {
+  mobileOpen: boolean;
+  handleDrawerTransitionEnd: () => void;
+  handleDrawerClose: () => void;
+  drawerWidth: number;
+  drawer: React.ReactNode;
 }

@@ -1,12 +1,5 @@
+import { MobileDrawer } from "@/Types/Types";
 import { Drawer } from "@mui/material";
-
-export interface MobileDrawer {
-  mobileOpen: boolean;
-  handleDrawerTransitionEnd: () => void;
-  handleDrawerClose: () => void;
-  drawerWidth: number;
-  drawer: React.ReactNode;
-}
 
 export default function MobileSizeDrawer(props: MobileDrawer) {
   return (

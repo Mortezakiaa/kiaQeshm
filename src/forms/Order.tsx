@@ -1,13 +1,14 @@
 "use client";
-import { InsertOrder } from "@/Types/InsertOrder";
+import { InsertOrderData } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePicker";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
+import { DateObject } from "react-multi-date-picker";
 
 export default function Order() {
-    const [Insert , setInsert] = useState<InsertOrder>()
+    const [Insert , setInsert] = useState<InsertOrderData>()
   return (
     <>
       <Grid container paddingTop={2} display={"flex"} spacing={2}>
@@ -16,12 +17,6 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField value={Insert?.AccountingCode} fullWidth label="کد حساب" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField value={Insert?.Description2} fullWidth label="توضیحات" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField value={Insert?.Description1} fullWidth label="شرح" variant="outlined" />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField value={Insert?.SalesExpertCode} fullWidth label="کد کارشناس فروش" variant="outlined" />
@@ -33,9 +28,15 @@ export default function Order() {
           <RTLTextField fullWidth label="تعداد" variant="outlined" />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <DatePickerTime DateValue={Insert?.Date} onChange={(e,x) => {console.log(e)}}/>
+          <DatePickerTime DateValue={Insert?.Date} onChange={(e) =>{}}/>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12}>
+          <RTLTextField value={Insert?.Description1} fullWidth label="شرح" variant="outlined" />
+        </Grid>
+        <Grid item xs={12}>
+          <RTLTextField value={Insert?.Description2} fullWidth label="توضیحات" variant="outlined" />
+        </Grid>
+        <Grid item xs={12}>
           <Button variant="outlined">اضافه کردن</Button>
         </Grid>
         <Grid item sm={12}>

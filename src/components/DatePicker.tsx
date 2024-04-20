@@ -5,13 +5,10 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { IconButton, InputAdornment } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import RTLTextField from "./RTLTextField";
+import { DatePickerArguments } from "@/Types/Types";
 
-export interface DatePicker {
-  DateValue: string | undefined;
-  onChange: (e: any , e1:any) => void;
-}
 
-export default function DatePickerTime({ DateValue, onChange }: DatePicker) {
+export default function DatePickerTime({ DateValue, onChange }: DatePickerArguments) {
   return (
     <div className="DatePickerContainer">
       <DatePicker
