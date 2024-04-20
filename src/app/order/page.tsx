@@ -6,6 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { Metadata } from "next";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
+import Order from "@/forms/Order";
 
 export const metadata: Metadata = {
   title: "ثبت سفارشات",
@@ -30,41 +31,7 @@ export default function page() {
           </IconButton>
         </Tooltip>
       </Grid>
-      <Grid container paddingTop={2} display={"flex"} spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="کد تفضیلی" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="توضیحات" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="نام فروشنده" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="شرح" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="کد کارشناس فروش" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="کد انبار" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="محصولات" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <RTLTextField fullWidth label="تعداد" variant="outlined" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <DatePickerTime />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Button variant="outlined">اضافه کردن</Button>
-        </Grid>
-        <Grid item sm={12}>
-          <EditableTable />
-        </Grid>
-      </Grid>
+      <Order />
     </div>
   );
 }

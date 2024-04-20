@@ -13,17 +13,23 @@ import { Tooltip } from "@mui/material";
 import { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
+import { InsertOrder } from "@/Types/InsertOrder";
 
-export default function StickyHeadTable() {
+export default function EditableTable() {
   const [editMode, setEditMode] = useState(false);
+  const [Insert , setInsert] = useState<InsertOrder>()
   return (
     <Paper sx={{ width: "100%", overflow: "hidden"}}>
       <TableContainer sx={{ maxHeight: 440}}>
         <Table stickyHeader sx={{
           '& th':{
             backgroundColor:'#424242',
-            color:'white'
+            color:'white',
+            padding:'8px 6px'
           },
+          '& td':{
+            padding:'6px',
+          }
         }}>
           <TableHead>
             <TableRow>
@@ -41,14 +47,11 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody  sx={{
             '& tr:nth-child(even)':{
-              backgroundColor:'#e0e0e0'
+              backgroundColor:'#e0e0e0',
             },
-            '& td':{
-              padding:'8px'
-            }
             }}>
             <TableRow>
-              <TableCell align="right">1</TableCell>
+              <TableCell align="right"></TableCell>
               <TableCell align="right">d</TableCell>
               <TableCell align="right">das</TableCell>
               <TableCell align="right">das</TableCell>

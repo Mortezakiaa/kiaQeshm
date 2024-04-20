@@ -6,15 +6,22 @@ import { IconButton, InputAdornment } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import RTLTextField from "./RTLTextField";
 
-export default function DatePickerTime() {
+export interface DatePicker {
+  DateValue: string | undefined;
+  onChange: (e: any , e1:any) => void;
+}
+
+export default function DatePickerTime({ DateValue, onChange }: DatePicker) {
   return (
     <div className="DatePickerContainer">
       <DatePicker
-        render={(value, openCalender) => (
+        onChange={onChange}
+        render={(v, openCalender) => (
           <RTLTextField
             fullWidth
             onClick={openCalender}
-            value={value}
+            defaultValue={v}
+            value={DateValue}
             label="تاریخ"
             InputProps={{
               startAdornment: (
