@@ -91,7 +91,7 @@ export default function Sidebar({ children }: any) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            {/* Responsive drawer */}
           </Typography>
         </Toolbar>
       </AppBar>

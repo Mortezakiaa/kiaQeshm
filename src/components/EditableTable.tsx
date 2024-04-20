@@ -23,7 +23,7 @@ export default function StickyHeadTable() {
           '& th':{
             backgroundColor:'#424242',
             color:'white'
-          }
+          },
         }}>
           <TableHead>
             <TableRow>
@@ -39,9 +39,14 @@ export default function StickyHeadTable() {
               <TableCell align="right">وضعیت</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody  sx={{'& tr:nth-child(even)':{
+          <TableBody  sx={{
+            '& tr:nth-child(even)':{
               backgroundColor:'#e0e0e0'
-            }}}>
+            },
+            '& td':{
+              padding:'8px'
+            }
+            }}>
             <TableRow>
               <TableCell align="right">1</TableCell>
               <TableCell align="right">d</TableCell>
