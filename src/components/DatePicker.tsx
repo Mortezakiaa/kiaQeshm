@@ -2,14 +2,16 @@
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { IconButton, InputAdornment } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import RTLTextField from "./RTLTextField";
+
 export default function DatePickerTime() {
   return (
     <div className="DatePickerContainer">
       <DatePicker
         render={(value, openCalender) => (
-          <TextField
+          <RTLTextField
             fullWidth
             onClick={openCalender}
             value={value}
