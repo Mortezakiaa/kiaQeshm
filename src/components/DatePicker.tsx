@@ -7,8 +7,10 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import RTLTextField from "./RTLTextField";
 import { DatePickerArguments } from "@/Types/Types";
 
-
-export default function DatePickerTime({ DateValue, onChange }: DatePickerArguments) {
+export default function DatePickerTime({
+  DateValue,
+  onChange,
+}: DatePickerArguments) {
   return (
     <div className="DatePickerContainer">
       <DatePicker

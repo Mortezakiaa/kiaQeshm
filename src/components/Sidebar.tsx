@@ -50,7 +50,7 @@ export default function Sidebar({ children }: any) {
       <Divider />
       <List>
         <ListItem disablePadding>
-          <Link href={"/order"} style={{
+          <Link href={"/Order"} style={{
               color:'',
               listStyle: "none",
               width: "100%",
@@ -62,6 +62,23 @@ export default function Sidebar({ children }: any) {
               </ListItemIcon>
               <Typography variant="subtitle1" color={"black"}>
                 سفارشات
+              </Typography>
+            </ListItemButton>
+          </Link>
+        </ListItem>
+        <ListItem disablePadding>
+          <Link href={"/OrderList"} style={{
+              color:'',
+              listStyle: "none",
+              width: "100%",
+              textDecoration:'none'
+            }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <InventoryIcon sx={{color:'black'}}/>
+              </ListItemIcon>
+              <Typography variant="subtitle1" color={"black"}>
+                لیست سفارشات
               </Typography>
             </ListItemButton>
           </Link>
