@@ -3,9 +3,11 @@ import { InsertOrderData } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePicker";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
-import { Button, Grid } from "@mui/material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -20,14 +22,46 @@ export default function Order() {
     discount: null,
   });
   const setData = (e: any) => {
-    if(e.target.type === 'number'){
-      setInsert({...Insert , [e.target.name] : +e.target.value})
-    }else{
-      setInsert({...Insert , [e.target.name]:e.target.value})
+    if (e.target.type === "number") {
+      setInsert({ ...Insert, [e.target.name]: +e.target.value });
+    } else {
+      setInsert({ ...Insert, [e.target.name]: e.target.value });
     }
   };
+
+  const SaveOrder = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
+        Insert
+      );
+      const data = await res.data;
+      console.log('data' , data);
+    } catch (e) {
+      console.log('e' , e);
+    }
+
+  };
+
   return (
     <>
+      <Grid item xs={12} sm={6} md={4}>
+        <Tooltip title="ثبت سفارش">
+          <IconButton
+            onClick={SaveOrder}
+            color="info"
+            sx={{
+              "&:hover": {
+                backgroundColor: "#4dabf5",
+                transition: "0.5s",
+                color: "white",
+              },
+            }}
+          >
+            <AddShoppingCartIcon />
+          </IconButton>
+        </Tooltip>
+      </Grid>
       <Grid container paddingTop={2} display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
@@ -73,7 +107,9 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <DatePickerTime
             DateValue={Insert?.date}
-            onChange={e => {setInsert({...Insert , date:new DateObject(e).format()})}}
+            onChange={(e) => {
+              setInsert({ ...Insert, date: new DateObject(e).format() });
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -95,9 +131,6 @@ export default function Order() {
             label="توضیحات"
             variant="outlined"
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Button variant="outlined">اضافه کردن</Button>
         </Grid>
         <Grid item sm={12}>
           <EditableTable />
