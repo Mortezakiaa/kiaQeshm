@@ -1,24 +1,22 @@
 export interface OrderLines {
-  ItemCode: string;
-  ItemName: string;
-  Qty1: number;
-  Fee: number;
+  itemCode: string;
+  qty1: number;
+  fee: number;
   amount: number;
   discountPercent: number;
-  discount: number;
-  finalAmount: number;
+  discountAmount: number;
+  remindNet: number;
 }
 export interface InsertOrderData {
-  InventoryCode: number | null;
-  AccountingCode: number | null;
-  num2: number | null;
-  SalesExpertCode: number | null;
-  Date: string;
-  Description1: string;
-  Description2: string;
-  CustomerCode: string;
+  date: string,
+  accountingCode: string,
+  customerCode: string,
+  saleExpertCode: string,
+  inventoryCode: number | null,
+  description1: string,
+  description2: string,
+  discount: number | null,
   orderLines: OrderLines[];
-  discount: number | null;
 }
 export interface DatePickerArguments {
   DateValue: string | undefined;

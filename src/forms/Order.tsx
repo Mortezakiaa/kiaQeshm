@@ -9,14 +9,13 @@ import { DateObject } from "react-multi-date-picker";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
-    InventoryCode: null,
-    AccountingCode: null,
-    num2: null,
-    SalesExpertCode: null,
-    Date: "",
-    Description1: "",
-    Description2: "",
-    CustomerCode: "",
+    inventoryCode: null,
+    accountingCode: "",
+    saleExpertCode: "",
+    date: "",
+    description1: "",
+    description2: "",
+    customerCode: "",
     orderLines: [],
     discount: null,
   });
@@ -33,9 +32,8 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={setData}
-            name="CustomerCode"
-            type="number"
-            value={Insert?.CustomerCode}
+            name="customerCode"
+            value={Insert?.customerCode}
             fullWidth
             label="کد تفضیلی"
             variant="outlined"
@@ -44,9 +42,8 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={setData}
-            name="AccountingCode"
-            type="number"
-            value={Insert?.AccountingCode}
+            name="accountingCode"
+            value={Insert?.accountingCode}
             fullWidth
             label="کد حساب"
             variant="outlined"
@@ -55,9 +52,8 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={setData}
-            name="SalesExpertCode"
-            type="number"
-            value={Insert?.SalesExpertCode}
+            name="saleExpertCode"
+            value={Insert?.saleExpertCode}
             fullWidth
             label="کد کارشناس فروش"
             variant="outlined"
@@ -66,9 +62,9 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={setData}
-            name="InventoryCode"
+            name="inventoryCode"
             type="number"
-            value={Insert?.InventoryCode}
+            value={Insert?.inventoryCode}
             fullWidth
             label="کد انبار"
             variant="outlined"
@@ -76,15 +72,15 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <DatePickerTime
-            DateValue={Insert?.Date}
-            onChange={e => {setInsert({...Insert , Date:new DateObject(e).format()})}}
+            DateValue={Insert?.date}
+            onChange={e => {setInsert({...Insert , date:new DateObject(e).format()})}}
           />
         </Grid>
         <Grid item xs={12}>
           <RTLTextField
             onChange={setData}
-            name="Description1"
-            value={Insert?.Description1}
+            name="description1"
+            value={Insert?.description1}
             fullWidth
             label="شرح"
             variant="outlined"
@@ -93,8 +89,8 @@ export default function Order() {
         <Grid item xs={12}>
           <RTLTextField
             onChange={setData}
-            name="Description2"
-            value={Insert?.Description2}
+            name="description2"
+            value={Insert?.description2}
             fullWidth
             label="توضیحات"
             variant="outlined"
