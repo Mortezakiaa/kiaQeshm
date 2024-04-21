@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" dir="rtl">
       <body>
-        <AppRouterCacheProvider>
+        <AppRouterCacheProvider >
           <MainLayout>{children}</MainLayout>
           <ToastContainer/>
         </AppRouterCacheProvider>

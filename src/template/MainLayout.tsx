@@ -7,7 +7,10 @@ export interface childProps {
 export default function MainLayout({ children }: childProps) {
   return (
     <>
-      <Grid container>
+      <Grid
+        container
+        sx={{ width: "100%", "& div.MuiBox-root": { width: "100%" } }}
+      >
         <Sidebar>{children}</Sidebar>
       </Grid>
     </>

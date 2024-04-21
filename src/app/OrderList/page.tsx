@@ -1,3 +1,4 @@
+import OrderList from "@/forms/OrderList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,7 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return <div>order List</div>;
+  return <div dir="rtl">
+  <OrderList/>
+  </div>;
 }

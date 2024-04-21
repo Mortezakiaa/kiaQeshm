@@ -1,6 +1,6 @@
 "use client";
 import { InsertOrderData } from "@/Types/Types";
-import DatePickerTime from "@/components/DatePicker";
+import DatePickerTime from "@/components/DatePickerTime";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Grid, IconButton, Tooltip } from "@mui/material";
@@ -24,7 +24,7 @@ export default function Order() {
     discount: null,
   });
 
-  const [kala , setKala] = useState()
+  const [kala, setKala] = useState();
 
   const setData = (e: any) => {
     if (e.target.type === "number") {
@@ -46,9 +46,6 @@ export default function Order() {
       console.log("e", e);
     }
   };
-
-  
-
 
   return (
     <>
@@ -113,6 +110,7 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <DatePickerTime
+            label="تاریخ"
             DateValue={Insert?.date}
             onChange={(e) => {
               setInsert({ ...Insert, date: new DateObject(e).format() });
@@ -152,7 +150,7 @@ export default function Order() {
         </Grid> */}
 
         <Grid item xs={12} md={12}>
-          <TreeViewKalaList/>
+          <TreeViewKalaList />
         </Grid>
 
         <Grid item sm={12}>
@@ -164,7 +162,7 @@ export default function Order() {
 }
 
 const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
+  { label: "The Shawshank Redemption", year: 1994 },
+  { label: "The Godfather", year: 1972 },
+  { label: "The Godfather: Part II", year: 1974 },
 ];

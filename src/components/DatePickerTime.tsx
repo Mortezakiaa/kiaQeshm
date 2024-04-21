@@ -10,6 +10,7 @@ import { DatePickerArguments } from "@/Types/Types";
 export default function DatePickerTime({
   DateValue,
   onChange,
+  label
 }: DatePickerArguments) {
   return (
     <div className="DatePickerContainer">
@@ -21,7 +22,7 @@ export default function DatePickerTime({
             onClick={openCalender}
             defaultValue={v}
             value={DateValue}
-            label="تاریخ"
+            label={label}
             InputProps={{
               startAdornment: (
                 <InputAdornment

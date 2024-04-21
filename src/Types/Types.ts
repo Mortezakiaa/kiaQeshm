@@ -21,6 +21,7 @@ export interface InsertOrderData {
 export interface DatePickerArguments {
   DateValue: string | undefined;
   onChange: (e: any) => void;
+  label: string;
 }
 export interface MobileDrawer {
   mobileOpen: boolean;
@@ -43,4 +44,27 @@ export interface KalaTreeViewList {
   name: string;
   parentId: number;
   fullName: KalaTreeViewFullNameList[];
+}
+
+export interface OrderListsFilter {
+  name?: string;
+  num1?: number;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface OrderLists {
+  id: number;
+  codeFaktorType: string;
+  nameFaktorType: string;
+  codeAnbar: string;
+  nameAnbar: string;
+  num1: number;
+  num2: number;
+  date: string;
+  date2: string;
+  sharh: string;
+  tozihat: string;
+  customerCode: string;
+  customerName: string;
 }
