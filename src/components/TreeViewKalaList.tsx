@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
+import { getKalaTree } from "@/utils/getTreeViewList";
 
 const CustomTreeItem = styled(TreeItem)(({ theme }) => ({
   [`& .${treeItemClasses.content}`]: {
@@ -48,65 +49,42 @@ export default function TreeViewKalaList() {
   const [TreeViewListChildren, setTreeViewListChildren] =
     useState<KalaTreeViewList[]>();
 
-  useEffect(() => {
-    getKalaTreeViewList();
-  }, []);
+  const getData = async () => {
+    const res = await getKalaTree();
+    setTreeViewList(res);
+  };
+  getData()
 
-  const getKalaTreeViewList = async () => {
+  const getKalaTreeViewListChildren = async (id: number | string) => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchTreeView`
+        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/GetTreeViewChildren/${id}`
       );
-      const data = await res.data;
-      setTreeViewList(data);
+      const data = res.data;
+      setTreeViewListChildren(data);
     } catch (error) {
       toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
     }
   };
 
-  
-  const Recursive = (data:KalaTreeViewList[])=>{
-      const [state , setState] = useState<KalaTreeViewList[]>(data)
-      const getKalaTreeViewListChildren = async (id: number | string) => {
-        try {
-          const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/GetTreeViewChildren/${id}`
-          );
-          const data = res.data;
-          setState(data);
-        } catch (error) {
-          toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
-        }
-      };
-    return (
-        <>
-            {state?.map((item) =>(
-                <CustomTreeItem itemId={item.id.toString()} label={item.name} onClick={e => {getKalaTreeViewListChildren(item.id)}}>
-                    <Recursive />
-                </CustomTreeItem>
-            ))}
-        </>
-    )
-  }
-
   return (
     <>
       <SimpleTreeView
         aria-label="customized"
-        defaultExpandedItems={["1", "3"]}
         slots={{
           expandIcon: ExpandIcon,
           collapseIcon: CollapseIcon,
           endIcon: EndIcon,
         }}
-        sx={{ overflowX: "hidden", minHeight: 270, flexGrow: 1, maxWidth: 300 }}
+        sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
         {TreeViewList?.map((items) => (
-          <CustomTreeItem key={items.id} itemId={items.id.toString()} label={items.name}>
-            {TreeViewListChildren?.map((i)=>(
-                <CustomTreeItem itemId={i.id.toString()} label={i.name}></CustomTreeItem>
-            ))}
-          </CustomTreeItem>
+          <CustomTreeItem
+            key={items.id}
+            itemId={items.id.toString()}
+            label={items.name}
+            onClick={(e) => getKalaTreeViewListChildren(items.id)}
+          />
         ))}
       </SimpleTreeView>
     </>
