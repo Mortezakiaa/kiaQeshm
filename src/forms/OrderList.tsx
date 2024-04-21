@@ -2,6 +2,7 @@
 
 import { OrderListsFilter } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePickerTime";
+import OrderListTable from "@/components/OrderListsTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
@@ -58,6 +59,9 @@ export default function OrderList() {
       </Grid>
       <Grid item xs={12}>
         <Button variant="outlined">فیلتر کردن</Button>
+      </Grid>
+      <Grid item sm={12}>
+        <OrderListTable/>
       </Grid>
     </Grid>
   );
