@@ -8,6 +8,8 @@ import axios from "axios";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Autocomplete from "@mui/material/Autocomplete";
+import TreeViewKalaList from "@/components/TreeViewKalaList";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -21,6 +23,9 @@ export default function Order() {
     orderLines: [],
     discount: null,
   });
+
+  const [kala , setKala] = useState()
+
   const setData = (e: any) => {
     if (e.target.type === "number") {
       setInsert({ ...Insert, [e.target.name]: +e.target.value });
@@ -36,12 +41,14 @@ export default function Order() {
         Insert
       );
       const data = await res.data;
-      console.log('data' , data);
+      console.log("data", data);
     } catch (e) {
-      console.log('e' , e);
+      console.log("e", e);
     }
-
   };
+
+  
+
 
   return (
     <>
@@ -112,7 +119,7 @@ export default function Order() {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <RTLTextField
             onChange={setData}
             name="description1"
@@ -122,7 +129,7 @@ export default function Order() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <RTLTextField
             onChange={setData}
             name="description2"
@@ -132,6 +139,22 @@ export default function Order() {
             variant="outlined"
           />
         </Grid>
+
+        {/* <Grid item xs={12} md={6}>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            onInputChange={(e:any) => {console.log(e.target.value)}}
+            options={top100Films}
+            sx={{ width: 300 }}
+            renderInput={(params) => <RTLTextField {...params} label="Movie" />}
+          />
+        </Grid> */}
+
+        <Grid item xs={12} md={12}>
+          <TreeViewKalaList/>
+        </Grid>
+
         <Grid item sm={12}>
           <EditableTable />
         </Grid>
@@ -139,3 +162,9 @@ export default function Order() {
     </>
   );
 }
+
+const top100Films = [
+  { label: 'The Shawshank Redemption', year: 1994 },
+  { label: 'The Godfather', year: 1972 },
+  { label: 'The Godfather: Part II', year: 1974 },
+];

@@ -3,6 +3,9 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import MainLayout from "@/template/MainLayout";
 import './globals.css'
 import Favicon from './favicon.ico'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export const metadata: Metadata = {
   title: "گروه کیا قشم - Kiaqeshm Group",
@@ -20,6 +23,7 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <MainLayout>{children}</MainLayout>
+          <ToastContainer/>
         </AppRouterCacheProvider>
       </body>
     </html>
