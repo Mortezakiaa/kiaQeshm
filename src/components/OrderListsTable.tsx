@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,90 +8,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { OrderLists } from "@/Types/Types";
 
-interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
+export interface Data {
+  data: OrderLists[];
 }
 
-const columns: readonly Column[] = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toFixed(2),
-  },
-];
-
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
-}
-
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
-
-export default function OrderListsTable() {
+export default function OrderListsTable({ data }: Data) {
+  const [dataCount, setDataCount] = useState(0);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(dataCount);
+
+  useEffect(() => {
+    setDataCount(data.length);
+    setRowsPerPage(Math.ceil(data.length / 10));
+  }, [data]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   return (
@@ -106,19 +40,25 @@ export default function OrderListsTable() {
               color: "white",
               padding: "8px 6px",
             },
+            '& td':{
+              padding: "8px 6px",
+              border: "1px solid rgba(184 183 183)"
+            }
           }}
         >
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align="right"
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
+              <TableCell align="right">*</TableCell>
+              <TableCell align="right">کد مشتری</TableCell>
+              <TableCell align="right">نام مشتری</TableCell>
+              <TableCell align="right">تاریخ</TableCell>
+              <TableCell align="right">نام نوع فاکتور</TableCell>
+              <TableCell align="right">نام انبار</TableCell>
+              <TableCell align="right">شماره سفارش</TableCell>
+              <TableCell align="right">شماره 2</TableCell>
+              <TableCell align="right">تاریخ 2</TableCell>
+              <TableCell align="right">شرح</TableCell>
+              <TableCell align="right">توضیحات</TableCell>
             </TableRow>
           </TableHead>
           <TableBody
@@ -128,35 +68,34 @@ export default function OrderListsTable() {
               },
             }}
           >
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align="right">
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+            {data?.map((i , index) => (
+              <TableRow key={i.id}>
+                <TableCell align="right">{++index}</TableCell>
+                <TableCell align="right">{i.customerCode}</TableCell>
+                <TableCell align="right">{i.customerName}</TableCell>
+                <TableCell align="right">{i.date}</TableCell>
+                <TableCell align="right">{i.nameFaktorType}</TableCell>
+                <TableCell align="right">{i.nameAnbar}</TableCell>
+                <TableCell align="right">{i.num1}</TableCell>
+                <TableCell align="right">{i.num2}</TableCell>
+                <TableCell align="right">{i.date2}</TableCell>
+                <TableCell sx={{maxWidth:'150px' , wordBreak:'break-word'}} align="right">{i.sharh}</TableCell>
+                <TableCell sx={{maxWidth:'150px' , wordBreak:'break-word'}} align="right">{i.tozihat}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+      style={{display:'flex'}}
+        dir="ltr"
+        rowsPerPageOptions={[]}
+        labelRowsPerPage={``}
         component="div"
-        count={rows.length}
+        count={dataCount}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );

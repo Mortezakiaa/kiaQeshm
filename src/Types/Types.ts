@@ -7,6 +7,7 @@ export interface OrderLines {
   discountAmount: number;
   remindNet: number;
 }
+
 export interface InsertOrderData {
   date: string;
   accountingCode: string;
@@ -18,11 +19,13 @@ export interface InsertOrderData {
   discount: number | null;
   orderLines: OrderLines[];
 }
+
 export interface DatePickerArguments {
   DateValue: string | undefined;
   onChange: (e: any) => void;
   label: string;
 }
+
 export interface MobileDrawer {
   mobileOpen: boolean;
   handleDrawerTransitionEnd: () => void;
@@ -48,7 +51,7 @@ export interface KalaTreeViewList {
 
 export interface OrderListsFilter {
   name?: string;
-  num1?: number;
+  num1?: number | null;
   dateFrom?: string;
   dateTo?: string;
 }

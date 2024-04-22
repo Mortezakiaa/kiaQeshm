@@ -1,15 +1,37 @@
 "use client";
 
-import { OrderListsFilter } from "@/Types/Types";
+import { OrderLists, OrderListsFilter } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePickerTime";
 import OrderListTable from "@/components/OrderListsTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Button, Grid } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
+import { toast } from "react-toastify";
 
 export default function OrderList() {
-  const [OrderList, setOrderList] = useState<OrderListsFilter>();
+  const [OrderList, setOrderList] = useState<OrderListsFilter>({
+    name: "",
+    num1: null,
+    dateFrom: "",
+    dateTo: "",
+  });
+  const [data, setData] = useState<OrderLists[]>();
+
+  const getFilterdList = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Search`,
+        OrderList
+      );
+      const data = res.data;
+      setData(data.rows);
+    } catch (error) {
+      toast.error("مشکلی پیش آمده است مجدد امتحان کنید.");
+    }
+  };
+
   return (
     <Grid container paddingTop={2} display={"flex"} spacing={2}>
       <Grid item xs={12} sm={6} md={3}>
@@ -58,10 +80,12 @@ export default function OrderList() {
         />
       </Grid>
       <Grid item xs={12}>
-        <Button variant="outlined">فیلتر کردن</Button>
+        <Button variant="outlined" onClick={getFilterdList}>
+          فیلتر کردن
+        </Button>
       </Grid>
       <Grid item sm={12}>
-        <OrderListTable/>
+        <OrderListTable data={data || []} />
       </Grid>
     </Grid>
   );

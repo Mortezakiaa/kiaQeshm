@@ -19,8 +19,8 @@ export default function DatePickerTime({
         render={(v, openCalender) => (
           <RTLTextField
             fullWidth
+            onChange={onChange}
             onClick={openCalender}
-            defaultValue={v}
             value={DateValue}
             label={label}
             InputProps={{

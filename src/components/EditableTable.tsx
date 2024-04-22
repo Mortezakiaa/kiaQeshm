@@ -29,6 +29,7 @@ export default function EditableTable() {
           },
           '& td':{
             padding:'6px',
+            border: "1px solid rgba(184 183 183)"
           }
         }}>
           <TableHead>
