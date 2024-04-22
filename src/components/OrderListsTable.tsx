@@ -9,8 +9,6 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { OrderLists } from "@/Types/Types";
-import Pagination from "@mui/material/Pagination";
-import { Box, Typography } from "@mui/material";
 
 export interface Data {
   data: OrderLists[];

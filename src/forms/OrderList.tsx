@@ -4,6 +4,7 @@ import { OrderLists, OrderListsFilter } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePickerTime";
 import OrderListTable from "@/components/OrderListsTable";
 import RTLTextField from "@/components/RTLTextField";
+import Spinner from "@/components/Spinner";
 import { Button, Grid } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
@@ -18,8 +19,10 @@ export default function OrderList() {
     dateTo: "",
   });
   const [data, setData] = useState<OrderLists[]>();
+  const [loading, setLoading] = useState(false);
 
   const getFilterdList = async () => {
+    setLoading(true);
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Search`,
@@ -27,7 +30,9 @@ export default function OrderList() {
       );
       const data = res.data;
       setData(data.rows);
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       toast.error("مشکلی پیش آمده است مجدد امتحان کنید.");
     }
   };
@@ -80,9 +85,13 @@ export default function OrderList() {
         />
       </Grid>
       <Grid item xs={12}>
-        <Button variant="outlined" onClick={getFilterdList}>
-          فیلتر کردن
-        </Button>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Button variant="outlined" onClick={getFilterdList}>
+            فیلتر کردن
+          </Button>
+        )}
       </Grid>
       <Grid item sm={12}>
         <OrderListTable data={data || []} />
