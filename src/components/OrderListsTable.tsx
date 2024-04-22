@@ -17,17 +17,23 @@ export interface Data {
 }
 
 export default function OrderListsTable({ data }: Data) {
-  const [dataCount, setDataCount] = useState(0);
+  const [Rows, setRows] = useState(0);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(dataCount);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    setDataCount(data.length);
-    setRowsPerPage(Math.ceil(data.length / 10));
+    setRows(data.length);
   }, [data]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   return (
@@ -70,8 +76,8 @@ export default function OrderListsTable({ data }: Data) {
               },
             }}
           >
-            {data?.map((i, index) => (
-              <TableRow key={i.id}>
+            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((i, index) => (
+              <TableRow hover key={i.id}>
                 <TableCell align="right">{++index}</TableCell>
                 <TableCell align="right">{i.customerCode}</TableCell>
                 <TableCell align="right">{i.customerName}</TableCell>
@@ -98,22 +104,18 @@ export default function OrderListsTable({ data }: Data) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <Box sx={{display:'flex' , gap:'5px' , alignItems:'center', flexDirection:'row-reverse'}}>
-        <Pagination dir="ltr" count={rowsPerPage} />
-        <Typography variant="caption">صفحه : {rowsPerPage}</Typography>
-      </Box> */}
-      {/* <TablePagination
-        id="table-Pagination"
+      <TablePagination
         style={{ display: "flex" }}
         dir="ltr"
-        rowsPerPageOptions={[]}
+        rowsPerPageOptions={[10 , 25 , 50]}
         labelRowsPerPage={``}
         component="div"
-        count={dataCount}
+        count={Rows}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
-      /> */}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Paper>
   );
 }
