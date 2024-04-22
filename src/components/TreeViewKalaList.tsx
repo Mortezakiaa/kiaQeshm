@@ -53,7 +53,11 @@ export default function TreeViewKalaList() {
     const res = await getKalaTree();
     setTreeViewList(res);
   };
-  getData()
+
+  useEffect(()=>{
+    getData()
+  },[])
+
 
   const getKalaTreeViewListChildren = async (id: number | string) => {
     try {

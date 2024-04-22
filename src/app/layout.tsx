@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import MainLayout from "@/template/MainLayout";
 import './globals.css'
 import Favicon from './favicon.ico'
 import { ToastContainer } from "react-toastify";
@@ -22,7 +21,7 @@ export default function RootLayout({
     <html lang="en" dir="rtl">
       <body>
         <AppRouterCacheProvider >
-          <MainLayout>{children}</MainLayout>
+          {children}
           <ToastContainer/>
         </AppRouterCacheProvider>
       </body>

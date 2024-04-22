@@ -88,7 +88,7 @@ export default function OrderList() {
         {loading ? (
           <Spinner />
         ) : (
-          <Button variant="outlined" onClick={getFilterdList}>
+          <Button variant="outlined" onClick={()=> getFilterdList()}>
             فیلتر کردن
           </Button>
         )}
