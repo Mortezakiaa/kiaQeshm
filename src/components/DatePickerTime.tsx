@@ -16,6 +16,7 @@ export default function DatePickerTime({
     <div className="DatePickerContainer">
       <DatePicker
         onChange={onChange}
+        value={DateValue}
         render={(v, openCalender) => (
           <RTLTextField
             fullWidth
