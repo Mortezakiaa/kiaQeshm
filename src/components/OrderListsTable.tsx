@@ -9,6 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { OrderLists } from "@/Types/Types";
+import Pagination from "@mui/material/Pagination";
+import { Box, Typography } from "@mui/material";
 
 export interface Data {
   data: OrderLists[];
@@ -40,10 +42,10 @@ export default function OrderListsTable({ data }: Data) {
               color: "white",
               padding: "8px 6px",
             },
-            '& td':{
+            "& td": {
               padding: "8px 6px",
-              border: "1px solid rgba(184 183 183)"
-            }
+              border: "1px solid rgba(184 183 183)",
+            },
           }}
         >
           <TableHead>
@@ -68,7 +70,7 @@ export default function OrderListsTable({ data }: Data) {
               },
             }}
           >
-            {data?.map((i , index) => (
+            {data?.map((i, index) => (
               <TableRow key={i.id}>
                 <TableCell align="right">{++index}</TableCell>
                 <TableCell align="right">{i.customerCode}</TableCell>
@@ -79,15 +81,30 @@ export default function OrderListsTable({ data }: Data) {
                 <TableCell align="right">{i.num1}</TableCell>
                 <TableCell align="right">{i.num2}</TableCell>
                 <TableCell align="right">{i.date2}</TableCell>
-                <TableCell sx={{maxWidth:'150px' , wordBreak:'break-word'}} align="right">{i.sharh}</TableCell>
-                <TableCell sx={{maxWidth:'150px' , wordBreak:'break-word'}} align="right">{i.tozihat}</TableCell>
+                <TableCell
+                  sx={{ maxWidth: "150px", wordBreak: "break-word" }}
+                  align="right"
+                >
+                  {i.sharh}
+                </TableCell>
+                <TableCell
+                  sx={{ maxWidth: "150px", wordBreak: "break-word" }}
+                  align="right"
+                >
+                  {i.tozihat}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-      style={{display:'flex'}}
+      {/* <Box sx={{display:'flex' , gap:'5px' , alignItems:'center', flexDirection:'row-reverse'}}>
+        <Pagination dir="ltr" count={rowsPerPage} />
+        <Typography variant="caption">صفحه : {rowsPerPage}</Typography>
+      </Box> */}
+      {/* <TablePagination
+        id="table-Pagination"
+        style={{ display: "flex" }}
         dir="ltr"
         rowsPerPageOptions={[]}
         labelRowsPerPage={``}
@@ -96,7 +113,7 @@ export default function OrderListsTable({ data }: Data) {
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
-      />
+      /> */}
     </Paper>
   );
 }
