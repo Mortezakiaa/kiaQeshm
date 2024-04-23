@@ -1,7 +1,6 @@
 "use client";
 import RTLTextField from "@/components/RTLTextField";
 import {
-  Button,
   Grid,
   IconButton,
   InputAdornment,
@@ -15,7 +14,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import { UserLogin } from "@/Types/Types";
 import Spinner from "@/components/Spinner";
-import axios from "axios";
+import { Auth } from "@/actions/Auth";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [signIn, setSignIn] = useState<UserLogin>({
@@ -25,23 +25,17 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const Auth = async () => {
+  const SingIN = async () => {
     setLoading(true);
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Auth/Login`,
-        signIn
-      );
-      const data = res.data;
-      console.log('data' , data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log('error' , error);
+    const res = await Auth(signIn);
+    setLoading(false);
+    if (!res) {
+      toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
     }
   };
 
   return (
+    <form action={SingIN}>
       <Stack
         style={{
           maxWidth: "100%",
@@ -127,12 +121,14 @@ export default function Login() {
             {loading ? (
               <Spinner />
             ) : (
-              <Button onClick={()=> {Auth()}} variant="outlined" fullWidth>
-                ورود
-              </Button>
+              <button className="button-8">ورود</button>
+              // <Button variant="outlined" fullWidth>
+              //   ورود
+              // </Button>
             )}
           </Grid>
         </Grid>
       </Stack>
+    </form>
   );
 }

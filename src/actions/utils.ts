@@ -12,4 +12,3 @@ export const getKalaTree = async () => {
     return error;
   }
 };
-

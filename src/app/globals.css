@@ -1,14 +1,41 @@
 @font-face {
-  font-family: 'Vazirmatn';
-  src: url('../../public/fonts/webfonts/Vazirmatn-Medium.woff2') format('woff2 supports variations'),
-       url('../../public/fonts/webfonts/Vazirmatn-Medium.woff2') format('woff2-variations');
+  font-family: "Vazirmatn";
+  src: url("../../public/fonts/webfonts/Vazirmatn-Medium.woff2")
+      format("woff2 supports variations"),
+    url("../../public/fonts/webfonts/Vazirmatn-Medium.woff2")
+      format("woff2-variations");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
-body *{
+body * {
   font-family: Vazirmatn !important;
 }
-.DatePickerContainer > div:first-child{
+.DatePickerContainer > div:first-child {
   width: 100% !important;
+}
+
+.button-8 {
+  width: 100%;
+  background-color: #e1ecf4;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #39739d;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px 0.8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
 }
