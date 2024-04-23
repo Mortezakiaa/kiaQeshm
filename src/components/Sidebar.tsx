@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,16 +15,19 @@ import Typography from "@mui/material/Typography";
 import MobileSizeDrawer from "./MobileSizeDrawer";
 import { useState } from "react";
 import Link from "next/link";
-import InventoryIcon from '@mui/icons-material/Inventory';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import InventoryIcon from "@mui/icons-material/Inventory";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { LogOut } from "@/actions/LogOut";
+import { useRouter } from "next/navigation";
 
 const drawerWidth = 200;
 
 export default function Sidebar({ children }: any) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-
+  const router = useRouter()
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -40,25 +43,33 @@ export default function Sidebar({ children }: any) {
     }
   };
 
+  const Exit = async ()=>{
+    LogOut()
+    router.push('/Login')
+  }
+
   const drawer = (
     <div>
       <Toolbar />
-        {/* <IconButton onClick={handleDrawerClose}>
+      {/* <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon /> 
              <ChevronRightIcon />
         </IconButton> */}
       <Divider />
       <List>
         <ListItem disablePadding>
-          <Link href={"/Order"} style={{
-              color:'',
+          <Link
+            href={"/Order"}
+            style={{
+              color: "",
               listStyle: "none",
               width: "100%",
-              textDecoration:'none'
-            }}>
+              textDecoration: "none",
+            }}
+          >
             <ListItemButton>
               <ListItemIcon>
-                <InventoryIcon sx={{color:'black'}}/>
+                <InventoryIcon sx={{ color: "black" }} />
               </ListItemIcon>
               <Typography variant="subtitle1" color={"black"}>
                 سفارشات
@@ -67,21 +78,34 @@ export default function Sidebar({ children }: any) {
           </Link>
         </ListItem>
         <ListItem disablePadding>
-          <Link href={"/OrderList"} style={{
-              color:'',
+          <Link
+            href={"/OrderList"}
+            style={{
+              color: "",
               listStyle: "none",
               width: "100%",
-              textDecoration:'none'
-            }}>
+              textDecoration: "none",
+            }}
+          >
             <ListItemButton>
               <ListItemIcon>
-                <InventoryIcon sx={{color:'black'}}/>
+                <InventoryIcon sx={{ color: "black" }} />
               </ListItemIcon>
               <Typography variant="subtitle1" color={"black"}>
                 لیست سفارشات
               </Typography>
             </ListItemButton>
           </Link>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={Exit}>
+            <ListItemIcon>
+              <LogoutIcon sx={{ color: "black" }} />
+            </ListItemIcon>
+            <Typography variant="subtitle1" color={"black"}>
+              خروج
+            </Typography>
+          </ListItemButton>
         </ListItem>
       </List>
     </div>
