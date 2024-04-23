@@ -1,11 +1,8 @@
-import { cookies } from "next/headers";
+import { getCoockie } from "@/actions/getCoockie";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  const coockie = cookies().get('token')
-  if(coockie){
-    redirect('/')
-  }else{
-    redirect('/Login')
-  }  
+  const cookie = getCoockie()
+  if(!cookie) redirect('/Login')
+  redirect('/Order')
 }
