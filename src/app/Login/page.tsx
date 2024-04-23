@@ -1,6 +1,9 @@
+import Login from "@/forms/Login";
 
 export default function page() {
   return (
-    <div>page</div>
+    <>
+     <Login/>
+    </>
   )
 }

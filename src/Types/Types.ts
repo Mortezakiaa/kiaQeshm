@@ -71,3 +71,8 @@ export interface OrderLists {
   customerCode: string;
   customerName: string;
 }
+
+export interface UserLogin {
+  userName: string;
+  password: string;
+}
