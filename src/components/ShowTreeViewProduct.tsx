@@ -25,7 +25,7 @@ export default function ShowTreeViewProduct() {
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={[style, { minWidth: "40%" }]}>
+        <ModalContent sx={[style, { minWidth: "40%" , overflowY:'scroll' , maxHeight:'450px' }]}>
           <Box
             sx={{
               display: "flex",

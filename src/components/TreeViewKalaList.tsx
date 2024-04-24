@@ -66,6 +66,7 @@ export default function TreeViewKalaList() {
     getKalaTree();
   }, []);
 
+
   const getKalaTreeViewListChildren = async (id: number | string) => {
     try {
       const res = await axios.get(
@@ -73,13 +74,14 @@ export default function TreeViewKalaList() {
       );
       const data = res.data;
       res.data.map((i:any)=> i.children = [])
-      TreeViewList?.map((item) =>{
+      console.log(data);
+      const newList = TreeViewList?.filter((item) =>{
         if(item.id === id){
           item.children = data
-          setTreeViewList({...TreeViewList})
-        }
+          return item          
+        }else if(item.id !== id) return item
       })
-      // setTreeViewListChildren(data);
+      setTreeViewList(newList)
     } catch (error) {
       toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
     }
@@ -95,14 +97,16 @@ export default function TreeViewKalaList() {
         }}
         sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
-        {TreeViewList?.map((items:any) => (
+        {TreeViewList?.map((items) => (
           <CustomTreeItem
             key={items.id}
             itemId={items.id.toString()}
             label={items.name}
             onClick={(e) => getKalaTreeViewListChildren(items.id)}
           >
-
+            {items.children?.map((ix)=>(
+              <CustomTreeItem key={ix.id} label={ix.name} itemId={ix.id.toString()} onClick={(e) => getKalaTreeViewListChildren(ix.id)}/>
+            ))}
           </CustomTreeItem>
         ))}
       </SimpleTreeView>
