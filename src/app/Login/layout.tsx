@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ورود به سامانه",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

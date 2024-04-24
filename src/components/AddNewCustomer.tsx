@@ -4,19 +4,22 @@ import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import RTLTextField from "./RTLTextField";
 
-export default function AddNewCustomerModal() {
+export default function AddNewCustomer() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
-    <div>
-      <IconButton aria-label="delete" onClick={handleOpen}>
-        <AddBoxIcon />
-      </IconButton>
+    <>
+      <Tooltip title="اضافه کردن مشتری جدید">
+        <IconButton aria-label="delete" onClick={handleOpen}>
+          <AddBoxIcon />
+        </IconButton>
+      </Tooltip>
       <Modal
         open={open}
         onClose={handleClose}
@@ -37,30 +40,34 @@ export default function AddNewCustomerModal() {
               <CloseIcon />
             </IconButton>
           </Box>
-          <Grid container spacing={2}>
-            <Grid item sm={12} md={6}>
-              <TextField
+          <Grid display={'flex'} flexDirection={'column'} container spacing={2}>
+            <Grid item sm={12} md={12}>
+              <RTLTextField
+                fullWidth
                 label="نام مشتری"
                 variant="outlined"
                 sx={{ width: "100%" }}
               />
             </Grid>
-            <Grid item sm={12} md={6}>
-              <TextField
+            <Grid item sm={12} md={12}>
+              <RTLTextField
+                fullWidth
                 label="آدرس"
                 variant="outlined"
                 sx={{ width: "100%" }}
               />
             </Grid>
-            <Grid item sm={12} md={6}>
-              <TextField
+            <Grid item sm={12} md={12}>
+              <RTLTextField
+                fullWidth
                 label="تلفن"
                 variant="outlined"
                 sx={{ width: "100%" }}
               />
             </Grid>
-            <Grid item sm={12} md={6}>
-              <TextField
+            <Grid item sm={12} md={12}>
+              <RTLTextField
+                fullWidth
                 label="تلفن همراه"
                 variant="outlined"
                 sx={{ width: "100%" }}
@@ -72,7 +79,7 @@ export default function AddNewCustomerModal() {
           </Box>
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 }
 const Backdrop = forwardRef<

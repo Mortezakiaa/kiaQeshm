@@ -3,13 +3,16 @@ import { InsertOrderData } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePickerTime";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Autocomplete from "@mui/material/Autocomplete";
 import TreeViewKalaList from "@/components/TreeViewKalaList";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import { toast } from "react-toastify";
+import AddNewCustomer from "@/components/AddNewCustomer";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -41,37 +44,47 @@ export default function Order() {
         Insert
       );
       const data = await res.data;
+      toast.success("");
       console.log("data", data);
     } catch (e) {
+      toast.error("");
       console.log("e", e);
     }
   };
 
   return (
     <>
-      <Grid item xs={12} sm={6} md={4}>
-        <Tooltip title="ثبت سفارش">
-          <IconButton
-            onClick={SaveOrder}
-            color="info"
-            sx={{
-              "&:hover": {
-                backgroundColor: "#4dabf5",
-                transition: "0.5s",
-                color: "white",
-              },
-            }}
-          >
-            <AddShoppingCartIcon />
-          </IconButton>
-        </Tooltip>
+      <Grid
+        container
+        style={{ display: "flex", alignItems: "center", gap: "5px" }}
+      >
+        <Grid item>
+          <Tooltip title="ثبت سفارش">
+            <IconButton
+              onClick={SaveOrder}
+              color="info"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#4dabf5",
+                  transition: "0.5s",
+                  color: "white",
+                },
+              }}
+            >
+              <AddShoppingCartIcon />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+        <Grid item>
+          <AddNewCustomer />
+        </Grid>
       </Grid>
       <Grid container paddingTop={2} display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={(e) => setData(e)}
             name="customerCode"
-            value={Insert?.customerCode || ''}
+            value={Insert?.customerCode || ""}
             fullWidth
             label="کد تفضیلی"
             variant="outlined"
@@ -81,7 +94,7 @@ export default function Order() {
           <RTLTextField
             onChange={(e) => setData(e)}
             name="accountingCode"
-            value={Insert?.accountingCode || ''}
+            value={Insert?.accountingCode || ""}
             fullWidth
             label="کد حساب"
             variant="outlined"
@@ -91,7 +104,7 @@ export default function Order() {
           <RTLTextField
             onChange={(e) => setData(e)}
             name="saleExpertCode"
-            value={Insert?.saleExpertCode || ''}
+            value={Insert?.saleExpertCode || ""}
             fullWidth
             label="کد کارشناس فروش"
             variant="outlined"
@@ -102,7 +115,7 @@ export default function Order() {
             onChange={(e) => setData(e)}
             name="inventoryCode"
             type="number"
-            value={Insert?.inventoryCode || ''}
+            value={Insert?.inventoryCode || ""}
             fullWidth
             label="کد انبار"
             variant="outlined"
@@ -111,7 +124,7 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <DatePickerTime
             label="تاریخ"
-            DateValue={Insert?.date || ''}
+            DateValue={Insert?.date || ""}
             onChange={(e) => {
               setInsert({ ...Insert, date: new DateObject(e).format() });
             }}
@@ -119,9 +132,9 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} md={6}>
           <RTLTextField
-            onChange={(e) =>setData(e)}
+            onChange={(e) => setData(e)}
             name="description1"
-            value={Insert?.description1 || ''}
+            value={Insert?.description1 || ""}
             fullWidth
             label="شرح"
             variant="outlined"
@@ -129,28 +142,38 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} md={6}>
           <RTLTextField
-            onChange={(e) =>setData(e)}
+            onChange={(e) => setData(e)}
             name="description2"
-            value={Insert?.description2 || ''}
+            value={Insert?.description2 || ""}
             fullWidth
             label="توضیحات"
             variant="outlined"
           />
         </Grid>
 
-        {/* <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <Autocomplete
             disablePortal
-            id="combo-box-demo"
             onInputChange={(e:any) => {console.log(e.target.value)}}
-            options={top100Films}
+            options={[]}
             sx={{ width: 300 }}
-            renderInput={(params) => <RTLTextField {...params} label="Movie" />}
+            renderInput={(params) => <RTLTextField {...params} label="جستجوی محصولات" />}
           />
-        </Grid> */}
+        </Grid>
 
-        <Grid item xs={12} md={12}>
-          <TreeViewKalaList />
+        <Grid
+          item
+          xs={12}
+          md={12}
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
+          <RTLTextField label="کد محصول" />
+          <Tooltip title="نمایش کالاها">
+            <IconButton>
+              <FormatListBulletedIcon />
+            </IconButton>
+          </Tooltip>
+          {/* <TreeViewKalaList /> */}
         </Grid>
 
         <Grid item sm={12}>
