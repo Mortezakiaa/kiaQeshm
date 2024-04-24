@@ -10,9 +10,10 @@ import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Autocomplete from "@mui/material/Autocomplete";
 import TreeViewKalaList from "@/components/TreeViewKalaList";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+
 import { toast } from "react-toastify";
 import AddNewCustomer from "@/components/AddNewCustomer";
+import ShowTreeViewProduct from "@/components/ShowTreeViewProduct";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -168,12 +169,7 @@ export default function Order() {
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
           <RTLTextField label="کد محصول" />
-          <Tooltip title="نمایش کالاها">
-            <IconButton>
-              <FormatListBulletedIcon />
-            </IconButton>
-          </Tooltip>
-          {/* <TreeViewKalaList /> */}
+          <ShowTreeViewProduct/>
         </Grid>
 
         <Grid item sm={12}>

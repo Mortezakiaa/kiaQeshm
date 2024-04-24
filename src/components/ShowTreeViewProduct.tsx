@@ -6,18 +6,18 @@ import { Modal as BaseModal } from "@mui/base/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import RTLTextField from "./RTLTextField";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import TreeViewKalaList from "./TreeViewKalaList";
 
-export default function AddNewCustomer() {
+export default function ShowTreeViewProduct() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Tooltip title="اضافه کردن مشتری جدید">
-        <IconButton aria-label="delete" onClick={handleOpen}>
-          <AddBoxIcon />
+      <Tooltip title="نمایش کالاها">
+        <IconButton onClick={handleOpen}>
+          <FormatListBulletedIcon />
         </IconButton>
       </Tooltip>
       <Modal
@@ -34,47 +34,19 @@ export default function AddNewCustomer() {
             }}
           >
             <Typography variant="h5" color={"black"}>
-              وارد کردن مشتری جدید
+              لیست محصولات 
             </Typography>
             <IconButton aria-label="close" onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </Box>
-          <Grid display={'flex'} flexDirection={'column'} container spacing={2}>
-            <Grid item sm={12} md={12}>
-              <RTLTextField
-                fullWidth
-                label="نام مشتری"
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-            </Grid>
-            <Grid item sm={12} md={12}>
-              <RTLTextField
-                fullWidth
-                label="آدرس"
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-            </Grid>
-            <Grid item sm={12} md={12}>
-              <RTLTextField
-                fullWidth
-                type="number"
-                label="تلفن"
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-            </Grid>
-            <Grid item sm={12} md={12}>
-              <RTLTextField
-                fullWidth
-                type="number"
-                label="تلفن همراه"
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-            </Grid>
+          <Grid
+            display={"flex"}
+            flexDirection={"column"}
+            container
+            spacing={2}
+          >
+            <TreeViewKalaList />
           </Grid>
           <Box>
             <Button variant="contained">تایید</Button>

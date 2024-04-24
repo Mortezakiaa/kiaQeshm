@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
-import { getKalaTree } from "@/actions/utils";
+import SortedTreeList from "@/utils/SortedTreeList";
 
 const CustomTreeItem = styled(TreeItem)(({ theme }) => ({
   [`& .${treeItemClasses.content}`]: {
@@ -49,15 +49,22 @@ export default function TreeViewKalaList() {
   const [TreeViewListChildren, setTreeViewListChildren] =
     useState<KalaTreeViewList[]>();
 
-  const getData = async () => {
-    const res = await getKalaTree();
-    setTreeViewList(res);
+  const getKalaTree = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchTreeView`)
+      .then((res) => {
+        res.data.map((i:any)=> i.children = [])
+        setTreeViewList(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error("");
+      });
   };
 
-  useEffect(()=>{
-    // getData()
-  },[])
-
+  useEffect(() => {
+    getKalaTree();
+  }, []);
 
   const getKalaTreeViewListChildren = async (id: number | string) => {
     try {
@@ -65,7 +72,14 @@ export default function TreeViewKalaList() {
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/GetTreeViewChildren/${id}`
       );
       const data = res.data;
-      setTreeViewListChildren(data);
+      res.data.map((i:any)=> i.children = [])
+      TreeViewList?.map((item) =>{
+        if(item.id === id){
+          item.children = data
+          setTreeViewList({...TreeViewList})
+        }
+      })
+      // setTreeViewListChildren(data);
     } catch (error) {
       toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
     }
@@ -74,7 +88,6 @@ export default function TreeViewKalaList() {
   return (
     <>
       <SimpleTreeView
-        aria-label="customized"
         slots={{
           expandIcon: ExpandIcon,
           collapseIcon: CollapseIcon,
@@ -82,13 +95,15 @@ export default function TreeViewKalaList() {
         }}
         sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
-        {TreeViewList?.map((items) => (
+        {TreeViewList?.map((items:any) => (
           <CustomTreeItem
             key={items.id}
             itemId={items.id.toString()}
             label={items.name}
             onClick={(e) => getKalaTreeViewListChildren(items.id)}
-          />
+          >
+
+          </CustomTreeItem>
         ))}
       </SimpleTreeView>
     </>

@@ -47,6 +47,7 @@ export interface KalaTreeViewList {
   name: string;
   parentId: number;
   fullName: KalaTreeViewFullNameList[];
+  children:KalaTreeViewList[]
 }
 
 export interface OrderListsFilter {
