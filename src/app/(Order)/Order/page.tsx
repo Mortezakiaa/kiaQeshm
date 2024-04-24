@@ -1,15 +1,16 @@
 import { Metadata } from "next";
 import Order from "@/forms/Order";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getCookie } from "@/actions/getCookie";
 
 export const metadata: Metadata = {
   title: "ثبت سفارشات",
 };
 
-export default function page() {
-  const coockie = cookies().get('token')
-  if(!coockie) redirect('/Login')
+export default async function page() {
+  const isExistCookie = await getCookie();
+  if (!isExistCookie) redirect("/Login");
+  
   return (
     <div dir="rtl">
       <Order />

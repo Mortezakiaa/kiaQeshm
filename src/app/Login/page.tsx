@@ -1,10 +1,10 @@
+import { getCookie } from "@/actions/getCookie";
 import Login from "@/forms/Login";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default function page() {
-  const coockie = cookies().get('token')
-  if(coockie)redirect('/Order')
+export default async function page() {
+  const isExistCookie = await getCookie()
+  if(isExistCookie)redirect('/Order')
   
   return (
     <>

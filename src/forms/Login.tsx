@@ -115,16 +115,12 @@ export default function Login() {
             style={{
               display: "flex",
               justifyContent: "center",
-              padding: "10px",
             }}
           >
             {loading ? (
               <Spinner />
             ) : (
               <button className="button-8">ورود</button>
-              // <Button variant="outlined" fullWidth>
-              //   ورود
-              // </Button>
             )}
           </Grid>
         </Grid>
