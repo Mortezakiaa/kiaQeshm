@@ -52,7 +52,7 @@ export interface KalaTreeViewList {
 
 export interface OrderListsFilter {
   name?: string;
-  num1?: number | null;
+  num1?: string;
   dateFrom?: string;
   dateTo?: string;
 }

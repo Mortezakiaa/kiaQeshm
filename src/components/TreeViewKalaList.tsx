@@ -46,14 +46,13 @@ function EndIcon(
 
 export default function TreeViewKalaList() {
   const [TreeViewList, setTreeViewList] = useState<KalaTreeViewList[]>();
-  const [TreeViewListChildren, setTreeViewListChildren] =
-    useState<KalaTreeViewList[]>();
+  const [number, setNumber] = useState(0);
 
   const getKalaTree = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchTreeView`)
       .then((res) => {
-        res.data.map((i:any)=> i.children = [])
+        res.data.map((i: any) => (i.children = []));
         setTreeViewList(res.data);
       })
       .catch((e) => {
@@ -66,6 +65,21 @@ export default function TreeViewKalaList() {
     getKalaTree();
   }, []);
 
+  const recrusiveStateUpdate = async (
+    state: KalaTreeViewList[] | undefined,
+    data: KalaTreeViewList[],
+    id: string | number
+  ) => {
+    state?.forEach((item) => {
+      if (item.id === id) {
+        item.children = data;
+      } else {
+        recrusiveStateUpdate(item.children, data, id);
+      }
+    });
+    setTreeViewList(state);
+    setNumber((prev) => ++prev);
+  };
 
   const getKalaTreeViewListChildren = async (id: number | string) => {
     try {
@@ -73,15 +87,8 @@ export default function TreeViewKalaList() {
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/GetTreeViewChildren/${id}`
       );
       const data = res.data;
-      res.data.map((i:any)=> i.children = [])
-      console.log(data);
-      const newList = TreeViewList?.filter((item) =>{
-        if(item.id === id){
-          item.children = data
-          return item          
-        }else if(item.id !== id) return item
-      })
-      setTreeViewList(newList)
+      res.data.map((i: any) => (i.children = []));
+      await recrusiveStateUpdate(TreeViewList, data, id);
     } catch (error) {
       toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
     }
@@ -97,19 +104,40 @@ export default function TreeViewKalaList() {
         }}
         sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
-        {TreeViewList?.map((items) => (
-          <CustomTreeItem
-            key={items.id}
-            itemId={items.id.toString()}
-            label={items.name}
-            onClick={(e) => getKalaTreeViewListChildren(items.id)}
-          >
-            {items.children?.map((ix)=>(
-              <CustomTreeItem key={ix.id} label={ix.name} itemId={ix.id.toString()} onClick={(e) => getKalaTreeViewListChildren(ix.id)}/>
-            ))}
-          </CustomTreeItem>
-        ))}
+        <RecrusiveTreeView
+          getKala={getKalaTreeViewListChildren}
+          data={TreeViewList}
+        />
       </SimpleTreeView>
     </>
   );
 }
+
+type data = {
+  data: KalaTreeViewList[] | undefined;
+  getKala: (id: string | number) => void;
+};
+
+const RecrusiveTreeView = ({ data, getKala }: data) => {
+  return (
+    <>
+      {data?.map((i) => (
+        <CustomTreeItem
+          id={i.id.toString()}
+          itemId={i.id.toString()}
+          label={i.name}
+          onClick={(e) => getKala(i.id)}
+        >
+          {i.children.length > 0 && (
+            <RecrusiveTreeView
+              data={i.children}
+              getKala={(e) => {
+                getKala(e);
+              }}
+            />
+          )}
+        </CustomTreeItem>
+      ))}
+    </>
+  );
+};

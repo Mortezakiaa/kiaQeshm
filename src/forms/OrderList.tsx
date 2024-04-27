@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 export default function OrderList() {
   const [OrderList, setOrderList] = useState<OrderListsFilter>({
     name: "",
-    num1: null,
+    num1: "",
     dateFrom: "",
     dateTo: "",
   });
@@ -33,6 +33,8 @@ export default function OrderList() {
       setLoading(false)
     } catch (error) {
       setLoading(false)
+      console.log(error);
+      
       toast.error("مشکلی پیش آمده است مجدد امتحان کنید.");
     }
   };
@@ -46,7 +48,7 @@ export default function OrderList() {
           type="number"
           defaultValue={OrderList?.num1}
           onChange={(e) => {
-            setOrderList({ ...OrderList, num1: +e.target.value });
+            setOrderList({ ...OrderList, num1: e.target.value });
           }}
         />
       </Grid>
