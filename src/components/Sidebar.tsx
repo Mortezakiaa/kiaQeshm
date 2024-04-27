@@ -19,15 +19,16 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { LogOut } from "@/actions/LogOut";
 import { useRouter } from "next/navigation";
-
-const drawerWidth = 200;
+import { LogOut } from "@/actions/LogOut";
 
 export default function Sidebar({ children }: any) {
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const router = useRouter()
+  const [drawerWidth, setDrawerWidth] = useState<number>(200);
+  const [close, setClose] = useState(false);
+
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -43,18 +44,34 @@ export default function Sidebar({ children }: any) {
     }
   };
 
-  const Exit = async ()=>{
-    LogOut()
-    router.push('/Login')
-  }
+  const Exit = async () => {
+    LogOut();
+    router.push("/Login");
+  };
+
+  const Co = () => {
+    if(drawerWidth === 200){
+      setDrawerWidth(50);
+      setClose(true);
+    }else{
+      setDrawerWidth(200);
+      setClose(false);
+    }
+  };
 
   const drawer = (
     <div>
-      <Toolbar />
-      {/* <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon /> 
-             <ChevronRightIcon />
-        </IconButton> */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          marginBottom: "5px",
+        }}
+      >
+        <IconButton onClick={Co}>
+          {close ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </Box>
       <Divider />
       <List>
         <ListItem disablePadding>
