@@ -46,7 +46,6 @@ export default function AddNewCustomer() {
       toast.error("شماره تلفن را وارد کنید");
       return;
     }
-
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Customer/Insert`,
@@ -54,6 +53,7 @@ export default function AddNewCustomer() {
       );
       const data = await res.data;
       toast.success("علمیات با موفقیت انجام شد");
+      handleClose()
     } catch (error) {
       console.log(error);
 
