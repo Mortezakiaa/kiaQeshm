@@ -50,10 +50,10 @@ export default function Sidebar({ children }: any) {
   };
 
   const Co = () => {
-    if(drawerWidth === 200){
+    if (drawerWidth === 200) {
       setDrawerWidth(50);
       setClose(true);
-    }else{
+    } else {
       setDrawerWidth(200);
       setClose(false);
     }
@@ -61,17 +61,18 @@ export default function Sidebar({ children }: any) {
 
   const drawer = (
     <div>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row-reverse",
-          marginBottom: "5px",
-        }}
-      >
-        <IconButton onClick={Co}>
-          {close ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-        </IconButton>
-      </Box>
+      <Toolbar style={{ padding: 0 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row-reverse",
+          }}
+        >
+          <IconButton onClick={Co}>
+            {close ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </Box>
+      </Toolbar>
       <Divider />
       <List>
         <ListItem disablePadding>
@@ -149,9 +150,9 @@ export default function Sidebar({ children }: any) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            {/* Responsive drawer */}
-          </Typography>
+          {/* <Typography variant="h6" noWrap component="div">
+            Responsive drawer
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <Box

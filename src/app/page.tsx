@@ -1,4 +1,3 @@
-'use client'
 import { getCookie } from "@/actions/getCookie";
 import { redirect } from "next/navigation";
 

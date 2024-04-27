@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
-import SortedTreeList from "@/utils/SortedTreeList";
 
 const CustomTreeItem = styled(TreeItem)(({ theme }) => ({
   [`& .${treeItemClasses.content}`]: {
@@ -56,8 +55,7 @@ export default function TreeViewKalaList() {
         setTreeViewList(res.data);
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("");
+        toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
       });
   };
 
@@ -74,6 +72,8 @@ export default function TreeViewKalaList() {
       if (item.id === id) {
         item.children = data;
       } else {
+        console.log('s');
+        
         recrusiveStateUpdate(item.children, data, id);
       }
     });
