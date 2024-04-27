@@ -47,7 +47,7 @@ export interface KalaTreeViewList {
   name: string;
   parentId: number;
   fullName: KalaTreeViewFullNameList[];
-  children:KalaTreeViewList[]
+  children: KalaTreeViewList[];
 }
 
 export interface OrderListsFilter {
@@ -76,4 +76,12 @@ export interface OrderLists {
 export interface UserLogin {
   userName: string;
   password: string;
+}
+
+export interface InsertCustomer {
+  codeMoshtari: string;
+  name: string;
+  address: string;
+  tell: string;
+  mobile: string;
 }
