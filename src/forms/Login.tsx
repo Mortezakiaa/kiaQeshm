@@ -37,7 +37,7 @@ export default function Login() {
   };
 
   return (
-    <form action={SingIN}>
+    <form onSubmit={SingIN}>
       <Stack
         style={{
           maxWidth: "100%",
@@ -121,7 +121,7 @@ export default function Login() {
             {loading ? (
               <Spinner />
             ) : (
-              <button className="button-8">ورود</button>
+              <button onClick={SingIN} className="button-8">ورود</button>
             )}
           </Grid>
         </Grid>

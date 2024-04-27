@@ -17,6 +17,7 @@ const Auth = async (Data: UserLogin) => {
       name: "token",
       value: data.data.accessToken,
       httpOnly: true,
+      secure:true
     });
     revalidatePath("/Login");
     return {
