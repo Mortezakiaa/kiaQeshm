@@ -4,7 +4,6 @@ import "./globals.css";
 import Favicon from "./favicon.ico";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthProvider from "@/provider/Auth";
 
 export const metadata: Metadata = {
   title: "گروه کیا قشم - Kiaqeshm Group",
@@ -21,7 +20,7 @@ export default function RootLayout({
     <html lang="en" dir="rtl">
       <body>
         <AppRouterCacheProvider>
-          <AuthProvider>{children}</AuthProvider>
+          {children}
           <ToastContainer />
         </AppRouterCacheProvider>
       </body>

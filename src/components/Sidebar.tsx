@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MobileSizeDrawer from "./MobileSizeDrawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -24,10 +24,17 @@ import { LogOut } from "@/actions/LogOut";
 
 export default function Sidebar({ children }: any) {
   const router = useRouter();
+  const [user , setUser] = useState<string>()
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [drawerWidth, setDrawerWidth] = useState<number>(200);
   const [close, setClose] = useState(false);
+
+
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem('user')!)
+    setUser(user)
+  },[])
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -46,6 +53,7 @@ export default function Sidebar({ children }: any) {
 
   const Exit = async () => {
     LogOut();
+    localStorage.setItem('user' , '')
     router.push("/Login");
   };
 
@@ -140,7 +148,14 @@ export default function Sidebar({ children }: any) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
+        <Toolbar
+          style={{
+            display: "flex",
+            flexDirection:'row-reverse',
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -150,9 +165,12 @@ export default function Sidebar({ children }: any) {
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography variant="h6" noWrap component="div">
-            Responsive drawer
-          </Typography> */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <Typography variant="body1">کاربر : </Typography>
+            <Typography variant="subtitle1" color="black">
+              {user}
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box

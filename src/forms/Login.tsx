@@ -11,15 +11,13 @@ import Image from "next/image";
 import logo from "../../public/images/KQ_Logo_2clr_Horz_final-1.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { UserLogin } from "@/Types/Types";
 import Spinner from "@/components/Spinner";
 import { Auth } from "@/actions/Auth";
 import { toast } from "react-toastify";
-import { AuthContext } from "@/provider/Auth";
 
 export default function Login() {
-  const {state , dispatch} = useContext(AuthContext)
 
   const [signIn, setSignIn] = useState<UserLogin>({
     userName: "",
@@ -31,7 +29,7 @@ export default function Login() {
   const SingIN = async () => {
     setLoading(true);
     const res = await Auth(signIn);
-    dispatch({type:'set' , firstName:res.firstName , lastName:res.lastName})
+    localStorage.setItem('user' , JSON.stringify(res.firstName + ' ' + res.lastName))
     setLoading(false);
     if (!res.isSuccess) {
       toast.error(res.messageRoot);
