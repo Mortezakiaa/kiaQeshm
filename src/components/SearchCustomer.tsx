@@ -9,7 +9,7 @@ import axios from "axios";
 export default function SearchCustomer() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const getList = () => {
     axios
@@ -30,7 +30,7 @@ export default function SearchCustomer() {
   };
 
   const getFilteredList = () => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView?Filter=${params}`
@@ -43,11 +43,11 @@ export default function SearchCustomer() {
           o.code = item.code;
           return o;
         });
-        setLoading(false)
+        setLoading(false);
         setOptions(d);
       })
       .catch((e: any) => {
-        setLoading(false)
+        setLoading(false);
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
@@ -79,7 +79,10 @@ export default function SearchCustomer() {
         options={options}
         sx={{ width: 300 }}
         renderInput={(params) => (
-          <RTLTextField {...params} label={loading ? "در حال جستجو..." :"جستجوی متنی مشتریان"} />
+          <RTLTextField
+            {...params}
+            label={loading ? "در حال جستجو..." : "جستجوی متنی مشتریان"}
+          />
         )}
       />
     </>

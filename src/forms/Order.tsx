@@ -3,7 +3,7 @@ import { InsertOrderData } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePickerTime";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
@@ -54,7 +54,7 @@ export default function Order() {
   };
 
   return (
-    <>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       <Grid
         container
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
@@ -80,27 +80,26 @@ export default function Order() {
           <AddNewCustomer />
         </Grid>
       </Grid>
-      <Grid container paddingTop={2} display={"flex"} spacing={2}>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={4}
-          style={{ display: "flex", alignItems: "center", gap: "5px" }}
-        >
-          <RTLTextField
-            onChange={(e) => setData(e)}
-            name="customerCode"
-            value={Insert?.customerCode || ""}
-            fullWidth
-            label="کد تفضیلی"
-            variant="outlined"
-          />
-          <CustomerTreeViewModal />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <SearchCustomer/>
-        </Grid>
+      <Grid
+        xs={12}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "8px",
+        }}
+      >
+        <RTLTextField
+          onChange={(e) => setData(e)}
+          name="customerCode"
+          value={Insert?.customerCode || ""}
+          label="کد تفضیلی"
+          variant="outlined"
+        />
+        <SearchCustomer />
+        <CustomerTreeViewModal />
+      </Grid>
+      <Grid container display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={(e) => setData(e)}
@@ -141,7 +140,7 @@ export default function Order() {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={(e) => setData(e)}
             name="description1"
@@ -151,7 +150,7 @@ export default function Order() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={(e) => setData(e)}
             name="description2"
@@ -161,24 +160,19 @@ export default function Order() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <SearchProduct/>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          md={12}
-          style={{ display: "flex", alignItems: "center", gap: "5px" }}
-        >
-          <RTLTextField label="کد محصول" />
-          <ProductTreeViewModal />
-        </Grid>
-
-        <Grid item sm={12}>
-          <EditableTable />
-        </Grid>
       </Grid>
-    </>
+      <Grid
+        xs={12}
+        md={12}
+        style={{ display: "flex", alignItems: "center", gap: "5px" }}
+      >
+        <RTLTextField label="کد محصول" />
+        <SearchProduct />
+        <ProductTreeViewModal />
+      </Grid>
+      <Grid sm={12}>
+        <EditableTable />
+      </Grid>
+    </Box>
   );
 }
