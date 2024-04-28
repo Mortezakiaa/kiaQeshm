@@ -8,11 +8,12 @@ import axios from "axios";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import Autocomplete from "@mui/material/Autocomplete";
 import { toast } from "react-toastify";
 import AddNewCustomer from "@/components/AddNewCustomer";
 import ProductTreeViewModal from "@/components/ProductTreeViewModal";
 import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
+import SearchProduct from "@/components/SearchProduct";
+import SearchCustomer from "@/components/SearchCustomer";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -97,6 +98,9 @@ export default function Order() {
           />
           <CustomerTreeViewModal />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <SearchCustomer/>
+        </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={(e) => setData(e)}
@@ -157,19 +161,8 @@ export default function Order() {
             variant="outlined"
           />
         </Grid>
-
         <Grid item xs={12} md={6}>
-          <Autocomplete
-            disablePortal
-            onInputChange={(e: any) => {
-              console.log(e.target.value);
-            }}
-            options={[]}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <RTLTextField {...params} label="جستجوی محصولات" />
-            )}
-          />
+          <SearchProduct/>
         </Grid>
 
         <Grid

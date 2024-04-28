@@ -10,7 +10,7 @@ import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 
 export default function CustomerTreeViewList() {
   const [TreeViewList, setTreeViewList] = useState<TreeViewList[]>();
-  const [number, setNumber] = useState(0);
+  const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
 
   const getCustomerList = () => {
     axios
@@ -34,12 +34,12 @@ export default function CustomerTreeViewList() {
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/GetTreeViewChildren/${id}`
       );
       const data = res.data;
-      const duplicate = data?.some((x:any) => x.id === id)
-      if(duplicate || data.length == 0) return
+      const duplicate = data?.some((x: any) => x.id === id);
+      if (duplicate || data.length == 0) return;
       res.data.map((i: any) => (i.children = []));
       const newData = await recrusiveStateUpdate(TreeViewList, data, id);
       setTreeViewList(newData);
-      setNumber((prev) => ++prev);
+      setDefaultExpanded([...defaultExpanded , id.toString()]);
     } catch (error) {
       toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
     }
@@ -48,6 +48,7 @@ export default function CustomerTreeViewList() {
   return (
     <>
       <SimpleTreeView
+        // expandedItems={defaultExpanded}
         slots={{
           expandIcon: ExpandIcon,
           collapseIcon: CollapseIcon,

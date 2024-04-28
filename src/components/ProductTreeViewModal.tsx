@@ -4,8 +4,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import TreeViewKalaList from "./ProductTreeViewList";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
+import ProductTreeViewList from "./ProductTreeViewList";
 
 export default function ProductTreeViewModal() {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ export default function ProductTreeViewModal() {
             container
             spacing={2}
           >
-            <TreeViewKalaList />
+            <ProductTreeViewList />
           </Grid>
           <Box>
             <Button variant="contained">تایید</Button>
