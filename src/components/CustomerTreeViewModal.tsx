@@ -4,16 +4,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import TreeViewKalaList from "./TreeViewKalaList";
+import TreeViewKalaList from "./ProductTreeViewList";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
 
-export default function ShowProductTreeView() {
+export default function CustomerTreeViewModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Tooltip title="نمایش کالاها">
+      <Tooltip title="نمایش لیست مشتریان">
         <IconButton onClick={handleOpen}>
           <FormatListBulletedIcon />
         </IconButton>
@@ -32,7 +32,7 @@ export default function ShowProductTreeView() {
             }}
           >
             <Typography variant="h5" color={"black"}>
-              لیست محصولات 
+              لیست مشتریان 
             </Typography>
             <IconButton aria-label="close" onClick={handleClose}>
               <CloseIcon />
@@ -44,7 +44,7 @@ export default function ShowProductTreeView() {
             container
             spacing={2}
           >
-            <TreeViewKalaList />
+            
           </Grid>
           <Box>
             <Button variant="contained">تایید</Button>

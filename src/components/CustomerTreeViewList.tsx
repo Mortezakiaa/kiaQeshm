@@ -4,35 +4,17 @@ import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
-import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { RecrusiveTreeView } from "./RecrusiveTreeView";
 import { recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
+import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 
-function ExpandIcon(props: React.PropsWithoutRef<typeof AddBoxRoundedIcon>) {
-  return <AddBoxRoundedIcon {...props} sx={{ opacity: 0.8 }} />;
-}
-
-function CollapseIcon(
-  props: React.PropsWithoutRef<typeof IndeterminateCheckBoxRoundedIcon>
-) {
-  return <IndeterminateCheckBoxRoundedIcon {...props} sx={{ opacity: 0.8 }} />;
-}
-
-function EndIcon(
-  props: React.PropsWithoutRef<typeof DisabledByDefaultRoundedIcon>
-) {
-  return <DisabledByDefaultRoundedIcon {...props} sx={{ opacity: 0.3 }} />;
-}
-
-export default function TreeViewKalaList() {
+export default function ProductTreeViewList() {
   const [TreeViewList, setTreeViewList] = useState<KalaTreeViewList[]>();
   const [number, setNumber] = useState(0);
 
-  const getKalaTree = () => {
+  const getCustomerList = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchTreeView`)
+      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchTreeView`)
       .then((res) => {
         res.data.map((i: any) => (i.children = []));
         setTreeViewList(res.data);
@@ -43,13 +25,13 @@ export default function TreeViewKalaList() {
   };
 
   useEffect(() => {
-    getKalaTree();
+    getCustomerList();
   }, []);
 
-  const getKalaTreeViewListChildren = async (id: number | string) => {
+  const getCustomerTreeViewChildrenList = async (id: number | string) => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/GetTreeViewChildren/${id}`
+        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/GetTreeViewChildren/${id}`
       );
       const data = res.data;
       if (data.length == 0) return;
@@ -73,7 +55,7 @@ export default function TreeViewKalaList() {
         sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
         <RecrusiveTreeView
-          getKala={getKalaTreeViewListChildren}
+          getKala={getCustomerTreeViewChildrenList}
           data={TreeViewList}
         />
       </SimpleTreeView>

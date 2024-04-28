@@ -33,8 +33,6 @@ export default function OrderList() {
       setLoading(false)
     } catch (error) {
       setLoading(false)
-      console.log(error);
-      
       toast.error("مشکلی پیش آمده است مجدد امتحان کنید.");
     }
   };

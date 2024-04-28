@@ -11,7 +11,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Autocomplete from "@mui/material/Autocomplete";
 import { toast } from "react-toastify";
 import AddNewCustomer from "@/components/AddNewCustomer";
-import ShowProductTreeView from "@/components/ShowProductTreeView"; 
+import ProductTreeViewModal from "@/components/ProductTreeViewModal";
+import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -79,7 +80,13 @@ export default function Order() {
         </Grid>
       </Grid>
       <Grid container paddingTop={2} display={"flex"} spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
           <RTLTextField
             onChange={(e) => setData(e)}
             name="customerCode"
@@ -88,6 +95,7 @@ export default function Order() {
             label="کد تفضیلی"
             variant="outlined"
           />
+          <CustomerTreeViewModal />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
@@ -153,10 +161,14 @@ export default function Order() {
         <Grid item xs={12} md={6}>
           <Autocomplete
             disablePortal
-            onInputChange={(e:any) => {console.log(e.target.value)}}
+            onInputChange={(e: any) => {
+              console.log(e.target.value);
+            }}
             options={[]}
             sx={{ width: 300 }}
-            renderInput={(params) => <RTLTextField {...params} label="جستجوی محصولات" />}
+            renderInput={(params) => (
+              <RTLTextField {...params} label="جستجوی محصولات" />
+            )}
           />
         </Grid>
 
@@ -167,7 +179,7 @@ export default function Order() {
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
           <RTLTextField label="کد محصول" />
-          <ShowProductTreeView/>
+          <ProductTreeViewModal />
         </Grid>
 
         <Grid item sm={12}>
