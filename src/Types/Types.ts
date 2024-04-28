@@ -34,20 +34,20 @@ export interface MobileDrawer {
   drawer: React.ReactNode;
 }
 
-export interface KalaTreeViewFullNameList {
+export interface TreeViewFullNameList {
   id: number;
   code: string;
   name: string;
 }
 
-export interface KalaTreeViewList {
+export interface TreeViewList {
   id: number;
   code: string;
   childCount: number;
   name: string;
   parentId: number;
-  fullName: KalaTreeViewFullNameList[];
-  children: KalaTreeViewList[];
+  fullName: TreeViewFullNameList[];
+  children: TreeViewList[];
 }
 
 export interface OrderListsFilter {

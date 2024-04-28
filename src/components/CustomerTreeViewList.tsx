@@ -1,5 +1,5 @@
 "use client";
-import { KalaTreeViewList } from "@/Types/Types";
+import { TreeViewList } from "@/Types/Types";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -8,8 +8,8 @@ import { RecrusiveTreeView } from "./RecrusiveTreeView";
 import { recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
 import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 
-export default function ProductTreeViewList() {
-  const [TreeViewList, setTreeViewList] = useState<KalaTreeViewList[]>();
+export default function CustomerTreeViewList() {
+  const [TreeViewList, setTreeViewList] = useState<TreeViewList[]>();
   const [number, setNumber] = useState(0);
 
   const getCustomerList = () => {
@@ -17,6 +17,8 @@ export default function ProductTreeViewList() {
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchTreeView`)
       .then((res) => {
         res.data.map((i: any) => (i.children = []));
+        console.log(res.data);
+        
         setTreeViewList(res.data);
       })
       .catch((e) => {

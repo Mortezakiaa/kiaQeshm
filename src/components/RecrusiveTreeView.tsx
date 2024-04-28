@@ -1,9 +1,9 @@
 "use client";
-import { KalaTreeViewList } from "@/Types/Types";
+import { TreeViewList } from "@/Types/Types";
 import { CustomTreeItem } from "./CustomTreeItem";
 
 export type data = {
-  data: KalaTreeViewList[] | undefined;
+  data: TreeViewList[] | undefined;
   getKala: (id: string | number) => void;
 };
 

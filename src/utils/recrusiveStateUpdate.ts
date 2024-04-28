@@ -1,8 +1,8 @@
-import { KalaTreeViewList } from "@/Types/Types";
+import { TreeViewList } from "@/Types/Types";
 
 export const recrusiveStateUpdate = async (
-  state: KalaTreeViewList[] | undefined,
-  data: KalaTreeViewList[],
+  state: TreeViewList[] | undefined,
+  data: TreeViewList[],
   id: string | number
 ) => {
   state?.forEach((item) => {

@@ -1,5 +1,5 @@
 "use client";
-import { KalaTreeViewList } from "@/Types/Types";
+import { TreeViewList } from "@/Types/Types";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
 import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 
 export default function ProductTreeViewList() {
-  const [TreeViewList, setTreeViewList] = useState<KalaTreeViewList[]>();
+  const [TreeViewList, setTreeViewList] = useState<TreeViewList[]>();
   const [number, setNumber] = useState(0);
 
   const getKalaTree = () => {
