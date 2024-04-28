@@ -17,8 +17,6 @@ export default function CustomerTreeViewList() {
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchTreeView`)
       .then((res) => {
         res.data.map((i: any) => (i.children = []));
-        console.log(res.data);
-        
         setTreeViewList(res.data);
       })
       .catch((e) => {
@@ -36,7 +34,8 @@ export default function CustomerTreeViewList() {
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/GetTreeViewChildren/${id}`
       );
       const data = res.data;
-      if (data.length == 0) return;
+      const duplicate = data?.some((x:any) => x.id === id)
+      if(duplicate || data.length == 0) return
       res.data.map((i: any) => (i.children = []));
       const newData = await recrusiveStateUpdate(TreeViewList, data, id);
       setTreeViewList(newData);

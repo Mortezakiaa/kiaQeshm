@@ -12,10 +12,9 @@ export const RecrusiveTreeView = ({ data, getKala }: data) => {
     <>
       {data?.map((i) => (
         <CustomTreeItem
-          id={i.id.toString()}
           itemId={i.id.toString()}
           label={i.name}
-          onClick={(e) => getKala(i.id)}
+          onClick={(e) => {getKala(i.id)}}
         >
           {i.children.length > 0 && (
             <RecrusiveTreeView
