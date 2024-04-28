@@ -11,7 +11,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Autocomplete from "@mui/material/Autocomplete";
 import { toast } from "react-toastify";
 import AddNewCustomer from "@/components/AddNewCustomer";
-import ShowTreeViewProduct from "@/components/ShowTreeViewProduct";
+import ShowProductTreeView from "@/components/ShowProductTreeView"; 
 
 export default function Order() {
   const [Insert, setInsert] = useState<InsertOrderData>({
@@ -167,7 +167,7 @@ export default function Order() {
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
           <RTLTextField label="کد محصول" />
-          <ShowTreeViewProduct/>
+          <ShowProductTreeView/>
         </Grid>
 
         <Grid item sm={12}>
