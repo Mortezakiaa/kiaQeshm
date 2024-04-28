@@ -11,9 +11,11 @@ import RTLTextField from "./RTLTextField";
 import { InsertCustomer } from "@/Types/Types";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 export default function AddNewCustomer() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [customer, setCustomer] = useState<InsertCustomer>({
     codeMoshtari: "",
     name: "",
@@ -46,17 +48,18 @@ export default function AddNewCustomer() {
       toast.error("شماره تلفن را وارد کنید");
       return;
     }
+    setLoading(true);
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Customer/Insert`,
         customer
       );
       const data = await res.data;
+      setLoading(false);
       toast.success("علمیات با موفقیت انجام شد");
-      handleClose()
+      handleClose();
     } catch (error) {
-      console.log(error);
-
+      setLoading(false);
       toast.error("خطایی پیش آمده است لطفا مجدد امتحان کنید");
     }
   };
@@ -153,9 +156,13 @@ export default function AddNewCustomer() {
             </Grid>
           </Grid>
           <Box>
-            <Button onClick={addNewCustomer} variant="contained">
-              تایید
-            </Button>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <Button onClick={addNewCustomer} variant="contained">
+                تایید
+              </Button>
+            )}
           </Box>
         </ModalContent>
       </Modal>

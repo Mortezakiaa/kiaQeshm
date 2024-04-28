@@ -24,7 +24,7 @@ import { LogOut } from "@/actions/LogOut";
 
 export default function Sidebar({ children }: any) {
   const router = useRouter();
-  const [user , setUser] = useState<string>()
+  const [user , setUser] = useState<string>('')
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [drawerWidth, setDrawerWidth] = useState<number>(200);
@@ -32,8 +32,9 @@ export default function Sidebar({ children }: any) {
 
 
   useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem('user')!)
-    setUser(user)
+    const user = localStorage.getItem('user')!
+    const us = JSON.parse(user)
+    setUser(us)
   },[])
 
   const handleDrawerClose = () => {
@@ -53,7 +54,7 @@ export default function Sidebar({ children }: any) {
 
   const Exit = async () => {
     LogOut();
-    localStorage.setItem('user' , '')
+    localStorage.clear()
     router.push("/Login");
   };
 
