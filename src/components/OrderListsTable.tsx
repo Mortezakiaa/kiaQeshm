@@ -54,15 +54,15 @@ export default function OrderListsTable({ data }: Data) {
         >
           <TableHead>
             <TableRow>
-              <TableCell align="right">*</TableCell>
+              <TableCell align="right">ردیف</TableCell>
               <TableCell align="right">کد مشتری</TableCell>
               <TableCell align="right">نام مشتری</TableCell>
               <TableCell align="right">تاریخ</TableCell>
-              <TableCell align="right">نام نوع فاکتور</TableCell>
               <TableCell align="right">نام انبار</TableCell>
-              <TableCell align="right">شماره سفارش</TableCell>
-              <TableCell align="right">شماره 2</TableCell>
-              <TableCell align="right">تاریخ 2</TableCell>
+              <TableCell align="right">تعداد</TableCell>
+              <TableCell align="right">مقدار</TableCell>
+              <TableCell align="right">مبلغ</TableCell>
+              <TableCell align="right">باقیمانده</TableCell>
               <TableCell align="right">شرح</TableCell>
               <TableCell align="right">توضیحات</TableCell>
             </TableRow>
@@ -74,28 +74,28 @@ export default function OrderListsTable({ data }: Data) {
               },
             }}
           >
-            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((i, index) => (
-              <TableRow hover key={i.id}>
-                <TableCell align="right">{++index}</TableCell>
+            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((i) => (
+              <TableRow hover key={i.rowNumber}>
+                <TableCell align="right">{i.rowNumber}</TableCell>
                 <TableCell align="right">{i.customerCode}</TableCell>
                 <TableCell align="right">{i.customerName}</TableCell>
                 <TableCell align="right">{i.date}</TableCell>
-                <TableCell align="right">{i.nameFaktorType}</TableCell>
                 <TableCell align="right">{i.nameAnbar}</TableCell>
                 <TableCell align="right">{i.num1}</TableCell>
-                <TableCell align="right">{i.num2}</TableCell>
-                <TableCell align="right">{i.date2}</TableCell>
+                <TableCell align="right">{i.fee}</TableCell>
+                <TableCell align="right">{i.amount}</TableCell>
+                <TableCell align="right">{i.remindNet}</TableCell>
                 <TableCell
                   sx={{ maxWidth: "150px", wordBreak: "break-word" }}
                   align="right"
                 >
-                  {i.sharh}
+                  {i.description1}
                 </TableCell>
                 <TableCell
                   sx={{ maxWidth: "150px", wordBreak: "break-word" }}
                   align="right"
                 >
-                  {i.tozihat}
+                  {i.description2}
                 </TableCell>
               </TableRow>
             ))}

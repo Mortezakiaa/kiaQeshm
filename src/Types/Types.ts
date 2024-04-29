@@ -60,19 +60,17 @@ export interface OrderListsFilter {
 }
 
 export interface OrderLists {
-  id: number;
-  codeFaktorType: string;
-  nameFaktorType: string;
-  codeAnbar: string;
-  nameAnbar: string;
-  num1: number;
-  num2: number;
+  rowNumber: number;
   date: string;
-  date2: string;
-  sharh: string;
-  tozihat: string;
+  num1: number;
   customerCode: string;
   customerName: string;
+  nameAnbar: string;
+  description1: string;
+  description2: string;
+  fee: number;
+  amount: number;
+  remindNet: number;
 }
 
 export interface UserLogin {

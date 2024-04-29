@@ -71,6 +71,7 @@ export default function SearchProduct() {
     <>
       <Autocomplete
         disablePortal
+        value={state.itemName || ''}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch({type:'itemCode' , payload:+newValue?.code})
