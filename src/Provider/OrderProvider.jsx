@@ -10,6 +10,7 @@ const initialState = {
   description1: "",
   description2: "",
   customerCode: "",
+  customerName:'',
   orderLines: [],
   discount: null,
 };
@@ -24,6 +25,7 @@ const reducer = (state = initialState, action) => {
     case 'description1' : return {...state , description1:action.payload}
     case 'description2' : return {...state , description2:action.payload}
     case 'customerCode' : return {...state , customerCode:action.payload}
+    case 'customerName' : return {...state , customerName:action.payload}
     case 'orderLines' : return {...state , orderLines:[...state.orderLines , action.payload]}
     case 'discount' : return {...state , discount:action.payload}
     default:

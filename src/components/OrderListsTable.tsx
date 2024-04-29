@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { OrderLists } from "@/Types/Types";
+import { sp } from "@/utils/SeperateNumber";
 
 export interface Data {
   data: OrderLists[];
@@ -82,9 +83,9 @@ export default function OrderListsTable({ data }: Data) {
                 <TableCell align="right">{i.date}</TableCell>
                 <TableCell align="right">{i.nameAnbar}</TableCell>
                 <TableCell align="right">{i.num1}</TableCell>
-                <TableCell align="right">{i.fee}</TableCell>
-                <TableCell align="right">{i.amount}</TableCell>
-                <TableCell align="right">{i.remindNet}</TableCell>
+                <TableCell align="right">{sp(i.fee)}</TableCell>
+                <TableCell align="right">{sp(i.amount)}</TableCell>
+                <TableCell align="right">{sp(i.remindNet)}</TableCell>
                 <TableCell
                   sx={{ maxWidth: "150px", wordBreak: "break-word" }}
                   align="right"

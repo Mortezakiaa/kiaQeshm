@@ -11,7 +11,7 @@ export default function SearchCustomer() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
-  const {state , dispatch} = useContext<any>(OrderContext)
+  const { state, dispatch } = useContext<any>(OrderContext);
 
   const getList = () => {
     axios
@@ -71,11 +71,14 @@ export default function SearchCustomer() {
     <>
       <Autocomplete
         disablePortal
+        value={state.customerName || ""}
         noOptionsText="مشتری یافت نشد"
         onChange={(event: any, newValue: any) => {
-          dispatch({type:'customerCode' , payload:newValue?.code})
+          dispatch({ type: "customerCode", payload: newValue?.code });
+          dispatch({ type: "customerName", payload: newValue?.label });
         }}
         onInputChange={(e: any) => {
+          if (e == null) return;
           setParams(e.target.value);
         }}
         options={options}

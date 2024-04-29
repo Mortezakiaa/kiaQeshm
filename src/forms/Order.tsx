@@ -15,6 +15,7 @@ import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
 import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
+import { sp } from "@/utils/SeperateNumber";
 
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
@@ -23,6 +24,8 @@ export default function Order() {
   
   const SaveOrder = async () => {
     try {
+      console.log(state);
+      
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
         state
@@ -73,7 +76,6 @@ export default function Order() {
         </Grid>
       </Grid>
       <Grid
-        xs={12}
         style={{
           display: "flex",
           alignItems: "center",
@@ -165,14 +167,13 @@ export default function Order() {
           />
         </Grid>
       </Grid>
-      <Grid sm={12} style={{ display: "flex", gap: "5px" }}>
+      <Grid style={{ display: "flex", gap: "5px" }}>
         <RTLTextField
           onChange={(e) =>
             ctx.dispatch({ type: "fee", payload: +e.target.value })
           }
           value={ctx.state?.fee || ''}
           fullWidth
-          type="number"
           label="قیمت"
         />
         <RTLTextField
@@ -181,13 +182,10 @@ export default function Order() {
           }
           value={ctx.state?.discountPercent || ''}
           fullWidth
-          type="number"
           label="درصد تخفیف"
         />
       </Grid>
       <Grid
-        xs={12}
-        md={12}
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
       >
         <RTLTextField
@@ -209,12 +207,12 @@ export default function Order() {
           label="تعداد"
         />
       </Grid>
-      <Grid sm={12}>
+      <Grid>
         <Button onClick={addOrderLines} variant="outlined">
           اضافه
         </Button>
       </Grid>
-      <Grid sm={12}>
+      <Grid>
         <EditableTable />
       </Grid>
     </Box>

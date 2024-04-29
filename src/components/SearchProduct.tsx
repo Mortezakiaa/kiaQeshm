@@ -71,14 +71,15 @@ export default function SearchProduct() {
     <>
       <Autocomplete
         disablePortal
-        value={state.itemName || ''}
+        value={state.itemName || ""}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-          dispatch({type:'itemCode' , payload:+newValue?.code})
-          dispatch({type:'itemName' , payload:newValue?.label})
+          dispatch({ type: "itemCode", payload: +newValue?.code });
+          dispatch({ type: "itemName", payload: newValue?.label });
         }}
         onInputChange={(e: any) => {
-            setParams(e.target.value);
+          if (e == null) return;
+          setParams(e.target.value);
         }}
         options={options}
         sx={{ width: 300 }}
