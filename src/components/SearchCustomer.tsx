@@ -2,14 +2,17 @@
 
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { OrderContext } from "@/Provider/OrderProvider";
 
 export default function SearchCustomer() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
+  const context = useContext(OrderContext)
+  
 
   const getList = () => {
     axios

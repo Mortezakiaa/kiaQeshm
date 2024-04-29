@@ -7,16 +7,21 @@ export type data = {
   getKala: (id: string | number) => void;
 };
 
-export const RecrusiveTreeView = ({ data, getKala }: data) => {
+
+export const RecrusiveTreeView = ({ data, getKala}: data) => {
   return (
     <>
       {data?.map((i) => (
         <CustomTreeItem
+          sx={{
+            '& .MuiTreeItem-iconContainer':{
+              display:`${i.childCount == 0 && 'none'}`
+            }
+          }}
           key={i.id}
           itemId={i.id.toString()}
           label={i.name}
           onClick={(e) => {getKala(i.id)}}
-          onDoubleClick={e => {console.log('double click')}}
         >
           {i.children.length > 0 && (
             <RecrusiveTreeView

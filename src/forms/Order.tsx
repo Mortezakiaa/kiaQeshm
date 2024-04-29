@@ -5,7 +5,7 @@ import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { toast } from "react-toastify";
@@ -14,35 +14,16 @@ import ProductTreeViewModal from "@/components/ProductTreeViewModal";
 import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
 import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
+import { OrderContext } from "@/Provider/OrderProvider";
 
 export default function Order() {
-  const [Insert, setInsert] = useState<InsertOrderData>({
-    inventoryCode: null,
-    accountingCode: "",
-    saleExpertCode: "",
-    date: "",
-    description1: "",
-    description2: "",
-    customerCode: "",
-    orderLines: [],
-    discount: null,
-  });
-
-  const [kala, setKala] = useState();
-
-  const setData = (e: any) => {
-    if (e.target.type === "number") {
-      setInsert({ ...Insert, [e.target.name]: +e.target.value });
-    } else {
-      setInsert({ ...Insert, [e.target.name]: e.target.value });
-    }
-  };
-
+  const {state , dispatch} = useContext<any>(OrderContext)
+  
   const SaveOrder = async () => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
-        Insert
+        state
       );
       const data = await res.data;
       toast.success("");
@@ -90,9 +71,9 @@ export default function Order() {
         }}
       >
         <RTLTextField
-          onChange={(e) => setData(e)}
+          onChange={(e) => dispatch({type:'customerCode' , payload:e.target.value})}
           name="customerCode"
-          value={Insert?.customerCode || ""}
+          value={state?.customerCode || ""}
           label="کد تفضیلی"
           variant="outlined"
         />
@@ -102,9 +83,9 @@ export default function Order() {
       <Grid container display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => setData(e)}
+            onChange={(e) => dispatch({type:'accountingCode' , payload:e.target.value})}
             name="accountingCode"
-            value={Insert?.accountingCode || ""}
+            value={state?.accountingCode || ""}
             fullWidth
             label="کد حساب"
             variant="outlined"
@@ -112,9 +93,9 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => setData(e)}
+            onChange={(e) => dispatch({type:'saleExpertCode' , payload:e.target.value})}
             name="saleExpertCode"
-            value={Insert?.saleExpertCode || ""}
+            value={state?.saleExpertCode || ""}
             fullWidth
             label="کد کارشناس فروش"
             variant="outlined"
@@ -122,10 +103,10 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => setData(e)}
+            onChange={(e) => dispatch({type:'inventoryCode' , payload:e.target.value})}
             name="inventoryCode"
             type="number"
-            value={Insert?.inventoryCode || ""}
+            value={state?.inventoryCode || ""}
             fullWidth
             label="کد انبار"
             variant="outlined"
@@ -134,17 +115,17 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <DatePickerTime
             label="تاریخ"
-            DateValue={Insert?.date || ""}
+            DateValue={state?.date || ""}
             onChange={(e) => {
-              setInsert({ ...Insert, date: new DateObject(e).format() });
+              dispatch({type:'date' , payload:new DateObject(e).format()})
             }}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => setData(e)}
+            onChange={(e) => dispatch({type:'description1' , payload:e.target.value})}
             name="description1"
-            value={Insert?.description1 || ""}
+            value={state?.description1 || ""}
             fullWidth
             label="شرح"
             variant="outlined"
@@ -152,9 +133,9 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => setData(e)}
+            onChange={(e) => dispatch({type:'description2' , payload:e.target.value})}
             name="description2"
-            value={Insert?.description2 || ""}
+            value={state?.description2 || ""}
             fullWidth
             label="توضیحات"
             variant="outlined"
