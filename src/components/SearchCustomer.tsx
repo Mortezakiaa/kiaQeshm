@@ -61,7 +61,7 @@ export default function SearchCustomer() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       getFilteredList();
-    }, 800);
+    }, 600);
     return () => {
       clearTimeout(timeout);
     };

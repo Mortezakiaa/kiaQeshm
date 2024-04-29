@@ -4,7 +4,7 @@ import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { toast } from "react-toastify";
@@ -19,7 +19,8 @@ import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
-
+  const [num ,setNum] = useState(0)
+  
   const SaveOrder = async () => {
     try {
       const res = await axios.post(
@@ -40,15 +41,8 @@ export default function Order() {
     if (!ctx.state.discountPercent) return toast.error("درصد تخفیف را وارد کنید");
     if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
     if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
-    const amount = ctx.state.qty1 * ctx.state.fee;
-    const discountAmount = ctx.state.discountPercent * amount / 100;
-    const remindnet = amount - discountAmount;
-
-    ctx.dispatch({ type: "amount", payload: amount });
-    ctx.dispatch({ type: "discountAmount", payload: discountAmount });
-    ctx.dispatch({ type: "remindNet", payload: remindnet });
     dispatch({ type: "orderLines", payload: ctx.state });
-    // ctx.dispatch({ type: "reset" });
+    ctx.dispatch({ type: "reset" });
   };
 
   return (
@@ -176,7 +170,7 @@ export default function Order() {
           onChange={(e) =>
             ctx.dispatch({ type: "fee", payload: +e.target.value })
           }
-          value={ctx.state?.fee}
+          value={ctx.state?.fee || ''}
           fullWidth
           type="number"
           label="قیمت"
@@ -185,7 +179,7 @@ export default function Order() {
           onChange={(e) =>
             ctx.dispatch({ type: "discountPercent", payload: +e.target.value })
           }
-          value={ctx.state?.discountPercent}
+          value={ctx.state?.discountPercent || ''}
           fullWidth
           type="number"
           label="درصد تخفیف"
@@ -198,9 +192,9 @@ export default function Order() {
       >
         <RTLTextField
           onChange={(e) =>
-            ctx.dispatch({ type: "itemCode", payload: +e.target.value })
+            ctx.dispatch({ type: "itemCode", payload: e.target.value })
           }
-          value={ctx.state?.itemCode}
+          value={ctx.state?.itemCode || ''}
           type="number"
           label="کد محصول"
         />
@@ -210,7 +204,7 @@ export default function Order() {
           onChange={(e) =>
             ctx.dispatch({ type: "qty1", payload: +e.target.value })
           }
-          value={ctx.state?.qty1}
+          value={ctx.state?.qty1 || ''}
           type="number"
           label="تعداد"
         />

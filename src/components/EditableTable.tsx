@@ -15,6 +15,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
 import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLines } from "@/Types/Types";
+import { sp } from "@/utils/SeperateNumber";
 
 export default function EditableTable() {
   const [editMode, setEditMode] = useState(false);
@@ -59,13 +60,13 @@ export default function EditableTable() {
           >
             {state.orderLines?.map((items:OrderLines) => (
               <TableRow key={items.id}>
-                <TableCell align="right">{items.itemCode}</TableCell>
+                <TableCell align="right">{items.itemName}</TableCell>
                 <TableCell align="right">{items.qty1}</TableCell>
-                <TableCell align="right">{items.fee}</TableCell>
-                <TableCell align="right">{items.amount}</TableCell>
+                <TableCell align="right">{sp(items.fee)}</TableCell>
+                <TableCell align="right">{sp(items.amount)}</TableCell>
                 <TableCell align="right">{items.discountPercent}</TableCell>
-                <TableCell align="right">{items.discountAmount}</TableCell>
-                <TableCell align="right">{items.remindNet}</TableCell>
+                <TableCell align="right">{sp(items.discountAmount)}</TableCell>
+                <TableCell align="right">{sp(items.remindNet)}</TableCell>
                 <TableCell align="right">
                   {!editMode ? (
                     <>

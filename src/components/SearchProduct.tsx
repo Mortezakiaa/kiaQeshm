@@ -61,7 +61,7 @@ export default function SearchProduct() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       getFilteredList();
-    }, 800);
+    }, 600);
     return () => {
       clearTimeout(timeout);
     };
@@ -74,9 +74,10 @@ export default function SearchProduct() {
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch({type:'itemCode' , payload:+newValue?.code})
+          dispatch({type:'itemName' , payload:newValue?.label})
         }}
         onInputChange={(e: any) => {
-          setParams(e.target.value);
+            setParams(e.target.value);
         }}
         options={options}
         sx={{ width: 300 }}

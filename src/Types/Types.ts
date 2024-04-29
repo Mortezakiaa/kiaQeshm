@@ -1,6 +1,7 @@
 export interface OrderLines {
   id: number | null;
   itemCode: string;
+  itemName: string;
   qty1: number | null;
   fee: number | null;
   amount: number | null;
