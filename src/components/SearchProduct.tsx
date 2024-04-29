@@ -5,13 +5,13 @@ import RTLTextField from "./RTLTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
-import { OrderContext } from "@/Provider/OrderProvider";
+import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 
 export default function SearchProduct() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
-  const [loading , setLoading] = useState(false)
-  const {state , dispatch} = useContext<any>(OrderContext)
+  const [loading, setLoading] = useState(false);
+  const { state, dispatch } = useContext<any>(OrderLinesContext);
 
   const getList = () => {
     axios
@@ -32,7 +32,7 @@ export default function SearchProduct() {
   };
 
   const getFilteredList = () => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchListView?Filter=${params}`
@@ -45,11 +45,11 @@ export default function SearchProduct() {
           o.code = item.code;
           return o;
         });
-        setLoading(false)
+        setLoading(false);
         setOptions(d);
       })
       .catch((e) => {
-        setLoading(false)
+        setLoading(false);
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
@@ -73,7 +73,7 @@ export default function SearchProduct() {
         disablePortal
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-          dispatch({type:'' , payload:newValue?.code})
+          dispatch({type:'itemCode' , payload:+newValue?.code})
         }}
         onInputChange={(e: any) => {
           setParams(e.target.value);
@@ -81,7 +81,10 @@ export default function SearchProduct() {
         options={options}
         sx={{ width: 300 }}
         renderInput={(params) => (
-          <RTLTextField {...params} label={loading ? "در حال جستجو...." :"جستجوی متنی محصولات"} />
+          <RTLTextField
+            {...params}
+            label={loading ? "در حال جستجو...." : "جستجوی متنی محصولات"}
+          />
         )}
       />
     </>

@@ -16,13 +16,22 @@ export const OrderLinesContext = createContext(initialState);
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "itemCode":return { ...state, itemCode: action.payload };
-    case "qty1":return { ...state, qty1: action.payload };
-    case "fee":return { ...state, fee: action.payload };
-    case "amount":return { ...state, amount: action.payload };
-    case "discountPercent":return { ...state, discountPercent: action.payload };
-    case "discountAmount":return { ...state, discountAmount: action.payload };
-    case "remindNet":return { ...state, remindNet: action.payload };
+    case "itemCode":
+      return { ...state, itemCode: action.payload };
+    case "qty1":
+      return { ...state, qty1: action.payload };
+    case "fee":
+      return { ...state, fee: action.payload };
+    case "amount":
+      return { ...state, amount: action.payload };
+    case "discountPercent":
+      return { ...state, discountPercent: action.payload };
+    case "discountAmount":
+      return { ...state, discountAmount: action.payload };
+    case "remindNet":
+      return { ...state, remindNet: action.payload };
+    case "reset":
+      return initialState;
     default:
       return state;
   }

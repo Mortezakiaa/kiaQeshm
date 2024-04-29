@@ -4,7 +4,7 @@ import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
 import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { toast } from "react-toastify";
@@ -14,14 +14,12 @@ import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
 import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
 import { OrderContext } from "@/Provider/OrderProvider";
-import { OrderLines } from "@/Types/Types";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 
 export default function Order() {
-  const {state , dispatch} = useContext<any>(OrderContext)
-  const ctx = useContext<any>(OrderLinesContext)
-  console.log(ctx);
-  
+  const { state, dispatch } = useContext<any>(OrderContext);
+  const ctx = useContext<any>(OrderLinesContext);
+
   const SaveOrder = async () => {
     try {
       const res = await axios.post(
@@ -35,6 +33,22 @@ export default function Order() {
       toast.error("");
       console.log("e", e);
     }
+  };
+
+  const addOrderLines = () => {
+    if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
+    if (!ctx.state.discountPercent) return toast.error("درصد تخفیف را وارد کنید");
+    if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
+    if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
+    const amount = ctx.state.qty1 * ctx.state.fee;
+    const discountAmount = ctx.state.discountPercent * amount / 100;
+    const remindnet = amount - discountAmount;
+
+    ctx.dispatch({ type: "amount", payload: amount });
+    ctx.dispatch({ type: "discountAmount", payload: discountAmount });
+    ctx.dispatch({ type: "remindNet", payload: remindnet });
+    dispatch({ type: "orderLines", payload: ctx.state });
+    // ctx.dispatch({ type: "reset" });
   };
 
   return (
@@ -74,7 +88,9 @@ export default function Order() {
         }}
       >
         <RTLTextField
-          onChange={(e) => dispatch({type:'customerCode' , payload:e.target.value})}
+          onChange={(e) =>
+            dispatch({ type: "customerCode", payload: e.target.value })
+          }
           name="customerCode"
           value={state?.customerCode || ""}
           label="کد تفضیلی"
@@ -86,7 +102,9 @@ export default function Order() {
       <Grid container display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => dispatch({type:'accountingCode' , payload:e.target.value})}
+            onChange={(e) =>
+              dispatch({ type: "accountingCode", payload: e.target.value })
+            }
             name="accountingCode"
             value={state?.accountingCode || ""}
             fullWidth
@@ -96,7 +114,9 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => dispatch({type:'saleExpertCode' , payload:e.target.value})}
+            onChange={(e) =>
+              dispatch({ type: "saleExpertCode", payload: e.target.value })
+            }
             name="saleExpertCode"
             value={state?.saleExpertCode || ""}
             fullWidth
@@ -106,7 +126,9 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => dispatch({type:'inventoryCode' , payload:e.target.value})}
+            onChange={(e) =>
+              dispatch({ type: "inventoryCode", payload: e.target.value })
+            }
             name="inventoryCode"
             type="number"
             value={state?.inventoryCode || ""}
@@ -120,13 +142,15 @@ export default function Order() {
             label="تاریخ"
             DateValue={state?.date || ""}
             onChange={(e) => {
-              dispatch({type:'date' , payload:new DateObject(e).format()})
+              dispatch({ type: "date", payload: new DateObject(e).format() });
             }}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => dispatch({type:'description1' , payload:e.target.value})}
+            onChange={(e) =>
+              dispatch({ type: "description1", payload: e.target.value })
+            }
             name="description1"
             value={state?.description1 || ""}
             fullWidth
@@ -136,7 +160,9 @@ export default function Order() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
-            onChange={(e) => dispatch({type:'description2' , payload:e.target.value})}
+            onChange={(e) =>
+              dispatch({ type: "description2", payload: e.target.value })
+            }
             name="description2"
             value={state?.description2 || ""}
             fullWidth
@@ -145,22 +171,54 @@ export default function Order() {
           />
         </Grid>
       </Grid>
-      <Grid sm={12} style={{display:'flex' , gap:'5px'}}>
-        <RTLTextField value={ctx.state?.fee} fullWidth label="قیمت"/>
-        <RTLTextField value={ctx.state?.discountPercent} fullWidth label="درصد تخفیف"/>
+      <Grid sm={12} style={{ display: "flex", gap: "5px" }}>
+        <RTLTextField
+          onChange={(e) =>
+            ctx.dispatch({ type: "fee", payload: +e.target.value })
+          }
+          value={ctx.state?.fee}
+          fullWidth
+          type="number"
+          label="قیمت"
+        />
+        <RTLTextField
+          onChange={(e) =>
+            ctx.dispatch({ type: "discountPercent", payload: +e.target.value })
+          }
+          value={ctx.state?.discountPercent}
+          fullWidth
+          type="number"
+          label="درصد تخفیف"
+        />
       </Grid>
       <Grid
         xs={12}
         md={12}
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
       >
-        <RTLTextField value={ctx.state?.itemCode} label="کد محصول" />
+        <RTLTextField
+          onChange={(e) =>
+            ctx.dispatch({ type: "itemCode", payload: +e.target.value })
+          }
+          value={ctx.state?.itemCode}
+          type="number"
+          label="کد محصول"
+        />
         <SearchProduct />
         <ProductTreeViewModal />
-        <RTLTextField value={ctx.state?.qty1} label="تعداد" />
+        <RTLTextField
+          onChange={(e) =>
+            ctx.dispatch({ type: "qty1", payload: +e.target.value })
+          }
+          value={ctx.state?.qty1}
+          type="number"
+          label="تعداد"
+        />
       </Grid>
       <Grid sm={12}>
-        <Button variant="outlined">اضافه</Button>
+        <Button onClick={addOrderLines} variant="outlined">
+          اضافه
+        </Button>
       </Grid>
       <Grid sm={12}>
         <EditableTable />
