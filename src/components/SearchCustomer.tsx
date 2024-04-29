@@ -11,8 +11,7 @@ export default function SearchCustomer() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
-  const context = useContext(OrderContext)
-  
+  const {state , dispatch} = useContext<any>(OrderContext)
 
   const getList = () => {
     axios
@@ -74,7 +73,7 @@ export default function SearchCustomer() {
         disablePortal
         noOptionsText="مشتری یافت نشد"
         onChange={(event: any, newValue: any) => {
-          console.log(newValue);
+          dispatch({type:'customerCode' , payload:newValue?.code})
         }}
         onInputChange={(e: any) => {
           setParams(e.target.value);

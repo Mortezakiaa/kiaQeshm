@@ -10,91 +10,100 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
-import { InsertOrderData } from "@/Types/Types";
+import { OrderContext } from "@/Provider/OrderProvider";
+import { OrderLines } from "@/Types/Types";
 
 export default function EditableTable() {
   const [editMode, setEditMode] = useState(false);
-  const [Insert , setInsert] = useState<InsertOrderData>()
+  const { state, dispatch } = useContext<any>(OrderContext);
+
   return (
-    <Paper sx={{width:'100%'}}>
-      <TableContainer sx={{ maxHeight: 440 , width:'100%' , overflow:'auto' }}> 
-        <Table stickyHeader style={{overflow:'auto'}} sx={{
-          '& th':{
-            backgroundColor:'#424242',
-            color:'white',
-            padding:'8px 6px'
-          },
-          '& td':{
-            padding:'6px',
-            border: "1px solid rgba(184 183 183)"
-          }
-        }}>
+    <Paper sx={{ width: "100%" }}>
+      <TableContainer sx={{ maxHeight: 440, width: "100%", overflow: "auto" }}>
+        <Table
+          stickyHeader
+          style={{ overflow: "auto" }}
+          sx={{
+            "& th": {
+              backgroundColor: "#424242",
+              color: "white",
+              padding: "8px 6px",
+            },
+            "& td": {
+              padding: "6px",
+              border: "1px solid rgba(184 183 183)",
+            },
+          }}
+        >
           <TableHead>
             <TableRow>
-              <TableCell align="right">*</TableCell>
               <TableCell align="right">نام کالا</TableCell>
               <TableCell align="right">تعداد</TableCell>
-              <TableCell align="right">فی</TableCell>
-              <TableCell align="right">قیمت قبل تخفیف</TableCell>
+              <TableCell align="right">قیمت</TableCell>
+              <TableCell align="right">مبلغ</TableCell>
               <TableCell align="right">درصد تخفیف</TableCell>
-              <TableCell align="right">قیمت تخفیف</TableCell>
-              <TableCell align="right">قیمت نهایی</TableCell>
-              <TableCell align="right">توضیحات</TableCell>
+              <TableCell align="right">مبلغ تخفیف</TableCell>
+              <TableCell align="right">مانده</TableCell>
               <TableCell align="right">وضعیت</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody  sx={{
-            '& tr:nth-child(even)':{
-              backgroundColor:'#e0e0e0',
-            },
-            }}>
-            <TableRow>
-              <TableCell align="right">1</TableCell>
-              <TableCell align="right">d</TableCell>
-              <TableCell align="right">das</TableCell>
-              <TableCell align="right">das</TableCell>
-              <TableCell align="right">da</TableCell>
-              <TableCell align="right">das</TableCell>
-              <TableCell align="right">da</TableCell>
-              <TableCell align="right">da</TableCell>
-              <TableCell align="right">da</TableCell>
-              <TableCell align="right">
-                {!editMode ? (
-                  <>
-                    <Tooltip title="حذف">
-                      <IconButton color="error">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="ویرایش">
-                      <IconButton
-                        color="success"
-                        onClick={() => setEditMode(true)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </>
-                ) : null}
-                {editMode ? (
-                  <>
-                    <Tooltip title="انصراف">
-                      <IconButton color="error" onClick={() => setEditMode(false)}>
-                        <CancelIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="تایید">
-                      <IconButton color="success">
-                        <CheckIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </>
-                ) : null}
-              </TableCell>
-            </TableRow>
+          <TableBody
+            sx={{
+              "& tr:nth-child(even)": {
+                backgroundColor: "#e0e0e0",
+              },
+            }}
+          >
+            {state.orderLines?.map((items:OrderLines) => (
+              <TableRow key={items.id}>
+                <TableCell align="right">{items.itemCode}</TableCell>
+                <TableCell align="right">{items.qty1}</TableCell>
+                <TableCell align="right">{items.fee}</TableCell>
+                <TableCell align="right">{items.amount}</TableCell>
+                <TableCell align="right">{items.discountPercent}</TableCell>
+                <TableCell align="right">{items.discountAmount}</TableCell>
+                <TableCell align="right">{items.remindNet}</TableCell>
+                <TableCell align="right">
+                  {!editMode ? (
+                    <>
+                      <Tooltip title="حذف">
+                        <IconButton color="error">
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="ویرایش">
+                        <IconButton
+                          color="success"
+                          onClick={() => setEditMode(true)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  ) : null}
+                  {editMode ? (
+                    <>
+                      <Tooltip title="انصراف">
+                        <IconButton
+                          color="error"
+                          onClick={() => setEditMode(false)}
+                        >
+                          <CancelIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="تایید">
+                        <IconButton color="success">
+                          <CheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  ) : null}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

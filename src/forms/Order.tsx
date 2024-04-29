@@ -1,9 +1,8 @@
 "use client";
-import { InsertOrderData } from "@/Types/Types";
 import DatePickerTime from "@/components/DatePickerTime";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
@@ -15,9 +14,13 @@ import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
 import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
 import { OrderContext } from "@/Provider/OrderProvider";
+import { OrderLines } from "@/Types/Types";
+import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 
 export default function Order() {
   const {state , dispatch} = useContext<any>(OrderContext)
+  const ctx = useContext<any>(OrderLinesContext)
+  console.log(ctx);
   
   const SaveOrder = async () => {
     try {
@@ -142,14 +145,22 @@ export default function Order() {
           />
         </Grid>
       </Grid>
+      <Grid sm={12} style={{display:'flex' , gap:'5px'}}>
+        <RTLTextField value={ctx.state?.fee} fullWidth label="قیمت"/>
+        <RTLTextField value={ctx.state?.discountPercent} fullWidth label="درصد تخفیف"/>
+      </Grid>
       <Grid
         xs={12}
         md={12}
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
       >
-        <RTLTextField label="کد محصول" />
+        <RTLTextField value={ctx.state?.itemCode} label="کد محصول" />
         <SearchProduct />
         <ProductTreeViewModal />
+        <RTLTextField value={ctx.state?.qty1} label="تعداد" />
+      </Grid>
+      <Grid sm={12}>
+        <Button variant="outlined">اضافه</Button>
       </Grid>
       <Grid sm={12}>
         <EditableTable />

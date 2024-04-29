@@ -4,12 +4,14 @@ import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { OrderContext } from "@/Provider/OrderProvider";
 
 export default function SearchProduct() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading , setLoading] = useState(false)
+  const {state , dispatch} = useContext<any>(OrderContext)
 
   const getList = () => {
     axios
@@ -71,7 +73,7 @@ export default function SearchProduct() {
         disablePortal
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-          console.log(newValue);
+          dispatch({type:'' , payload:newValue?.code})
         }}
         onInputChange={(e: any) => {
           setParams(e.target.value);

@@ -3,7 +3,7 @@ import Order from "@/forms/Order";
 import { redirect } from "next/navigation";
 import { getCookie } from "@/actions/getCookie";
 import OrderProvider from "@/Provider/OrderProvider";
-
+import OrderLinesProvider from "@/Provider/OrderLinesProvider";
 export const metadata: Metadata = {
   title: "ثبت سفارشات",
 };
@@ -15,7 +15,9 @@ export default async function page() {
   return (
     <div dir="rtl">
       <OrderProvider>
-        <Order />
+        <OrderLinesProvider>
+          <Order />
+        </OrderLinesProvider>
       </OrderProvider>
     </div>
   );

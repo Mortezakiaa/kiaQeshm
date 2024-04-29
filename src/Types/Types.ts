@@ -1,11 +1,12 @@
 export interface OrderLines {
+  id: number | null;
   itemCode: string;
-  qty1: number;
-  fee: number;
-  amount: number;
-  discountPercent: number;
-  discountAmount: number;
-  remindNet: number;
+  qty1: number | null;
+  fee: number | null;
+  amount: number | null;
+  discountPercent: number | null;
+  discountAmount: number | null;
+  remindNet: number | null;
 }
 
 export interface InsertOrderData {
