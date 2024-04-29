@@ -56,11 +56,11 @@ export default function OrderLinesProvider({ children }) {
 
   useEffect(() => {
     const amount = state.qty1 * state.fee;
-    const discountAmount = (state.discountPercent / 100) * amount;
+    const discountAmount = state.discountPercent * amount;
     const remindnet = Math.abs(amount - discountAmount);
-    dispatch({ type: "amount", payload: amount });
-    dispatch({ type: "discountAmount", payload: discountAmount });
-    dispatch({ type: "remindNet", payload: remindnet });
+    dispatch({ type: "amount", payload: +amount });
+    dispatch({ type: "discountAmount", payload: +discountAmount });
+    dispatch({ type: "remindNet", payload: +remindnet });
     const id = Math.floor(Math.random() * 100000000);
     dispatch({ type: "id", payload: id });
   }, [state.qty1, state.amount, state.discountPercent, state.fee]);

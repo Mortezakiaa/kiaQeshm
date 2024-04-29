@@ -15,33 +15,30 @@ import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
 import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
-import { sp } from "@/utils/SeperateNumber";
 
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
-  const [num ,setNum] = useState(0)
-  
+  const [num1 , setNum1] = useState<number>()
+
   const SaveOrder = async () => {
-    try {
-      console.log(state);
-      
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
         state
       );
       const data = await res.data;
-      toast.success("");
-      console.log("data", data);
-    } catch (e) {
-      toast.error("");
-      console.log("e", e);
-    }
+      if(data.isSuccess){
+        toast.success("عملیات با موفقیت انجام شد");
+        setNum1(data.data.num1)
+      }else{
+        toast.error("");
+      }
   };
 
   const addOrderLines = () => {
     if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
-    if (!ctx.state.discountPercent) return toast.error("درصد تخفیف را وارد کنید");
+    if (!ctx.state.discountPercent)
+      return toast.error("درصد تخفیف را وارد کنید");
     if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
     if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
     dispatch({ type: "orderLines", payload: ctx.state });
@@ -50,6 +47,7 @@ export default function Order() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      
       <Grid
         container
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
@@ -74,6 +72,15 @@ export default function Order() {
         <Grid item>
           <AddNewCustomer />
         </Grid>
+      </Grid>
+      <Grid>
+        <RTLTextField
+          value={num1}
+          InputProps={{
+            readOnly: true,
+          }}
+          label="شماره فاکتور"
+        />
       </Grid>
       <Grid
         style={{
@@ -123,7 +130,7 @@ export default function Order() {
         <Grid item xs={12} sm={6} md={4}>
           <RTLTextField
             onChange={(e) =>
-              dispatch({ type: "inventoryCode", payload: e.target.value })
+              dispatch({ type: "inventoryCode", payload: +e.target.value })
             }
             name="inventoryCode"
             type="number"
@@ -172,27 +179,26 @@ export default function Order() {
           onChange={(e) =>
             ctx.dispatch({ type: "fee", payload: +e.target.value })
           }
-          value={ctx.state?.fee || ''}
+          value={ctx.state?.fee || ""}
           fullWidth
+          type="number"
           label="قیمت"
         />
         <RTLTextField
           onChange={(e) =>
             ctx.dispatch({ type: "discountPercent", payload: +e.target.value })
           }
-          value={ctx.state?.discountPercent || ''}
+          value={ctx.state?.discountPercent || ""}
           fullWidth
           label="درصد تخفیف"
         />
       </Grid>
-      <Grid
-        style={{ display: "flex", alignItems: "center", gap: "5px" }}
-      >
+      <Grid style={{ display: "flex", alignItems: "center", gap: "5px" }}>
         <RTLTextField
           onChange={(e) =>
             ctx.dispatch({ type: "itemCode", payload: e.target.value })
           }
-          value={ctx.state?.itemCode || ''}
+          value={ctx.state?.itemCode || ""}
           type="number"
           label="کد محصول"
         />
@@ -202,7 +208,7 @@ export default function Order() {
           onChange={(e) =>
             ctx.dispatch({ type: "qty1", payload: +e.target.value })
           }
-          value={ctx.state?.qty1 || ''}
+          value={ctx.state?.qty1 || ""}
           type="number"
           label="تعداد"
         />

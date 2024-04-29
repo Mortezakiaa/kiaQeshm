@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 const initialState = {
   inventoryCode: null,
@@ -35,6 +35,16 @@ const reducer = (state = initialState, action) => {
 
 export default function OrderProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(()=>{
+    const num = state.orderLines?.map(i => {
+      let num = 0;
+      num+=i.discountAmount
+      return num
+    })
+    dispatch({type:'discount' , payload:num[0]})
+  },[state.orderLines])
+
   return (
     <OrderContext.Provider value={{ state, dispatch }}>
       {children}
