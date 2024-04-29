@@ -10,16 +10,28 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
-import { useContext, useState } from "react";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckIcon from "@mui/icons-material/Check";
+import { useContext } from "react";
 import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLines } from "@/Types/Types";
 import { sp } from "@/utils/SeperateNumber";
+import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 
 export default function EditableTable() {
-  const [editMode, setEditMode] = useState(false);
   const { state, dispatch } = useContext<any>(OrderContext);
+  const ctx = useContext<any>(OrderLinesContext);
+
+  const Edit = (id: number | null) => {
+    const data = state.orderLines?.filter((i: OrderLines) => {
+      if (i.id === id) return i;
+    });
+    ctx.dispatch({type:'qty1' , payload:data[0].qty1})
+    ctx.dispatch({type:'fee' , payload:data[0].fee})
+    ctx.dispatch({type:'discountPercent' , payload:data[0].discountPercent})
+    ctx.dispatch({type:'itemCode' , payload:data[0].itemCode})
+    ctx.dispatch({type:'itemName' , payload:data[0].itemName})
+    dispatch({type:'editMode' , payload:true})
+    dispatch({type:'editId' , payload:id})
+  };
 
   return (
     <Paper sx={{ width: "100%" }}>
@@ -58,7 +70,7 @@ export default function EditableTable() {
               },
             }}
           >
-            {state.orderLines?.map((items:OrderLines) => (
+            {state.orderLines?.map((items: OrderLines) => (
               <TableRow key={items.id}>
                 <TableCell align="right">{items.itemName}</TableCell>
                 <TableCell align="right">{items.qty1}</TableCell>
@@ -68,40 +80,26 @@ export default function EditableTable() {
                 <TableCell align="right">{sp(items.discountAmount)}</TableCell>
                 <TableCell align="right">{sp(items.remindNet)}</TableCell>
                 <TableCell align="right">
-                  {!editMode ? (
-                    <>
-                      <Tooltip title="حذف">
-                        <IconButton color="error">
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="ویرایش">
-                        <IconButton
-                          color="success"
-                          onClick={() => setEditMode(true)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </>
-                  ) : null}
-                  {editMode ? (
-                    <>
-                      <Tooltip title="انصراف">
-                        <IconButton
-                          color="error"
-                          onClick={() => setEditMode(false)}
-                        >
-                          <CancelIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="تایید">
-                        <IconButton color="success">
-                          <CheckIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </>
-                  ) : null}
+                  <Tooltip title="حذف">
+                    <IconButton
+                      color="error"
+                      onClick={() => {
+                        dispatch({ type: "deleteRecord", payload: items.id });
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="ویرایش">
+                    <IconButton
+                      color="success"
+                      onClick={() => {
+                        Edit(items.id);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}

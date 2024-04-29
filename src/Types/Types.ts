@@ -20,6 +20,8 @@ export interface InsertOrderData {
   description2: string;
   discount: number | null;
   orderLines: OrderLines[];
+  editMode: boolean;
+  editId:number
 }
 
 export interface DatePickerArguments {

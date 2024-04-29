@@ -81,6 +81,9 @@ export default function SearchCustomer() {
           if (e == null) return;
           setParams(e.target.value);
         }}
+        isOptionEqualToValue={(option, value) =>
+          value === undefined || value === "" || option.id === value.id
+        }
         options={options}
         sx={{ width: 300 }}
         renderInput={(params) => (

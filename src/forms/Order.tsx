@@ -19,35 +19,38 @@ import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
-  const [num1 , setNum1] = useState<number>()
+  const [num1, setNum1] = useState<number>();
 
   const SaveOrder = async () => {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
-        state
-      );
-      const data = await res.data;
-      if(data.isSuccess){
-        toast.success("عملیات با موفقیت انجام شد");
-        setNum1(data.data.num1)
-      }else{
-        toast.error("");
-      }
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
+      state
+    );
+    const data = await res.data;
+    if (data.isSuccess) {
+      toast.success("عملیات با موفقیت انجام شد");
+      setNum1(data.data.num1);
+    } else {
+      toast.error("خطا در عملیات");
+    }
   };
 
   const addOrderLines = () => {
-    if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
-    if (!ctx.state.discountPercent)
-      return toast.error("درصد تخفیف را وارد کنید");
-    if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
-    if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
-    dispatch({ type: "orderLines", payload: ctx.state });
-    ctx.dispatch({ type: "reset" });
+    if (state.editMode) {
+      
+    } else {
+      if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
+      if (!ctx.state.discountPercent)
+        return toast.error("درصد تخفیف را وارد کنید");
+      if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
+      if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
+      dispatch({ type: "orderLines", payload: ctx.state });
+      ctx.dispatch({ type: "reset" });
+    }
   };
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-      
       <Grid
         container
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
@@ -215,7 +218,7 @@ export default function Order() {
       </Grid>
       <Grid>
         <Button onClick={addOrderLines} variant="outlined">
-          اضافه
+          {state.editMode ? "ویرایش کردن" : "اضافه کردن"}
         </Button>
       </Grid>
       <Grid>
