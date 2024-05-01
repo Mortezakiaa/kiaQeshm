@@ -68,9 +68,9 @@ export default function SearchCustomer() {
   }, [params]);
 
   return (
-    <>
       <Autocomplete
         disablePortal
+        style={{width:'100%'}}
         value={state.customerName || ""}
         noOptionsText="مشتری یافت نشد"
         onChange={(event: any, newValue: any) => {
@@ -93,6 +93,5 @@ export default function SearchCustomer() {
           />
         )}
       />
-    </>
   );
 }

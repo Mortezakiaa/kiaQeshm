@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { styled, TextField } from "@mui/material";
 
 const RTLTextField = styled(TextField)({
@@ -14,4 +14,4 @@ const RTLTextField = styled(TextField)({
   },
 });
 
-export default RTLTextField
+export default RTLTextField;

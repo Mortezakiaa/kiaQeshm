@@ -60,7 +60,7 @@ export default function OrderListsTable({ data }: Data) {
               <TableCell align="right">نام مشتری</TableCell>
               <TableCell align="right">تاریخ</TableCell>
               <TableCell align="right">نام انبار</TableCell>
-              <TableCell align="right">تعداد</TableCell>
+              <TableCell align="right">شماره فاکتور</TableCell>
               <TableCell align="right">مقدار</TableCell>
               <TableCell align="right">مبلغ</TableCell>
               <TableCell align="right">باقیمانده</TableCell>

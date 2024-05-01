@@ -68,31 +68,30 @@ export default function SearchProduct() {
   }, [params]);
 
   return (
-    <>
-      <Autocomplete
-        disablePortal
-        value={state.itemName || ""}
-        noOptionsText="محصولی یافت نشد"
-        onChange={(event: any, newValue: any) => {
-          dispatch({ type: "itemCode", payload: +newValue?.code });
-          dispatch({ type: "itemName", payload: newValue?.label });
-        }}
-        onInputChange={(e: any) => {
-          if (e == null) return;
-          setParams(e.target.value);
-        }}
-        isOptionEqualToValue={(option, value) =>
-          value === undefined || value === "" || option.id === value.id
-        }
-        options={options}
-        sx={{ width: 300 }}
-        renderInput={(params) => (
-          <RTLTextField
-            {...params}
-            label={loading ? "در حال جستجو...." : "جستجوی متنی محصولات"}
-          />
-        )}
-      />
-    </>
+    <Autocomplete
+      style={{ width: "100%" }}
+      disablePortal
+      value={state.itemName || ""}
+      noOptionsText="محصولی یافت نشد"
+      onChange={(event: any, newValue: any) => {
+        dispatch({ type: "itemCode", payload: +newValue?.code });
+        dispatch({ type: "itemName", payload: newValue?.label });
+      }}
+      onInputChange={(e: any) => {
+        if (e == null) return;
+        setParams(e.target.value);
+      }}
+      isOptionEqualToValue={(option, value) =>
+        value === undefined || value === "" || option.id === value.id
+      }
+      options={options}
+      sx={{ width: 300 }}
+      renderInput={(params) => (
+        <RTLTextField
+          {...params}
+          label={loading ? "در حال جستجو...." : "جستجوی متنی محصولات"}
+        />
+      )}
+    />
   );
 }
