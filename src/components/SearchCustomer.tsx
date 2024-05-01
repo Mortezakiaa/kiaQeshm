@@ -12,7 +12,7 @@ export default function SearchCustomer() {
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
   const { state, dispatch } = useContext<any>(OrderContext);
-
+  
   const getList = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView`)
@@ -33,6 +33,10 @@ export default function SearchCustomer() {
 
   const getFilteredList = () => {
     setLoading(true);
+    // let API = ''
+    // const pattern = /[0-9\/]*/
+    // if(params.match(pattern)) API = `Code=${params}`
+    // else API = `Filter=${params}`      
     axios
       .get(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView?Filter=${params}`
@@ -81,9 +85,9 @@ export default function SearchCustomer() {
           if (e == null) return;
           setParams(e.target.value);
         }}
-        isOptionEqualToValue={(option, value) =>
-          value === undefined || value === "" || option.id === value.id
-        }
+        // isOptionEqualToValue={(option, value) =>
+        //   value === undefined || value === "" || option.id === value.id
+        // }
         options={options}
         sx={{ width: 300 }}
         renderInput={(params) => (

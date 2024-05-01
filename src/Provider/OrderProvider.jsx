@@ -49,6 +49,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         orderLines: state.orderLines.filter((i) => i.id !== action.payload),
       };
+      case 'update':return {...state , orderLines:action.payload}
     default:
       return state;
   }

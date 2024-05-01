@@ -33,6 +33,10 @@ export default function SearchProduct() {
 
   const getFilteredList = () => {
     setLoading(true);
+    // let API = "";
+    // const pattern = /[0-9\/]*/;
+    // if (params.match(pattern)) API = `Code=${params}`;
+    // else API = `Filter=${params}`;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchListView?Filter=${params}`

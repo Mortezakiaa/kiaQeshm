@@ -22,7 +22,7 @@ export default function Order() {
   const ctx = useContext<any>(OrderLinesContext);
   const [num1, setNum1] = useState<number>();
   const [loading, setLoading] = useState(false);
-
+  
   const SaveOrder = async () => {
     setLoading(true);
     const res = await axios.post(
@@ -42,6 +42,15 @@ export default function Order() {
 
   const addOrderLines = () => {
     if (state.editMode) {
+      const n = ctx.state
+      const ne = state.orderLines.map((i:any) => {
+        if(i.id === state.editId){
+          return {...n , id:state.editId}
+        }else return i
+      })
+      dispatch({ type: "editMode", payload: false });
+      dispatch({ type: "update", payload: ne });
+      ctx.dispatch({ type: "reset" });
     } else {
       if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
       if (!ctx.state.discountPercent)
