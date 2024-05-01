@@ -103,7 +103,7 @@ export default function Order() {
           variant="outlined"
         />
         <SearchCustomer />
-        <CustomerTreeViewModal />
+        {/* <CustomerTreeViewModal /> */}
       </Grid>
       <Grid container display={"flex"} spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
@@ -206,7 +206,7 @@ export default function Order() {
           label="کد محصول"
         />
         <SearchProduct />
-        <ProductTreeViewModal />
+        {/* <ProductTreeViewModal /> */}
         <RTLTextField
           onChange={(e) =>
             ctx.dispatch({ type: "qty1", payload: +e.target.value })
