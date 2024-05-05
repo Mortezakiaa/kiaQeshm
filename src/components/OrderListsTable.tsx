@@ -36,8 +36,15 @@ export default function OrderListsTable({ data }: Data) {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper>
+      <TableContainer
+        sx={{
+          maxHeight: 440,
+          maxWidth: "100%",
+          width: "100%",
+          overflowX: "auto",
+        }}
+      >
         <Table
           stickyHeader
           aria-label="sticky table"
@@ -75,38 +82,40 @@ export default function OrderListsTable({ data }: Data) {
               },
             }}
           >
-            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((i) => (
-              <TableRow hover key={i.rowNumber}>
-                <TableCell align="right">{i.rowNumber}</TableCell>
-                <TableCell align="right">{i.customerCode}</TableCell>
-                <TableCell align="right">{i.customerName}</TableCell>
-                <TableCell align="right">{i.date}</TableCell>
-                <TableCell align="right">{i.nameAnbar}</TableCell>
-                <TableCell align="right">{i.num1}</TableCell>
-                <TableCell align="right">{sp(i.fee)}</TableCell>
-                <TableCell align="right">{sp(i.amount)}</TableCell>
-                <TableCell align="right">{sp(i.remindNet)}</TableCell>
-                <TableCell
-                  sx={{ maxWidth: "150px", wordBreak: "break-word" }}
-                  align="right"
-                >
-                  {i.description1}
-                </TableCell>
-                <TableCell
-                  sx={{ maxWidth: "150px", wordBreak: "break-word" }}
-                  align="right"
-                >
-                  {i.description2}
-                </TableCell>
-              </TableRow>
-            ))}
+            {data
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ?.map((i) => (
+                <TableRow hover key={i.rowNumber}>
+                  <TableCell align="right">{i.rowNumber}</TableCell>
+                  <TableCell align="right">{i.customerCode}</TableCell>
+                  <TableCell align="right">{i.customerName}</TableCell>
+                  <TableCell align="right">{i.date}</TableCell>
+                  <TableCell align="right">{i.nameAnbar}</TableCell>
+                  <TableCell align="right">{i.num1}</TableCell>
+                  <TableCell align="right">{sp(i.fee)}</TableCell>
+                  <TableCell align="right">{sp(i.amount)}</TableCell>
+                  <TableCell align="right">{sp(i.remindNet)}</TableCell>
+                  <TableCell
+                    sx={{ maxWidth: "150px", wordBreak: "break-word" }}
+                    align="right"
+                  >
+                    {i.description1}
+                  </TableCell>
+                  <TableCell
+                    sx={{ maxWidth: "150px", wordBreak: "break-word" }}
+                    align="right"
+                  >
+                    {i.description2}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         style={{ display: "flex" }}
         dir="ltr"
-        rowsPerPageOptions={[10 , 25 , 50]}
+        rowsPerPageOptions={[10, 25, 50]}
         labelRowsPerPage={``}
         component="div"
         count={Rows}

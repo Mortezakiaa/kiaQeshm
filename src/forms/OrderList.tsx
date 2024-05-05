@@ -7,7 +7,7 @@ import RTLTextField from "@/components/RTLTextField";
 import Spinner from "@/components/Spinner";
 import { Button, Grid } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import { toast } from "react-toastify";
 
@@ -20,6 +20,11 @@ export default function OrderList() {
   });
   const [data, setData] = useState<OrderLists[]>();
   const [loading, setLoading] = useState(false);
+
+
+  useEffect(()=>{
+    getFilterdList()
+  },[])
 
   const getFilterdList = async () => {
     setLoading(true);

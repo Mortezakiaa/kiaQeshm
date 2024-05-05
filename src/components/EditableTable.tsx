@@ -34,11 +34,11 @@ export default function EditableTable() {
   };
 
   return (
-    <Paper sx={{ width: "100%" }}>
-      <TableContainer sx={{ maxHeight: 440, width: "100%", overflow: "auto" }}>
+    <Paper>
+      <TableContainer sx={{ maxHeight: 440, maxWidth:'100%', width: "100%", overflowX: "auto" }}>
         <Table
           stickyHeader
-          style={{ overflow: "auto" }}
+          style={{ overflowX: "auto" }}
           sx={{
             "& th": {
               backgroundColor: "#424242",
