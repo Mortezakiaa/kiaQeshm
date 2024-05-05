@@ -29,8 +29,11 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploy on IIS windows server 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+for deploy on IIS windows server follow the steps below
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- install [IISNode module](https://github.com/azure/iisnode/wiki/iisnode-releases) 
+- install [URL rewrite module](https://www.iis.net/downloads/microsoft/url-rewrite)
+- create folder C://inetpub//wwwroot and copy .next & node-module & iisnode & server.js & web.config inside that
+- deploy your backend on iis 
