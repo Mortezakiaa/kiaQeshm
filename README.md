@@ -37,4 +37,4 @@ for deploy on IIS windows server follow the steps below
 - install [URL rewrite module](https://www.iis.net/downloads/microsoft/url-rewrite)
 - create folder in ==> { C://inetpub//wwwroot } and copy .next & node-module & iisnode & server.js & web.config inside that
 - deploy your backend on iis 
-NOTE : if you have .env file for your api address or secret key , create .env.production and put api inside it
+- NOTE : if you have .env file for your api address or secret key , create .env.production and put api inside it
