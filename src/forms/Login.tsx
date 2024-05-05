@@ -16,9 +16,10 @@ import { UserLogin } from "@/Types/Types";
 import Spinner from "@/components/Spinner";
 import { Auth } from "@/actions/Auth";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
-
+  const router = useRouter()
   const [signIn, setSignIn] = useState<UserLogin>({
     userName: "",
     password: "",
@@ -26,18 +27,21 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const SingIN = async () => {
+  const SignIn = async () => {
     setLoading(true);
     const res = await Auth(signIn);
     localStorage.setItem('user' , JSON.stringify(res.firstName + ' ' + res.lastName))
     setLoading(false);
+    if(res.isSuccess){
+      router.push('/Order')
+    }
     if (!res.isSuccess) {
       toast.error(res.messageRoot);
     }
   };
 
   return (
-    <form onSubmit={SingIN}>
+    <form onSubmit={SignIn}>
       <Stack
         style={{
           maxWidth: "100%",
@@ -121,7 +125,7 @@ export default function Login() {
             {loading ? (
               <Spinner />
             ) : (
-              <button onClick={SingIN} className="button-8">ورود</button>
+              <button onClick={SignIn} className="button-8">ورود</button>
             )}
           </Grid>
         </Grid>

@@ -2,7 +2,6 @@
 import { cookies } from "next/headers";
 import { UserLogin } from "@/Types/Types";
 import axios from "axios";
-import { revalidatePath } from "next/cache";
 
 const Auth = async (Data: UserLogin) => {
   const res = await axios.post(
@@ -19,7 +18,6 @@ const Auth = async (Data: UserLogin) => {
       httpOnly: true,
       secure:true
     });
-    revalidatePath("/Login");
     return {
       firstName: data.data.firstName,
       lastName: data.data.lastName,
