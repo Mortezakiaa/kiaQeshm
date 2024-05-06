@@ -6,6 +6,7 @@ import { createContext, useEffect, useReducer } from "react";
 const initialState: OrderContextType = {
   inventoryCode: null,
   accountingCode: "",
+  accountingName:'',
   saleExpertCode: "",
   date: "",
   description1: "",
@@ -25,6 +26,8 @@ const reducer = (state = initialState, action: any) => {
       return { ...state, inventoryCode: action.payload };
     case "accountingCode":
       return { ...state, accountingCode: action.payload };
+      case "accountingName":
+        return { ...state, accountingName: action.payload };
     case "saleExpertCode":
       return { ...state, saleExpertCode: action.payload };
     case "date":

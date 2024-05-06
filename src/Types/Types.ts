@@ -91,6 +91,7 @@ export interface InsertCustomer {
 export interface OrderContextType {
   inventoryCode: null | number;
   accountingCode: string;
+  accountingName: string;
   saleExpertCode: string;
   date: string;
   description1: string;

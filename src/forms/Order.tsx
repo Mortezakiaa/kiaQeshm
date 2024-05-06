@@ -2,7 +2,14 @@
 import DatePickerTime from "@/components/DatePickerTime";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
-import { Box, Button, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
@@ -16,39 +23,38 @@ import SearchCustomer from "@/components/SearchCustomer";
 import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 import PageLoader from "@/components/PageLoader";
-import { OrderContextProviderType, OrderLinesContextProviderType } from "@/Types/Types";
+import SearchHesabCode from "@/components/SearchHesabCode";
 
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
   const [num1, setNum1] = useState<number>();
   const [loading, setLoading] = useState(false);
-  
+
   const SaveOrder = async () => {
     setLoading(true);
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`,
-      state
-    );
-    const data = await res.data;
-    if (data.isSuccess) {
-      setNum1(data.data.num1);
-      setLoading(false);
-      toast.success("عملیات با موفقیت انجام شد");
-    } else {
-      setLoading(false);
-      toast.error("خطا در عملیات");
-    }
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`, state)
+      .then((res) => {
+        const data = res.data;
+        setNum1(data.data.num1);
+        setLoading(false);
+        toast.success("عملیات با موفقیت انجام شد");
+      })
+      .catch((er) => {
+        setLoading(false);
+        toast.error("خطا در عملیات");
+      });
   };
 
   const addOrderLines = () => {
     if (state.editMode) {
-      const n = ctx.state
-      const ne = state.orderLines.map((i:any) => {
-        if(i.id === state.editId){
-          return {...n , id:state.editId}
-        }else return i
-      })
+      const n = ctx.state;
+      const ne = state.orderLines.map((i: any) => {
+        if (i.id === state.editId) {
+          return { ...n, id: state.editId };
+        } else return i;
+      });
       dispatch({ type: "editMode", payload: false });
       dispatch({ type: "update", payload: ne });
       ctx.dispatch({ type: "reset" });
@@ -133,8 +139,8 @@ export default function Order() {
             {/* <CustomerTreeViewModal /> */}
           </Grid>
 
-          <Grid container display={"flex"} spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
+          <Grid container spacing={2}>
+            <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) =>
                   dispatch({ type: "accountingCode", payload: e.target.value })
@@ -146,6 +152,12 @@ export default function Order() {
                 variant="outlined"
               />
             </Grid>
+            <Grid item md={7} xs={12}>
+              <SearchHesabCode />
+            </Grid>
+          </Grid>
+
+          <Grid container display={"flex"} spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
                 onChange={(e) =>
@@ -209,8 +221,10 @@ export default function Order() {
             </Grid>
           </Grid>
 
-          <Grid sx={{my:1}}>
-            <Typography color="" variant="h6">اطلاعات محصول : </Typography>
+          <Grid sx={{ my: 1 }}>
+            <Typography color="" variant="h6">
+              اطلاعات محصول :{" "}
+            </Typography>
           </Grid>
 
           <Grid container spacing={2}>
