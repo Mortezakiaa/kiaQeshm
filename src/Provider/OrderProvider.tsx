@@ -1,8 +1,9 @@
 "use client";
 
+import { OrderContextType, OrderLinesContext } from "@/Types/Types";
 import { createContext, useEffect, useReducer } from "react";
 
-const initialState = {
+const initialState: OrderContextType = {
   inventoryCode: null,
   accountingCode: "",
   saleExpertCode: "",
@@ -18,7 +19,7 @@ const initialState = {
 };
 export const OrderContext = createContext(initialState);
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "inventoryCode":
       return { ...state, inventoryCode: action.payload };
@@ -49,26 +50,31 @@ const reducer = (state = initialState, action) => {
         ...state,
         orderLines: state.orderLines.filter((i) => i.id !== action.payload),
       };
-      case 'update':return {...state , orderLines:action.payload}
+    case "update":
+      return { ...state, orderLines: action.payload };
     default:
       return state;
   }
 };
 
-export default function OrderProvider({ children }) {
+export interface Provider {
+  children: React.ReactNode;
+}
+
+export default function OrderProvider({ children }: Provider) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const num = state.orderLines?.map((i) => {
+    const num = state.orderLines?.map((i: OrderLinesContext) => {
       let num = 0;
-      num += i.discountAmount;
+      num += i.discountAmount ?? 0;
       return num;
     });
     dispatch({ type: "discount", payload: num[0] ?? 0 });
   }, [state.orderLines]);
 
   return (
-    <OrderContext.Provider value={{ state, dispatch }}>
+    <OrderContext.Provider value={{ state , dispatch } as any}>
       {children}
     </OrderContext.Provider>
   );

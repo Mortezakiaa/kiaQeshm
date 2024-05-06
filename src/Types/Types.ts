@@ -21,7 +21,7 @@ export interface InsertOrderData {
   discount: number | null;
   orderLines: OrderLines[];
   editMode: boolean;
-  editId:number
+  editId: number;
 }
 
 export interface DatePickerArguments {
@@ -87,3 +87,40 @@ export interface InsertCustomer {
   tell: string;
   mobile: string;
 }
+
+export interface OrderContextType {
+  inventoryCode: null | number;
+  accountingCode: string;
+  saleExpertCode: string;
+  date: string;
+  description1: string;
+  description2: string;
+  customerCode: string;
+  customerName: string;
+  orderLines: OrderLinesContext[];
+  discount: null | number;
+  editMode: boolean;
+  editId: null | number;
+}
+
+export interface OrderLinesContext {
+  id: null | number;
+  itemCode: string;
+  itemName: string;
+  qty1: null | number;
+  fee: null | number;
+  amount: null | number;
+  discountPercent: null | number;
+  discountAmount: null | number;
+  remindNet: null | number;
+}
+
+export type OrderContextProviderType = {
+  state: OrderContextType;
+  dispatch: () => void;
+};
+
+export type OrderLinesContextProviderType = {
+  state: OrderLinesContext;
+  dispatch: () => void;
+};

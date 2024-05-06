@@ -16,6 +16,7 @@ import SearchCustomer from "@/components/SearchCustomer";
 import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 import PageLoader from "@/components/PageLoader";
+import { OrderContextProviderType, OrderLinesContextProviderType } from "@/Types/Types";
 
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
