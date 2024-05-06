@@ -93,6 +93,7 @@ export interface OrderContextType {
   accountingCode: string;
   accountingName: string;
   saleExpertCode: string;
+  saleExpertName: string;
   date: string;
   description1: string;
   description2: string;

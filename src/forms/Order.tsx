@@ -24,6 +24,7 @@ import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 import PageLoader from "@/components/PageLoader";
 import SearchHesabCode from "@/components/SearchHesabCode";
+import SearchSaleExpertCode from "@/components/SearchSaleExpertCode";
 
 export default function Order() {
   const { state, dispatch } = useContext<any>(OrderContext);
@@ -157,8 +158,8 @@ export default function Order() {
             </Grid>
           </Grid>
 
-          <Grid container display={"flex"} spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
+          <Grid container spacing={2}>
+            <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) =>
                   dispatch({ type: "saleExpertCode", payload: e.target.value })
@@ -170,6 +171,12 @@ export default function Order() {
                 variant="outlined"
               />
             </Grid>
+            <Grid item md={7} xs={12}>
+              <SearchSaleExpertCode />
+            </Grid>
+          </Grid>
+
+          <Grid container display={"flex"} spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
                 onChange={(e) =>

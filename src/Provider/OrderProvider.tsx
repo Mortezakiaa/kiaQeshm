@@ -8,6 +8,7 @@ const initialState: OrderContextType = {
   accountingCode: "",
   accountingName:'',
   saleExpertCode: "",
+  saleExpertName: "",
   date: "",
   description1: "",
   description2: "",
