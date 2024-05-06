@@ -5,6 +5,7 @@ import { createContext, useEffect, useReducer } from "react";
 
 const initialState: OrderContextType = {
   inventoryCode: null,
+  inventoryName: '',
   accountingCode: "",
   accountingName:'',
   saleExpertCode: "",
