@@ -6,15 +6,16 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { OrderContext } from "@/Provider/OrderProvider";
+import { useQuery} from "@tanstack/react-query";
 
 export default function SearchCustomer() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
   const { state, dispatch } = useContext<any>(OrderContext);
-  
-  const getList = () => {
-    axios
+
+  const getList = async () => {
+   return axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView`)
       .then((res) => {
         const d = res.data.rows?.map((item: any) => {
@@ -25,18 +26,25 @@ export default function SearchCustomer() {
           return o;
         });
         setOptions(d);
+        return d
       })
       .catch((e) => {
         toast.error("خطا در گرفتن اطلاعات");
+        return e
       });
   };
+
+  const { data, isError, error, isLoading } = useQuery({
+    queryKey: ["searchCustomer"],
+    queryFn: () => getList(),
+  });
 
   const getFilteredList = () => {
     setLoading(true);
     // let API = ''
     // const pattern = /[0-9\/]*/
     // if(params.match(pattern)) API = `Code=${params}`
-    // else API = `Filter=${params}`      
+    // else API = `Filter=${params}`
     axios
       .get(
         `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView?Filter=${params}`
@@ -58,9 +66,6 @@ export default function SearchCustomer() {
       });
   };
 
-  useEffect(() => {
-    getList();
-  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -72,30 +77,30 @@ export default function SearchCustomer() {
   }, [params]);
 
   return (
-      <Autocomplete
-        disablePortal
-        style={{width:'100%'}}
-        value={state.customerName || ""}
-        noOptionsText="مشتری یافت نشد"
-        onChange={(event: any, newValue: any) => {
-          dispatch({ type: "customerCode", payload: newValue?.code });
-          dispatch({ type: "customerName", payload: newValue?.label });
-        }}
-        onInputChange={(e: any) => {
-          if (e == null) return;
-          setParams(e.target.value);
-        }}
-        // isOptionEqualToValue={(option, value) =>
-        //   value === undefined || value === "" || option.id === value.id
-        // }
-        options={options}
-        sx={{ width: 300 }}
-        renderInput={(params) => (
-          <RTLTextField
-            {...params}
-            label={loading ? "در حال جستجو..." : "جستجوی متنی مشتریان"}
-          />
-        )}
-      />
+    <Autocomplete
+      disablePortal
+      style={{ width: "100%" }}
+      value={state.customerName || ""}
+      noOptionsText="مشتری یافت نشد"
+      onChange={(event: any, newValue: any) => {
+        dispatch({ type: "customerCode", payload: newValue?.code });
+        dispatch({ type: "customerName", payload: newValue?.label });
+      }}
+      onInputChange={(e: any) => {
+        if (e == null) return;
+        setParams(e.target.value);
+      }}
+      // isOptionEqualToValue={(option, value) =>
+      //   value === undefined || value === "" || option.id === value.id
+      // }
+      options={options}
+      sx={{ width: 300 }}
+      renderInput={(params) => (
+        <RTLTextField
+          {...params}
+          label={loading ? "در حال جستجو..." : "جستجوی متنی مشتریان"}
+        />
+      )}
+    />
   );
 }
