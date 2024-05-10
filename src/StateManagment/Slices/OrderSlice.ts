@@ -1,5 +1,7 @@
+'use client'
 import { OrderContextType } from "@/Types/Types";
 import { createSlice } from "@reduxjs/toolkit";
+import { IRootState } from "../Store/store";
 
 const initialState: OrderContextType = {
   inventoryCode: null,
@@ -89,3 +91,5 @@ export const {
   deleteRecord,
   update,
 } = OrderSlice.actions;
+
+export const OrderSelector = (store:IRootState) => store.OrderReducer 

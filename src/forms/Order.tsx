@@ -26,9 +26,16 @@ import PageLoader from "@/components/PageLoader";
 import SearchHesabCode from "@/components/SearchHesabCode";
 import SearchSaleExpertCode from "@/components/SearchSaleExpertCode";
 import SearchAnbarCode from "@/components/SearchAnbarCode";
+import { useDispatch, useSelector } from "react-redux";
+import { OrderSelector } from "@/StateManagment/Slices/OrderSlice";
+import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
 
 
 export default function Order() {
+  const OrderStore = useSelector(OrderSelector)
+  const OrderLinesStore = useSelector(OrderLinesSelector)
+  const dis = useDispatch()
+
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
   const [num1, setNum1] = useState<number>();
@@ -137,7 +144,7 @@ export default function Order() {
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              <SearchCustomer />
+              {/* <SearchCustomer /> */}
             </Grid>
             {/* <CustomerTreeViewModal /> */}
           </Grid>
@@ -156,7 +163,7 @@ export default function Order() {
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              <SearchHesabCode />
+              {/* <SearchHesabCode /> */}
             </Grid>
           </Grid>
 
@@ -174,7 +181,7 @@ export default function Order() {
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              <SearchSaleExpertCode />
+              {/* <SearchSaleExpertCode /> */}
             </Grid>
           </Grid>
 
@@ -193,7 +200,7 @@ export default function Order() {
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              <SearchAnbarCode />
+              {/* <SearchAnbarCode /> */}
             </Grid>
           </Grid>
 
@@ -258,7 +265,7 @@ export default function Order() {
               <ProductTreeViewModal />
             </Grid> */}
             <Grid item xs={12} md={4}>
-              <SearchProduct />
+              {/* <SearchProduct /> */}
             </Grid>
             <Grid item xs={12} md={4}>
               <RTLTextField

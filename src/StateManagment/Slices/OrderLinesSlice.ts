@@ -1,4 +1,6 @@
+'use client'
 import { createSlice } from "@reduxjs/toolkit";
+import { IRootState } from "../Store/store";
 
 const initialState = {
   id: null,
@@ -58,3 +60,5 @@ export const {
   discountAmount,
   remindNet,
 } = OrderLinesSlice.actions;
+
+export const OrderLinesSelector = (store:IRootState)=> store.OrderLinesReducer
