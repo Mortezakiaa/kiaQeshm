@@ -27,14 +27,32 @@ import SearchHesabCode from "@/components/SearchHesabCode";
 import SearchSaleExpertCode from "@/components/SearchSaleExpertCode";
 import SearchAnbarCode from "@/components/SearchAnbarCode";
 import { useDispatch, useSelector } from "react-redux";
-import { OrderSelector } from "@/StateManagment/Slices/OrderSlice";
-import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
-
+import {
+  OrderSelector,
+  accountingCode,
+  customerCode,
+  date,
+  description1,
+  description2,
+  editMode,
+  inventoryCode,
+  orderLines,
+  saleExpertCode,
+  update,
+} from "@/StateManagment/Slices/OrderSlice";
+import {
+  OrderLinesSelector,
+  discountPercent,
+  fee,
+  itemCode,
+  qty1,
+  reset,
+} from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function Order() {
-  const OrderStore = useSelector(OrderSelector)
-  const OrderLinesStore = useSelector(OrderLinesSelector)
-  const dis = useDispatch()
+  const OrderStore = useSelector(OrderSelector);
+  const OrderLinesStore = useSelector(OrderLinesSelector);
+  const dis = useDispatch();
 
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
@@ -58,17 +76,39 @@ export default function Order() {
   };
 
   const addOrderLines = () => {
-    if (state.editMode) {
-      const n = ctx.state;
-      const ne = state.orderLines.map((i: any) => {
-        if (i.id === state.editId) {
-          return { ...n, id: state.editId };
+    if (OrderStore.editMode) {
+      // const n = OrderLinesStore;
+      const ne = OrderStore.orderLines.map((i) => {
+        if (i.id === OrderStore.editId) {
+          // return { ...n, id: state.editId };
         } else return i;
       });
+      // dis(editMode(false))
+      // dis(update(ne))
+      // dis(reset())
       dispatch({ type: "editMode", payload: false });
       dispatch({ type: "update", payload: ne });
       ctx.dispatch({ type: "reset" });
-    } else {
+    }
+    // if (state.editMode) {
+    //   const n = ctx.state;
+    //   const ne = state.orderLines.map((i: any) => {
+    //     if (i.id === state.editId) {
+    //       return { ...n, id: state.editId };
+    //     } else return i;
+    //   });
+    //   dispatch({ type: "editMode", payload: false });
+    //   dispatch({ type: "update", payload: ne });
+    //   ctx.dispatch({ type: "reset" });
+    // }
+    else {
+      // if (!OrderLinesStore.fee) return toast.error("قیمت را وارد کنید");
+      // if (!OrderLinesStore.discountPercent)
+      //   return toast.error("درصد تخفیف را وارد کنید");
+      // if (!OrderLinesStore.itemCode) return toast.error("کد کالا را وارد کنید");
+      // if (!OrderLinesStore.qty1) return toast.error("تعداد را وارد کنید");
+      // dis(orderLines(OrderLinesStore))
+      // dis(reset())
       if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
       if (!ctx.state.discountPercent)
         return toast.error("درصد تخفیف را وارد کنید");
@@ -134,9 +174,10 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 fullWidth
-                onChange={(e) =>
-                  dispatch({ type: "customerCode", payload: e.target.value })
-                }
+                onChange={(e) => {
+                  dispatch({ type: "customerCode", payload: e.target.value });
+                  // dis(customerCode(e.target.value))
+                }}
                 name="customerCode"
                 value={state?.customerCode || ""}
                 label="کد تفضیلی"
@@ -152,9 +193,10 @@ export default function Order() {
           <Grid container spacing={2}>
             <Grid item md={5} xs={12}>
               <RTLTextField
-                onChange={(e) =>
-                  dispatch({ type: "accountingCode", payload: e.target.value })
-                }
+                onChange={(e) => {
+                  dispatch({ type: "accountingCode", payload: e.target.value });
+                  // dis(accountingCode(e.target.value))
+                }}
                 name="accountingCode"
                 value={state?.accountingCode || ""}
                 fullWidth
@@ -170,9 +212,10 @@ export default function Order() {
           <Grid container spacing={2}>
             <Grid item md={5} xs={12}>
               <RTLTextField
-                onChange={(e) =>
-                  dispatch({ type: "saleExpertCode", payload: e.target.value })
-                }
+                onChange={(e) => {
+                  dispatch({ type: "saleExpertCode", payload: e.target.value });
+                  // dis(saleExpertCode(e.target.value))
+                }}
                 name="saleExpertCode"
                 value={state?.saleExpertCode || ""}
                 fullWidth
@@ -188,9 +231,10 @@ export default function Order() {
           <Grid container spacing={2}>
             <Grid item md={5} xs={12}>
               <RTLTextField
-                onChange={(e) =>
-                  dispatch({ type: "inventoryCode", payload: +e.target.value })
-                }
+                onChange={(e) => {
+                  dispatch({ type: "inventoryCode", payload: +e.target.value });
+                  // dis(inventoryCode(+e.target.value));
+                }}
                 name="inventoryCode"
                 type="number"
                 value={state?.inventoryCode || ""}
@@ -214,14 +258,16 @@ export default function Order() {
                     type: "date",
                     payload: new DateObject(e).format(),
                   });
+                  // dis(date(new DateObject(e).format()))
                 }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
-                onChange={(e) =>
-                  dispatch({ type: "description1", payload: e.target.value })
-                }
+                onChange={(e) => {
+                  dispatch({ type: "description1", payload: e.target.value });
+                  // dis(description1(e.target.value))
+                }}
                 name="description1"
                 value={state?.description1 || ""}
                 fullWidth
@@ -231,9 +277,10 @@ export default function Order() {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
-                onChange={(e) =>
-                  dispatch({ type: "description2", payload: e.target.value })
-                }
+                onChange={(e) => {
+                  // dis(description2(e.target.value));
+                  dispatch({ type: "description2", payload: e.target.value });
+                }}
                 name="description2"
                 value={state?.description2 || ""}
                 fullWidth
@@ -253,9 +300,10 @@ export default function Order() {
             <Grid item xs={12} md={4}>
               <RTLTextField
                 fullWidth
-                onChange={(e) =>
-                  ctx.dispatch({ type: "itemCode", payload: e.target.value })
-                }
+                onChange={(e) => {
+                  ctx.dispatch({ type: "itemCode", payload: e.target.value });
+                  // dis(itemCode(e.target.value))
+                }}
                 value={ctx.state?.itemCode || ""}
                 type="number"
                 label="کد محصول"
@@ -270,9 +318,10 @@ export default function Order() {
             <Grid item xs={12} md={4}>
               <RTLTextField
                 fullWidth
-                onChange={(e) =>
-                  ctx.dispatch({ type: "qty1", payload: +e.target.value })
-                }
+                onChange={(e) => {
+                  ctx.dispatch({ type: "qty1", payload: +e.target.value });
+                  // dis(qty1(e.target.value))
+                }}
                 value={ctx.state?.qty1 || ""}
                 type="number"
                 label="تعداد"
@@ -283,9 +332,10 @@ export default function Order() {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <RTLTextField
-                onChange={(e) =>
-                  ctx.dispatch({ type: "fee", payload: +e.target.value })
-                }
+                onChange={(e) => {
+                  ctx.dispatch({ type: "fee", payload: +e.target.value });
+                  // dis(fee(e.target.value));
+                }}
                 value={ctx.state?.fee || ""}
                 fullWidth
                 type="number"
@@ -294,12 +344,13 @@ export default function Order() {
             </Grid>
             <Grid item xs={12} md={6}>
               <RTLTextField
-                onChange={(e) =>
+                onChange={(e) => {
                   ctx.dispatch({
                     type: "discountPercent",
                     payload: +e.target.value,
-                  })
-                }
+                  });
+                  // dis(discountPercent(e.target.value))
+                }}
                 value={ctx.state?.discountPercent || ""}
                 fullWidth
                 label="درصد تخفیف"
@@ -309,7 +360,7 @@ export default function Order() {
 
           <Grid>
             <Button onClick={addOrderLines} variant="outlined">
-              {state.editMode ? "ویرایش کردن" : "اضافه کردن"}
+              {OrderStore.editMode ? "ویرایش کردن" : "اضافه کردن"}
             </Button>
           </Grid>
 

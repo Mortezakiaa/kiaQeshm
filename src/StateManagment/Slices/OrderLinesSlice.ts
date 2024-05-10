@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { createSlice } from "@reduxjs/toolkit";
 import { IRootState } from "../Store/store";
 
@@ -45,6 +45,7 @@ const OrderLinesSlice = createSlice({
     remindNet: (state, action) => {
       state.remindNet = action.payload;
     },
+    reset: () => initialState,
   },
 });
 
@@ -59,6 +60,8 @@ export const {
   discountPercent,
   discountAmount,
   remindNet,
+  reset
 } = OrderLinesSlice.actions;
 
-export const OrderLinesSelector = (store:IRootState)=> store.OrderLinesReducer
+export const OrderLinesSelector = (store: IRootState) =>
+  store.OrderLinesReducer;
