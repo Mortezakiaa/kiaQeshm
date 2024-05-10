@@ -6,7 +6,6 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { OrderContext } from "@/Provider/OrderProvider";
-import { useQuery} from "@tanstack/react-query";
 
 export default function SearchCustomer() {
   const [options, setOptions] = useState([]);
@@ -15,7 +14,7 @@ export default function SearchCustomer() {
   const { state, dispatch } = useContext<any>(OrderContext);
 
   const getList = async () => {
-   return axios
+    axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView`)
       .then((res) => {
         const d = res.data.rows?.map((item: any) => {
@@ -26,18 +25,11 @@ export default function SearchCustomer() {
           return o;
         });
         setOptions(d);
-        return d
       })
       .catch((e) => {
         toast.error("خطا در گرفتن اطلاعات");
-        return e
       });
   };
-
-  const { data, isError, error, isLoading } = useQuery({
-    queryKey: ["searchCustomer"],
-    queryFn: () => getList(),
-  });
 
   const getFilteredList = () => {
     setLoading(true);
@@ -66,6 +58,9 @@ export default function SearchCustomer() {
       });
   };
 
+  useEffect(()=>{
+    getList()
+  },[])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
