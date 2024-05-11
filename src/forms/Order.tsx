@@ -275,7 +275,7 @@ export default function Order() {
           </Grid>
 
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={5}>
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
@@ -289,24 +289,13 @@ export default function Order() {
             {/* <Grid item xs={12} md={4}>
               <ProductTreeViewModal />
             </Grid> */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={7}>
               <SearchProduct />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <RTLTextField
-                fullWidth
-                onChange={(e) => {
-                  dispatch(qty1(+e.target.value))
-                }}
-                value={OrderLinesStore?.qty1 || ""}
-                type="number"
-                label="تعداد"
-              />
             </Grid>
           </Grid>
 
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <RTLTextField
                 onChange={(e) => {
                   dispatch(fee(+e.target.value));
@@ -317,7 +306,7 @@ export default function Order() {
                 label="قیمت"
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <RTLTextField
                 onChange={(e) => {
                   dispatch(discountPercent(+e.target.value))
@@ -325,6 +314,17 @@ export default function Order() {
                 value={OrderLinesStore?.discountPercent || ""}
                 fullWidth
                 label="درصد تخفیف"
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <RTLTextField
+                fullWidth
+                onChange={(e) => {
+                  dispatch(qty1(+e.target.value))
+                }}
+                value={OrderLinesStore?.qty1 || ""}
+                type="number"
+                label="تعداد"
               />
             </Grid>
           </Grid>
