@@ -2,50 +2,23 @@
 
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { OrderSelector, customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
+import {
+  OrderSelector,
+  customerCode,
+  customerName,
+} from "@/StateManagment/Slices/OrderSlice";
+import useSearch from "@/hooks/useSearch";
 
 export default function SearchCustomer() {
   const OrderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const [options, setOptions] = useState([]);
-  const [params, setParams] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const getList = async () => {
-    setLoading(true)
-    let path = ''
-    if(params == '') path = 'api/Markaz1/SearchListView'
-    else path = `api/Markaz1/SearchListView?Filter=${params}`
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/${path}`)
-      .then((res) => {
-        const d = res.data.rows?.map((item: any) => {
-          const o: any = {};
-          o.label = item.name;
-          o.id = item.id;
-          o.code = item.code;
-          return o;
-        });
-        setLoading(false)
-        setOptions(d);
-      })
-      .catch((e) => {
-        setLoading(false)
-        toast.error("خطا در گرفتن اطلاعات");
-      });
-  };
+  const { loading, options, setParams, params, setPath } = useSearch();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      getList()
-    }, 600);
-    return () => {
-      clearTimeout(timeout);
-    };
+    if (params == "") setPath("api/Markaz1/SearchListView");
+    else setPath(`api/Markaz1/SearchListView?Filter=${params}`);
   }, [params]);
 
   return (
@@ -55,14 +28,14 @@ export default function SearchCustomer() {
       value={OrderStore.customerName || ""}
       noOptionsText="مشتری یافت نشد"
       onChange={(event: any, newValue: any) => {
-        dispatch(customerCode(newValue?.code))
-        dispatch(customerName(newValue?.label))
+        dispatch(customerCode(newValue?.code));
+        dispatch(customerName(newValue?.label));
       }}
       onInputChange={(e: any) => {
         if (e == null) return;
         setParams(e.target.value);
       }}
-      options={options}
+      options={options || []}
       sx={{ width: 300 }}
       renderInput={(params) => (
         <RTLTextField
