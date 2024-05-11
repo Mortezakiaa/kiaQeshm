@@ -1,23 +1,18 @@
 "use client";
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { OrderContext } from "@/Provider/OrderProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderSelector, inventoryCode, inventoryName } from "@/StateManagment/Slices/OrderSlice";
-import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchAnbarCode() {
   const OrderStore = useSelector(OrderSelector);
-  const OrderLinesStore = useSelector(OrderLinesSelector);
-  const dis = useDispatch();
-
+  const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext<any>(OrderContext);
 
   const getList = () => {
     axios
@@ -80,10 +75,8 @@ export default function SearchAnbarCode() {
         value={OrderStore.inventoryName || ''}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-            // dispatch({type:'inventoryCode' , payload:newValue.code})
-            // dispatch({type:'inventoryName' , payload:newValue.label})
-            dis(inventoryCode(newValue.code))
-            dis(inventoryName(newValue.label))
+            dispatch(inventoryCode(newValue.code))
+            dispatch(inventoryName(newValue.label))
         }}
         onInputChange={(e: any) => {
           if (e == null) return;

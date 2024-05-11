@@ -5,20 +5,15 @@ import RTLTextField from "./RTLTextField";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { OrderContext } from "@/Provider/OrderProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderSelector, customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
-import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchCustomer() {
   const OrderStore = useSelector(OrderSelector);
-  const OrderLinesStore = useSelector(OrderLinesSelector);
-  const dis = useDispatch();
-
+  const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext<any>(OrderContext);
 
   const getList = async () => {
     axios
@@ -85,18 +80,13 @@ export default function SearchCustomer() {
       value={OrderStore.customerName || ""}
       noOptionsText="مشتری یافت نشد"
       onChange={(event: any, newValue: any) => {
-        // dispatch({ type: "customerCode", payload: newValue?.code });
-        // dispatch({ type: "customerName", payload: newValue?.label });
-        dis(customerCode(newValue?.code))
-        dis(customerName(newValue?.label))
+        dispatch(customerCode(newValue?.code))
+        dispatch(customerName(newValue?.label))
       }}
       onInputChange={(e: any) => {
         if (e == null) return;
         setParams(e.target.value);
       }}
-      // isOptionEqualToValue={(option, value) =>
-      //   value === undefined || value === "" || option.id === value.id
-      // }
       options={options}
       sx={{ width: 300 }}
       renderInput={(params) => (

@@ -60,6 +60,12 @@ const OrderSlice = createSlice({
     },
     orderLines: (state,action) => {
         state.orderLines = [...state.orderLines,action.payload]
+        const num = state.orderLines?.map(i => {
+            let num = 0
+            num += i.discountAmount ?? 0
+            return num
+        })
+        state.discount = num[0] ?? 0
     },
     discount: (state,action) => {
         state.discount = action.payload
@@ -76,10 +82,6 @@ const OrderSlice = createSlice({
     update: (state,action) => {
         state.orderLines = action.payload
     },
-  },
-  extraReducers(builder) {
-    //   builder.addCase(orderLines , (state,action)=>{
-    //   })
   },
 });
 

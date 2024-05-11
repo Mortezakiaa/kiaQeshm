@@ -4,21 +4,16 @@ import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useContext, useEffect, useState } from "react";
-import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { OrderSelector } from "@/StateManagment/Slices/OrderSlice";
 import { OrderLinesSelector, itemCode, itemName } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchProduct() {
-  const OrderStore = useSelector(OrderSelector);
   const OrderLinesStore = useSelector(OrderLinesSelector);
-  const dis = useDispatch();
-
+  const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext<any>(OrderLinesContext);
 
   const getList = () => {
     axios
@@ -85,10 +80,8 @@ export default function SearchProduct() {
       value={OrderLinesStore.itemName || ""}
       noOptionsText="محصولی یافت نشد"
       onChange={(event: any, newValue: any) => {
-        // dispatch({ type: "itemCode", payload: +newValue?.code });
-        // dispatch({ type: "itemName", payload: newValue?.label });
-        dis(itemCode(+newValue?.code))
-        dis(itemName(newValue?.label))
+        dispatch(itemCode(+newValue?.code))
+        dispatch(itemName(newValue?.label))
       }}
       onInputChange={(e: any) => {
         if (e == null) return;

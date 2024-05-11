@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { toast } from "react-toastify";
@@ -20,8 +20,6 @@ import ProductTreeViewModal from "@/components/ProductTreeViewModal";
 import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
 import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
-import { OrderContext } from "@/Provider/OrderProvider";
-import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
 import PageLoader from "@/components/PageLoader";
 import SearchHesabCode from "@/components/SearchHesabCode";
 import SearchSaleExpertCode from "@/components/SearchSaleExpertCode";
@@ -47,22 +45,23 @@ import {
   itemCode,
   qty1,
   reset,
+  amount,
+  discountAmount,
+  remindNet,
+  ID,
 } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function Order() {
   const OrderStore = useSelector(OrderSelector);
   const OrderLinesStore = useSelector(OrderLinesSelector);
-  const dis = useDispatch();
-
-  const { state, dispatch } = useContext<any>(OrderContext);
-  const ctx = useContext<any>(OrderLinesContext);
+  const dispatch = useDispatch();
   const [num1, setNum1] = useState<number>();
   const [loading, setLoading] = useState(false);
 
   const SaveOrder = async () => {
     setLoading(true);
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`, state)
+      .post(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Insert`, OrderStore)
       .then((res) => {
         const data = res.data;
         setNum1(data.data.num1);
@@ -75,6 +74,16 @@ export default function Order() {
       });
   };
 
+  useEffect(() => {
+    const amt = OrderLinesStore.qty1 * OrderLinesStore.fee;
+    const disAmt = OrderLinesStore.discountPercent * amt;
+    const remind = Math.abs(amt - disAmt);
+    dispatch(amount(+amt))
+    dispatch(discountAmount(+disAmt))
+    dispatch(remindNet(remind))
+    dispatch(ID())
+  }, [OrderLinesStore.qty1, OrderLinesStore.amount, OrderLinesStore.discountPercent, OrderLinesStore.fee]);
+
   const addOrderLines = () => {
     if (OrderStore.editMode) {
       const n = OrderLinesStore;
@@ -83,38 +92,18 @@ export default function Order() {
           return { ...n , id: OrderStore.editId };
         } else return i;
       });
-      dis(editMode(false))
-      dis(update(ne))
-      dis(reset())
+      dispatch(editMode(false))
+      dispatch(update(ne))
+      dispatch(reset())
     }
-    // if (state.editMode) {
-    //   const n = ctx.state;
-    //   const ne = state.orderLines.map((i: any) => {
-    //     if (i.id === state.editId) {
-    //       return { ...n, id: state.editId };
-    //     } else return i;
-    //   });
-    //   console.log(ne);
-      
-    //   dispatch({ type: "editMode", payload: false });
-    //   dispatch({ type: "update", payload: ne });
-    //   ctx.dispatch({ type: "reset" });
-    // }
     else {
       if (!OrderLinesStore.fee) return toast.error("قیمت را وارد کنید");
       if (!OrderLinesStore.discountPercent)
         return toast.error("درصد تخفیف را وارد کنید");
       if (!OrderLinesStore.itemCode) return toast.error("کد کالا را وارد کنید");
       if (!OrderLinesStore.qty1) return toast.error("تعداد را وارد کنید");
-      dis(orderLines(OrderLinesStore))
-      dis(reset())
-      // if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
-      // if (!ctx.state.discountPercent)
-      //   return toast.error("درصد تخفیف را وارد کنید");
-      // if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
-      // if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
-      // dispatch({ type: "orderLines", payload: ctx.state });
-      // ctx.dispatch({ type: "reset" });
+      dispatch(orderLines(OrderLinesStore))
+      dispatch(reset())
     }
   };
 
@@ -174,8 +163,7 @@ export default function Order() {
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
-                  // dispatch({ type: "customerCode", payload: e.target.value });
-                  dis(customerCode(e.target.value))
+                  dispatch(customerCode(e.target.value))
                 }}
                 name="customerCode"
                 value={OrderStore?.customerCode || ""}
@@ -193,8 +181,7 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) => {
-                  // dispatch({ type: "accountingCode", payload: e.target.value });
-                  dis(accountingCode(e.target.value))
+                  dispatch(accountingCode(e.target.value))
                 }}
                 name="accountingCode"
                 value={OrderStore?.accountingCode || ""}
@@ -212,8 +199,7 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) => {
-                  // dispatch({ type: "saleExpertCode", payload: e.target.value });
-                  dis(saleExpertCode(e.target.value))
+                  dispatch(saleExpertCode(e.target.value))
                 }}
                 name="saleExpertCode"
                 value={OrderStore?.saleExpertCode || ""}
@@ -231,8 +217,7 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) => {
-                  // dispatch({ type: "inventoryCode", payload: +e.target.value });
-                  dis(inventoryCode(+e.target.value));
+                  dispatch(inventoryCode(+e.target.value));
                 }}
                 name="inventoryCode"
                 type="number"
@@ -253,19 +238,14 @@ export default function Order() {
                 label="تاریخ"
                 DateValue={OrderStore?.date || ""}
                 onChange={(e) => {
-                  // dispatch({
-                  //   type: "date",
-                  //   payload: new DateObject(e).format(),
-                  // });
-                  dis(date(new DateObject(e).format()))
+                  dispatch(date(new DateObject(e).format()))
                 }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
                 onChange={(e) => {
-                  // dispatch({ type: "description1", payload: e.target.value });
-                  dis(description1(e.target.value))
+                  dispatch(description1(e.target.value))
                 }}
                 name="description1"
                 value={OrderStore?.description1 || ""}
@@ -277,8 +257,7 @@ export default function Order() {
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
                 onChange={(e) => {
-                  dis(description2(e.target.value));
-                  // dispatch({ type: "description2", payload: e.target.value });
+                  dispatch(description2(e.target.value));
                 }}
                 name="description2"
                 value={OrderStore?.description2 || ""}
@@ -300,8 +279,7 @@ export default function Order() {
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
-                  // ctx.dispatch({ type: "itemCode", payload: e.target.value });
-                  dis(itemCode(e.target.value))
+                  dispatch(itemCode(e.target.value))
                 }}
                 value={OrderLinesStore?.itemCode}
                 type="number"
@@ -318,8 +296,7 @@ export default function Order() {
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
-                  // ctx.dispatch({ type: "qty1", payload: +e.target.value });
-                  dis(qty1(+e.target.value))
+                  dispatch(qty1(+e.target.value))
                 }}
                 value={OrderLinesStore?.qty1 || ""}
                 type="number"
@@ -332,8 +309,7 @@ export default function Order() {
             <Grid item xs={12} md={6}>
               <RTLTextField
                 onChange={(e) => {
-                  // ctx.dispatch({ type: "fee", payload: +e.target.value });
-                  dis(fee(+e.target.value));
+                  dispatch(fee(+e.target.value));
                 }}
                 value={OrderLinesStore?.fee || ""}
                 fullWidth
@@ -344,11 +320,7 @@ export default function Order() {
             <Grid item xs={12} md={6}>
               <RTLTextField
                 onChange={(e) => {
-                  // ctx.dispatch({
-                  //   type: "discountPercent",
-                  //   payload: +e.target.value,
-                  // });
-                  dis(discountPercent(+e.target.value))
+                  dispatch(discountPercent(+e.target.value))
                 }}
                 value={OrderLinesStore?.discountPercent || ""}
                 fullWidth

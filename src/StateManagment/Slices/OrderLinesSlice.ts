@@ -3,23 +3,24 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IRootState } from "../Store/store";
 
 const initialState = {
-  id: null,
+  id: 0,
   itemCode: "",
   itemName: "",
-  qty1: null,
-  fee: null,
-  amount: null,
-  discountPercent: null,
-  discountAmount: null,
-  remindNet: null,
+  qty1: 0,
+  fee: 0,
+  amount: 0,
+  discountPercent: 0,
+  discountAmount: 0,
+  remindNet: 0,
 };
 
 const OrderLinesSlice = createSlice({
   name: "OrderLineSlice",
   initialState,
   reducers: {
-    id: (state, action) => {
-      state.id = action.payload;
+    ID: (state) => {
+      let ID = Math.floor(Math.random() * 100000000);
+      state.id = ID
     },
     itemCode: (state, action) => {
       state.itemCode = action.payload;
@@ -51,7 +52,7 @@ const OrderLinesSlice = createSlice({
 
 export default OrderLinesSlice.reducer;
 export const {
-  id,
+  ID,
   itemCode,
   itemName,
   qty1,
