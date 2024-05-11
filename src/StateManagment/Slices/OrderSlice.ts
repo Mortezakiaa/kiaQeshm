@@ -28,6 +28,9 @@ const OrderSlice = createSlice({
     inventoryCode: (state,action) => {
         state.inventoryCode = action.payload
     },
+    inventoryName: (state,action) => {
+        state.inventoryName = action.payload
+    },
     accountingCode: (state,action) => {
         state.accountingCode = action.payload
     },
@@ -36,6 +39,9 @@ const OrderSlice = createSlice({
     },
     saleExpertCode: (state,action) => {
         state.saleExpertCode = action.payload
+    },
+    saleExpertName: (state,action) => {
+        state.saleExpertName = action.payload
     },
     date: (state,action) => {
         state.date = action.payload
@@ -53,7 +59,7 @@ const OrderSlice = createSlice({
         state.customerName = action.payload
     },
     orderLines: (state,action) => {
-        state.orderLines = action.payload
+        state.orderLines = [...state.orderLines,action.payload]
     },
     discount: (state,action) => {
         state.discount = action.payload
@@ -80,9 +86,11 @@ const OrderSlice = createSlice({
 export default OrderSlice.reducer;
 export const {
   inventoryCode,
+  inventoryName,
   accountingCode,
   accountingName,
   saleExpertCode,
+  saleExpertName,
   date,
   description1,
   description2,
@@ -93,7 +101,7 @@ export const {
   editMode,
   editId,
   deleteRecord,
-  update,
+  update
 } = OrderSlice.actions;
 
 export const OrderSelector = (store:IRootState) => store.OrderReducer 

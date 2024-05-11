@@ -6,8 +6,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { OrderSelector } from "@/StateManagment/Slices/OrderSlice";
+import { OrderLinesSelector, itemCode, itemName } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchProduct() {
+  const OrderStore = useSelector(OrderSelector);
+  const OrderLinesStore = useSelector(OrderLinesSelector);
+  const dis = useDispatch();
+
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
@@ -75,11 +82,13 @@ export default function SearchProduct() {
     <Autocomplete
       style={{ width: "100%" }}
       disablePortal
-      value={state.itemName || ""}
+      value={OrderLinesStore.itemName || ""}
       noOptionsText="محصولی یافت نشد"
       onChange={(event: any, newValue: any) => {
-        dispatch({ type: "itemCode", payload: +newValue?.code });
-        dispatch({ type: "itemName", payload: newValue?.label });
+        // dispatch({ type: "itemCode", payload: +newValue?.code });
+        // dispatch({ type: "itemName", payload: newValue?.label });
+        dis(itemCode(+newValue?.code))
+        dis(itemName(newValue?.label))
       }}
       onInputChange={(e: any) => {
         if (e == null) return;

@@ -15,27 +15,60 @@ import { OrderContext } from "@/Provider/OrderProvider";
 import { OrderLines } from "@/Types/Types";
 import { sp } from "@/utils/SeperateNumber";
 import { OrderLinesContext } from "@/Provider/OrderLinesProvider";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  OrderLinesSelector,
+  discountPercent,
+  fee,
+  itemCode,
+  itemName,
+  qty1,
+} from "@/StateManagment/Slices/OrderLinesSlice";
+import {
+  OrderSelector,
+  deleteRecord,
+  editId,
+  editMode,
+} from "@/StateManagment/Slices/OrderSlice";
 
 export default function EditableTable() {
+  const OrderStore = useSelector(OrderSelector);
+  const OrderLinesStore = useSelector(OrderLinesSelector);
+  const dis = useDispatch();
+
   const { state, dispatch } = useContext<any>(OrderContext);
   const ctx = useContext<any>(OrderLinesContext);
 
   const Edit = (id: number | null) => {
-    const data = state.orderLines?.filter((i: OrderLines) => {
+    const data = OrderStore.orderLines?.filter((i: OrderLines) => {
       if (i.id === id) return i;
     });
-    ctx.dispatch({type:'qty1' , payload:data[0].qty1})
-    ctx.dispatch({type:'fee' , payload:data[0].fee})
-    ctx.dispatch({type:'discountPercent' , payload:data[0].discountPercent})
-    ctx.dispatch({type:'itemCode' , payload:data[0].itemCode})
-    ctx.dispatch({type:'itemName' , payload:data[0].itemName})
-    dispatch({type:'editMode' , payload:true})
-    dispatch({type:'editId' , payload:id})
+    dis(qty1(data[0].qty1));
+    dis(fee(data[0].fee));
+    dis(discountPercent(data[0].discountPercent));
+    dis(itemCode(data[0].itemCode));
+    dis(itemName(data[0].itemName));
+    dis(editMode(true));
+    dis(editId(id));
+    // ctx.dispatch({type:'qty1' , payload:data[0].qty1})
+    // ctx.dispatch({type:'fee' , payload:data[0].fee})
+    // ctx.dispatch({type:'discountPercent' , payload:data[0].discountPercent})
+    // ctx.dispatch({type:'itemCode' , payload:data[0].itemCode})
+    // ctx.dispatch({type:'itemName' , payload:data[0].itemName})
+    // dispatch({type:'editMode' , payload:true})
+    // dispatch({type:'editId' , payload:id})
   };
 
   return (
     <Paper>
-      <TableContainer sx={{ maxHeight: 440, maxWidth:'100%', width: "100%", overflowX: "auto" }}>
+      <TableContainer
+        sx={{
+          maxHeight: 440,
+          maxWidth: "100%",
+          width: "100%",
+          overflowX: "auto",
+        }}
+      >
         <Table
           stickyHeader
           style={{ overflowX: "auto" }}
@@ -70,7 +103,7 @@ export default function EditableTable() {
               },
             }}
           >
-            {state.orderLines?.map((items: OrderLines) => (
+            {OrderStore.orderLines?.map((items: OrderLines) => (
               <TableRow key={items.id}>
                 <TableCell align="right">{items.itemName}</TableCell>
                 <TableCell align="right">{items.qty1}</TableCell>
@@ -84,7 +117,8 @@ export default function EditableTable() {
                     <IconButton
                       color="error"
                       onClick={() => {
-                        dispatch({ type: "deleteRecord", payload: items.id });
+                        // dispatch({ type: "deleteRecord", payload: items.id });
+                        dis(deleteRecord(items.id));
                       }}
                     >
                       <DeleteIcon />

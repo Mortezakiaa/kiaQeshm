@@ -5,8 +5,15 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { OrderContext } from "@/Provider/OrderProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { OrderSelector, accountingCode, accountingName } from "@/StateManagment/Slices/OrderSlice";
+import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchHesabCode() {
+  const OrderStore = useSelector(OrderSelector);
+  const OrderLinesStore = useSelector(OrderLinesSelector);
+  const dis = useDispatch();
+
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,11 +77,13 @@ export default function SearchHesabCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
-        value={state.accountingName || ''}
+        value={OrderStore.accountingName || ''}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-            dispatch({type:'accountingCode' , payload:newValue.code})
-            dispatch({type:'accountingName' , payload:newValue.label})
+            // dispatch({type:'accountingCode' , payload:newValue.code})
+            // dispatch({type:'accountingName' , payload:newValue.label})
+            dis(accountingCode(newValue.code))
+            dis(accountingName(newValue.label))
         }}
         onInputChange={(e: any) => {
           if (e == null) return;

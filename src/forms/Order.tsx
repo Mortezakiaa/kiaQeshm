@@ -77,18 +77,15 @@ export default function Order() {
 
   const addOrderLines = () => {
     if (OrderStore.editMode) {
-      // const n = OrderLinesStore;
+      const n = OrderLinesStore;
       const ne = OrderStore.orderLines.map((i) => {
         if (i.id === OrderStore.editId) {
-          // return { ...n, id: state.editId };
+          return { ...n , id: OrderStore.editId };
         } else return i;
       });
-      // dis(editMode(false))
-      // dis(update(ne))
-      // dis(reset())
-      dispatch({ type: "editMode", payload: false });
-      dispatch({ type: "update", payload: ne });
-      ctx.dispatch({ type: "reset" });
+      dis(editMode(false))
+      dis(update(ne))
+      dis(reset())
     }
     // if (state.editMode) {
     //   const n = ctx.state;
@@ -97,25 +94,27 @@ export default function Order() {
     //       return { ...n, id: state.editId };
     //     } else return i;
     //   });
+    //   console.log(ne);
+      
     //   dispatch({ type: "editMode", payload: false });
     //   dispatch({ type: "update", payload: ne });
     //   ctx.dispatch({ type: "reset" });
     // }
     else {
-      // if (!OrderLinesStore.fee) return toast.error("قیمت را وارد کنید");
-      // if (!OrderLinesStore.discountPercent)
-      //   return toast.error("درصد تخفیف را وارد کنید");
-      // if (!OrderLinesStore.itemCode) return toast.error("کد کالا را وارد کنید");
-      // if (!OrderLinesStore.qty1) return toast.error("تعداد را وارد کنید");
-      // dis(orderLines(OrderLinesStore))
-      // dis(reset())
-      if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
-      if (!ctx.state.discountPercent)
+      if (!OrderLinesStore.fee) return toast.error("قیمت را وارد کنید");
+      if (!OrderLinesStore.discountPercent)
         return toast.error("درصد تخفیف را وارد کنید");
-      if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
-      if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
-      dispatch({ type: "orderLines", payload: ctx.state });
-      ctx.dispatch({ type: "reset" });
+      if (!OrderLinesStore.itemCode) return toast.error("کد کالا را وارد کنید");
+      if (!OrderLinesStore.qty1) return toast.error("تعداد را وارد کنید");
+      dis(orderLines(OrderLinesStore))
+      dis(reset())
+      // if (!ctx.state.fee) return toast.error("قیمت را وارد کنید");
+      // if (!ctx.state.discountPercent)
+      //   return toast.error("درصد تخفیف را وارد کنید");
+      // if (!ctx.state.itemCode) return toast.error("کد کالا را وارد کنید");
+      // if (!ctx.state.qty1) return toast.error("تعداد را وارد کنید");
+      // dispatch({ type: "orderLines", payload: ctx.state });
+      // ctx.dispatch({ type: "reset" });
     }
   };
 
@@ -175,17 +174,17 @@ export default function Order() {
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
-                  dispatch({ type: "customerCode", payload: e.target.value });
-                  // dis(customerCode(e.target.value))
+                  // dispatch({ type: "customerCode", payload: e.target.value });
+                  dis(customerCode(e.target.value))
                 }}
                 name="customerCode"
-                value={state?.customerCode || ""}
+                value={OrderStore?.customerCode || ""}
                 label="کد تفضیلی"
                 variant="outlined"
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              {/* <SearchCustomer /> */}
+              <SearchCustomer />
             </Grid>
             {/* <CustomerTreeViewModal /> */}
           </Grid>
@@ -194,18 +193,18 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) => {
-                  dispatch({ type: "accountingCode", payload: e.target.value });
-                  // dis(accountingCode(e.target.value))
+                  // dispatch({ type: "accountingCode", payload: e.target.value });
+                  dis(accountingCode(e.target.value))
                 }}
                 name="accountingCode"
-                value={state?.accountingCode || ""}
+                value={OrderStore?.accountingCode || ""}
                 fullWidth
                 label="کد حساب"
                 variant="outlined"
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              {/* <SearchHesabCode /> */}
+              <SearchHesabCode />
             </Grid>
           </Grid>
 
@@ -213,18 +212,18 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) => {
-                  dispatch({ type: "saleExpertCode", payload: e.target.value });
-                  // dis(saleExpertCode(e.target.value))
+                  // dispatch({ type: "saleExpertCode", payload: e.target.value });
+                  dis(saleExpertCode(e.target.value))
                 }}
                 name="saleExpertCode"
-                value={state?.saleExpertCode || ""}
+                value={OrderStore?.saleExpertCode || ""}
                 fullWidth
                 label="کد کارشناس فروش"
                 variant="outlined"
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              {/* <SearchSaleExpertCode /> */}
+              <SearchSaleExpertCode />
             </Grid>
           </Grid>
 
@@ -232,19 +231,19 @@ export default function Order() {
             <Grid item md={5} xs={12}>
               <RTLTextField
                 onChange={(e) => {
-                  dispatch({ type: "inventoryCode", payload: +e.target.value });
-                  // dis(inventoryCode(+e.target.value));
+                  // dispatch({ type: "inventoryCode", payload: +e.target.value });
+                  dis(inventoryCode(+e.target.value));
                 }}
                 name="inventoryCode"
                 type="number"
-                value={state?.inventoryCode || ""}
+                value={OrderStore?.inventoryCode || ""}
                 fullWidth
                 label="کد انبار"
                 variant="outlined"
               />
             </Grid>
             <Grid item md={7} xs={12}>
-              {/* <SearchAnbarCode /> */}
+              <SearchAnbarCode />
             </Grid>
           </Grid>
 
@@ -252,24 +251,24 @@ export default function Order() {
             <Grid item xs={12} sm={6} md={4}>
               <DatePickerTime
                 label="تاریخ"
-                DateValue={state?.date || ""}
+                DateValue={OrderStore?.date || ""}
                 onChange={(e) => {
-                  dispatch({
-                    type: "date",
-                    payload: new DateObject(e).format(),
-                  });
-                  // dis(date(new DateObject(e).format()))
+                  // dispatch({
+                  //   type: "date",
+                  //   payload: new DateObject(e).format(),
+                  // });
+                  dis(date(new DateObject(e).format()))
                 }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
                 onChange={(e) => {
-                  dispatch({ type: "description1", payload: e.target.value });
-                  // dis(description1(e.target.value))
+                  // dispatch({ type: "description1", payload: e.target.value });
+                  dis(description1(e.target.value))
                 }}
                 name="description1"
-                value={state?.description1 || ""}
+                value={OrderStore?.description1 || ""}
                 fullWidth
                 label="شرح"
                 variant="outlined"
@@ -278,11 +277,11 @@ export default function Order() {
             <Grid item xs={12} sm={6} md={4}>
               <RTLTextField
                 onChange={(e) => {
-                  // dis(description2(e.target.value));
-                  dispatch({ type: "description2", payload: e.target.value });
+                  dis(description2(e.target.value));
+                  // dispatch({ type: "description2", payload: e.target.value });
                 }}
                 name="description2"
-                value={state?.description2 || ""}
+                value={OrderStore?.description2 || ""}
                 fullWidth
                 label="توضیحات"
                 variant="outlined"
@@ -301,10 +300,10 @@ export default function Order() {
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
-                  ctx.dispatch({ type: "itemCode", payload: e.target.value });
-                  // dis(itemCode(e.target.value))
+                  // ctx.dispatch({ type: "itemCode", payload: e.target.value });
+                  dis(itemCode(e.target.value))
                 }}
-                value={ctx.state?.itemCode || ""}
+                value={OrderLinesStore?.itemCode}
                 type="number"
                 label="کد محصول"
               />
@@ -313,16 +312,16 @@ export default function Order() {
               <ProductTreeViewModal />
             </Grid> */}
             <Grid item xs={12} md={4}>
-              {/* <SearchProduct /> */}
+              <SearchProduct />
             </Grid>
             <Grid item xs={12} md={4}>
               <RTLTextField
                 fullWidth
                 onChange={(e) => {
-                  ctx.dispatch({ type: "qty1", payload: +e.target.value });
-                  // dis(qty1(e.target.value))
+                  // ctx.dispatch({ type: "qty1", payload: +e.target.value });
+                  dis(qty1(+e.target.value))
                 }}
-                value={ctx.state?.qty1 || ""}
+                value={OrderLinesStore?.qty1 || ""}
                 type="number"
                 label="تعداد"
               />
@@ -333,10 +332,10 @@ export default function Order() {
             <Grid item xs={12} md={6}>
               <RTLTextField
                 onChange={(e) => {
-                  ctx.dispatch({ type: "fee", payload: +e.target.value });
-                  // dis(fee(e.target.value));
+                  // ctx.dispatch({ type: "fee", payload: +e.target.value });
+                  dis(fee(+e.target.value));
                 }}
-                value={ctx.state?.fee || ""}
+                value={OrderLinesStore?.fee || ""}
                 fullWidth
                 type="number"
                 label="قیمت"
@@ -345,13 +344,13 @@ export default function Order() {
             <Grid item xs={12} md={6}>
               <RTLTextField
                 onChange={(e) => {
-                  ctx.dispatch({
-                    type: "discountPercent",
-                    payload: +e.target.value,
-                  });
-                  // dis(discountPercent(e.target.value))
+                  // ctx.dispatch({
+                  //   type: "discountPercent",
+                  //   payload: +e.target.value,
+                  // });
+                  dis(discountPercent(+e.target.value))
                 }}
-                value={ctx.state?.discountPercent || ""}
+                value={OrderLinesStore?.discountPercent || ""}
                 fullWidth
                 label="درصد تخفیف"
               />

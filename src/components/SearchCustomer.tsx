@@ -6,8 +6,15 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { OrderContext } from "@/Provider/OrderProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { OrderSelector, customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
+import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchCustomer() {
+  const OrderStore = useSelector(OrderSelector);
+  const OrderLinesStore = useSelector(OrderLinesSelector);
+  const dis = useDispatch();
+
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
@@ -75,11 +82,13 @@ export default function SearchCustomer() {
     <Autocomplete
       disablePortal
       style={{ width: "100%" }}
-      value={state.customerName || ""}
+      value={OrderStore.customerName || ""}
       noOptionsText="مشتری یافت نشد"
       onChange={(event: any, newValue: any) => {
-        dispatch({ type: "customerCode", payload: newValue?.code });
-        dispatch({ type: "customerName", payload: newValue?.label });
+        // dispatch({ type: "customerCode", payload: newValue?.code });
+        // dispatch({ type: "customerName", payload: newValue?.label });
+        dis(customerCode(newValue?.code))
+        dis(customerName(newValue?.label))
       }}
       onInputChange={(e: any) => {
         if (e == null) return;

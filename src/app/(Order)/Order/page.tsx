@@ -12,18 +12,18 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  // const isExistCookie = await getCookie();
-  // if (!isExistCookie) redirect("/Login");
+  const isExistCookie = await getCookie();
+  if (!isExistCookie) redirect("/Login");
 
   return (
     <div dir="rtl">
-      <OrderProvider>
-        <OrderLinesProvider>
+      {/* <OrderProvider> */}
+        {/* <OrderLinesProvider> */}
           <GlobalOrderProvider>
             <Order />
           </GlobalOrderProvider>
-        </OrderLinesProvider>
-      </OrderProvider>
+        {/* </OrderLinesProvider> */}
+      {/* </OrderProvider> */}
     </div>
   );
 }

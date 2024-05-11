@@ -5,8 +5,15 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { OrderContext } from "@/Provider/OrderProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { OrderSelector, saleExpertCode, saleExpertName } from "@/StateManagment/Slices/OrderSlice";
+import { OrderLinesSelector } from "@/StateManagment/Slices/OrderLinesSlice";
 
 export default function SearchSaleExpertCode() {
+  const OrderStore = useSelector(OrderSelector);
+  const OrderLinesStore = useSelector(OrderLinesSelector);
+  const dis = useDispatch();
+
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,11 +77,13 @@ export default function SearchSaleExpertCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
-        value={state.saleExpertCode || ''}
+        value={OrderStore.saleExpertCode || ''}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-            dispatch({type:'saleExpertCode' , payload:newValue.code})
-            dispatch({type:'saleExpertName' , payload:newValue.label})
+            // dispatch({type:'saleExpertCode' , payload:newValue.code})
+            // dispatch({type:'saleExpertName' , payload:newValue.label})
+            dis(saleExpertCode(newValue.code))
+            dis(saleExpertName(newValue.label))
         }}
         onInputChange={(e: any) => {
           if (e == null) return;

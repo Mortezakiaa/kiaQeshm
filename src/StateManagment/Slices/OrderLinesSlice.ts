@@ -25,7 +25,7 @@ const OrderLinesSlice = createSlice({
       state.itemCode = action.payload;
     },
     itemName: (state, action) => {
-      state.itemName = action.payload;
+      state.itemName = action.payload
     },
     qty1: (state, action) => {
       state.qty1 = action.payload;

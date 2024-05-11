@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  // const isExistCookie = await getCookie()
-  // if(!isExistCookie) redirect('/Login')
+  const isExistCookie = await getCookie()
+  if(!isExistCookie) redirect('/Login')
 
   return <div dir="rtl">
   <OrderList/>
