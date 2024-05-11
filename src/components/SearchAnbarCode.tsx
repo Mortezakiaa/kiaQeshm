@@ -75,8 +75,8 @@ export default function SearchAnbarCode() {
         value={OrderStore.inventoryName || ''}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-            dispatch(inventoryCode(newValue.code))
-            dispatch(inventoryName(newValue.label))
+            dispatch(inventoryCode(newValue?.code))
+            dispatch(inventoryName(newValue?.label))
         }}
         onInputChange={(e: any) => {
           if (e == null) return;

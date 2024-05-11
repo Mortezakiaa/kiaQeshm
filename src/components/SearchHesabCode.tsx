@@ -72,11 +72,11 @@ export default function SearchHesabCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
-        value={OrderStore.accountingName || ''}
+        value={OrderStore.accountingName || ""}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-            dispatch(accountingCode(newValue.code))
-            dispatch(accountingName(newValue.label))
+            dispatch(accountingCode(newValue?.code))
+            dispatch(accountingName(newValue?.label))
         }}
         onInputChange={(e: any) => {
           if (e == null) return;

@@ -75,8 +75,8 @@ export default function SearchSaleExpertCode() {
         value={OrderStore.saleExpertCode || ''}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
-            dispatch(saleExpertCode(newValue.code))
-            dispatch(saleExpertName(newValue.label))
+            dispatch(saleExpertCode(newValue?.code))
+            dispatch(saleExpertName(newValue?.label))
         }}
         onInputChange={(e: any) => {
           if (e == null) return;
