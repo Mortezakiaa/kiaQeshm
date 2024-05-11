@@ -2,8 +2,6 @@ import { Metadata } from "next";
 import Order from "@/forms/Order";
 import { redirect } from "next/navigation";
 import { getCookie } from "@/actions/getCookie";
-import OrderProvider from "@/Provider/OrderProvider";
-import OrderLinesProvider from "@/Provider/OrderLinesProvider";
 import GlobalOrderProvider from "@/Provider/GlobalOrderProvider";
 
 export const metadata: Metadata = {
@@ -17,13 +15,9 @@ export default async function page() {
 
   return (
     <div dir="rtl">
-      {/* <OrderProvider> */}
-        {/* <OrderLinesProvider> */}
-          <GlobalOrderProvider>
-            <Order />
-          </GlobalOrderProvider>
-        {/* </OrderLinesProvider> */}
-      {/* </OrderProvider> */}
+      <GlobalOrderProvider>
+        <Order />
+      </GlobalOrderProvider>
     </div>
   );
 }
