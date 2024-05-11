@@ -15,8 +15,12 @@ export default function SearchSaleExpertCode() {
   const [loading, setLoading] = useState(false);
 
   const getList = () => {
+    setLoading(true)
+    let path = ''
+    if(params == '') path = 'api/Markaz3/SearchListView'
+    else path = `api/Markaz3/SearchListView?Filter=${params}`
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz3/SearchListView`)
+      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/${path}`)
       .then((res) => {
         const d = res.data.rows?.map((item: any) => {
           const o: any = {};
@@ -25,43 +29,18 @@ export default function SearchSaleExpertCode() {
           o.code = item.code;
           return o;
         });
+        setLoading(false)
         setOptions(d);
       })
       .catch((e) => {
+        setLoading(false)
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
-
-  const getFilteredList = () => {
-    setLoading(true);
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz3/SearchListView?Filter=${params}`
-      )
-      .then((res) => {
-        const d = res.data.rows?.map((item: any) => {
-          const o: any = {};
-          o.label = item.name;
-          o.id = item.id;
-          o.code = item.code;
-          return o;
-        });
-        setLoading(false);
-        setOptions(d);
-      })
-      .catch((e) => {
-        setLoading(false);
-        toast.error("خطا در گرفتن اطلاعات");
-      });
-  };
-
-  useEffect(() => {
-    getList();
-  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      getFilteredList();
+      getList();
     }, 600);
     return () => {
       clearTimeout(timeout);

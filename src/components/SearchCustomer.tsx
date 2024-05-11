@@ -16,8 +16,12 @@ export default function SearchCustomer() {
   const [loading, setLoading] = useState(false);
 
   const getList = async () => {
+    setLoading(true)
+    let path = ''
+    if(params == '') path = 'api/Markaz1/SearchListView'
+    else path = `api/Markaz1/SearchListView?Filter=${params}`
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView`)
+      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/${path}`)
       .then((res) => {
         const d = res.data.rows?.map((item: any) => {
           const o: any = {};
@@ -26,47 +30,18 @@ export default function SearchCustomer() {
           o.code = item.code;
           return o;
         });
+        setLoading(false)
         setOptions(d);
       })
       .catch((e) => {
+        setLoading(false)
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
-
-  const getFilteredList = () => {
-    setLoading(true);
-    // let API = ''
-    // const pattern = /[0-9\/]*/
-    // if(params.match(pattern)) API = `Code=${params}`
-    // else API = `Filter=${params}`
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/SearchListView?Filter=${params}`
-      )
-      .then((res) => {
-        const d = res.data.rows?.map((item: any) => {
-          const o: any = {};
-          o.label = item.name;
-          o.id = item.id;
-          o.code = item.code;
-          return o;
-        });
-        setLoading(false);
-        setOptions(d);
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        toast.error("خطا در گرفتن اطلاعات");
-      });
-  };
-
-  useEffect(()=>{
-    getList()
-  },[])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      getFilteredList();
+      getList()
     }, 600);
     return () => {
       clearTimeout(timeout);
