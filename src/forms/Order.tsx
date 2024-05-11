@@ -202,7 +202,7 @@ export default function Order() {
                   dispatch(saleExpertCode(e.target.value))
                 }}
                 name="saleExpertCode"
-                value={OrderStore?.saleExpertCode || ""}
+                value={OrderStore?.saleExpertName || ""}
                 fullWidth
                 label="کد کارشناس فروش"
                 variant="outlined"
