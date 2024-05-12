@@ -4,23 +4,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function useSearch() {
+export default function useFilterByName() {
   const [loading, setLoading] = useState<boolean>(false);
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
-  const [path , setPath] = useState('')
+  const [path, setPath] = useState("");
+  const codeRgx = /^\d+$/;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       getList();
-    }, 600);
+    }, 700);
     return () => {
       clearTimeout(timeout);
     };
   }, [params]);
 
   const getList = () => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/${path}`)
       .then((res) => {
@@ -39,5 +40,5 @@ export default function useSearch() {
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
-  return { loading, options, setParams , params , setPath};
+  return { loading, options, setParams, params, setPath, codeRgx };
 }

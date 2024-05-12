@@ -2,21 +2,21 @@
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  OrderSelector,
   accountingCode,
   accountingName,
 } from "@/StateManagment/Slices/OrderSlice";
-import useSearch from "@/hooks/useSearch";
+import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchHesabCode() {
-  const OrderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath } = useSearch();
+  const { loading, options, setParams, params, setPath, codeRgx } = useFilterByName();
 
   useEffect(() => {
     if (params == "") setPath("api/Markaz1/SearchListView");
+    if (codeRgx.test(params))
+      setPath(`api/Markaz1/SearchListView?Code=${params}`);
     else setPath(`api/Markaz1/SearchListView?Filter=${params}`);
   }, [params]);
   return (
@@ -24,7 +24,6 @@ export default function SearchHesabCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
-        value={OrderStore.accountingName || ""}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch(accountingCode(newValue?.code));
@@ -37,6 +36,8 @@ export default function SearchHesabCode() {
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option.id === value.id
         }
+        filterOptions={(opt) => opt}
+        getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}
         options={options || []}
         sx={{ width: 300 }}
         renderInput={(params) => (

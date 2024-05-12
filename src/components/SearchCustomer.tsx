@@ -3,29 +3,31 @@
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  OrderSelector,
-  customerCode,
-  customerName,
-} from "@/StateManagment/Slices/OrderSlice";
-import useSearch from "@/hooks/useSearch";
+import { useDispatch } from "react-redux";
+import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
+import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchCustomer() {
-  const OrderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath } = useSearch();
+  const { loading, options, setParams, params, setPath, codeRgx } = useFilterByName();
 
   useEffect(() => {
-    if (params == "") setPath("api/Markaz1/SearchListView");
-    else setPath(`api/Markaz1/SearchListView?Filter=${params}`);
+    if (params == "") {
+      setPath("api/Markaz1/SearchListView")
+    }
+    if (codeRgx.test(params)) {
+      setPath(`api/Markaz1/GetByCode/${params}`)
+    }
+    else {
+      setPath(`api/Markaz1/SearchListView?Filter=${params}`)
+    }
+    
   }, [params]);
 
   return (
     <Autocomplete
       disablePortal
       style={{ width: "100%" }}
-      value={OrderStore.customerName || ""}
       noOptionsText="مشتری یافت نشد"
       onChange={(event: any, newValue: any) => {
         dispatch(customerCode(newValue?.code));
@@ -35,7 +37,9 @@ export default function SearchCustomer() {
         if (e == null) return;
         setParams(e.target.value);
       }}
-      options={options || []}
+      filterOptions={(opt) => opt}
+      getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}
+      options={options ?? []}
       sx={{ width: 300 }}
       renderInput={(params) => (
         <RTLTextField
