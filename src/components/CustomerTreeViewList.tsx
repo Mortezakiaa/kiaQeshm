@@ -10,7 +10,6 @@ import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 import { useDispatch } from "react-redux";
 import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
 import { setIsOpen } from "@/StateManagment/Slices/CustomerTreeView";
-import { getChildren } from "@/actions/CustomerTreeViewChildren";
 
 export default function CustomerTreeViewList() {
   const [TreeViewList, setTreeViewList] = useState<TreeViewList[] | any>();
@@ -35,23 +34,20 @@ export default function CustomerTreeViewList() {
 
   
   const getCustomerTreeViewChildrenList = async (id: number | string) => {
-    const data = await getChildren({id:id,TreeViewList:TreeViewList})
-    setTreeViewList(data);
-    setDefaultExpanded([...defaultExpanded , id.toString()]);
-    // try {
-    //   const res = await axios.get(
-    //     `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/GetTreeViewChildren/${id}`
-    //   );
-    //   const data = res.data;
-    //   const duplicate = data?.some((x: any) => x.id === id);
-    //   if (duplicate || data.length == 0) return;
-    //   res.data.map((i: any) => (i.children = []));
-    //   const newData = await recrusiveStateUpdate(TreeViewList, data, id);
-    //   setTreeViewList(newData);
-    //   setDefaultExpanded([...defaultExpanded , id.toString()]);
-    // } catch (error) {
-    //   toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
-    // }
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Markaz1/GetTreeViewChildren/${id}`
+      );
+      const data = res.data;
+      const duplicate = data?.some((x: any) => x.id === id);
+      if (duplicate || data.length == 0) return;
+      res.data.map((i: any) => (i.children = []));
+      const newData = await recrusiveStateUpdate(TreeViewList, data, id);
+      setTreeViewList(newData);
+      setDefaultExpanded([...defaultExpanded , id.toString()]);
+    } catch (error) {
+      toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
+    }
   };
 
   const onSelectCustomer = (i:TreeViewList)=>{
