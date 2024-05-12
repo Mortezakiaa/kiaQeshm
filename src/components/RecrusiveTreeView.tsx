@@ -5,10 +5,10 @@ import { CustomTreeItem } from "./CustomTreeItem";
 export type data = {
   data: TreeViewList[] | undefined;
   getKala: (id: string | number) => void;
+  Select:(i:TreeViewList) => void
 };
 
-
-export const RecrusiveTreeView = ({ data, getKala}: data) => {
+export const RecrusiveTreeView = ({ data, getKala , Select}: data) => {
   return (
     <>
       {data?.map((i) => (
@@ -21,10 +21,12 @@ export const RecrusiveTreeView = ({ data, getKala}: data) => {
           key={i.id}
           itemId={i.id.toString()}
           label={i.name}
-          onClick={(e) => {getKala(i.id)}}
+          onClick={() => {getKala(i.id)}}
+          onDoubleClick={(e) => {Select(i)}}
         >
           {i.children.length > 0 && (
             <RecrusiveTreeView
+              Select={Select}
               data={i.children}
               getKala={(e) => {
                 getKala(e);

@@ -1,9 +1,9 @@
 "use client";
-import { styled, alpha } from "@mui/material/styles";
 import { TreeItem, treeItemClasses } from "@mui/x-tree-view/TreeItem";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
+import { styled, alpha } from '@mui/material/styles';
 
 export const CustomTreeItem = styled(TreeItem)(({ theme }) => ({
   [`& .${treeItemClasses.content}`]: {

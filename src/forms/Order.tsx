@@ -174,7 +174,7 @@ export default function Order() {
             <Grid item md={7} xs={12}>
               <SearchCustomer />
             </Grid>
-            {/* <CustomerTreeViewModal /> */}
+            <CustomerTreeViewModal />
           </Grid>
 
           <Grid container spacing={2}>
@@ -202,7 +202,7 @@ export default function Order() {
                   dispatch(saleExpertCode(e.target.value))
                 }}
                 name="saleExpertCode"
-                value={OrderStore?.saleExpertName || ""}
+                value={OrderStore?.saleExpertCode || ""}
                 fullWidth
                 label="کد کارشناس فروش"
                 variant="outlined"

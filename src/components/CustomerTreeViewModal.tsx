@@ -1,26 +1,25 @@
 "use client";
-import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
 import CustomerTreeViewList from "./CustomerTreeViewList";
+import { useDispatch, useSelector } from "react-redux";
+import { CustomerTreeViewModalSelector, setIsClose, setIsOpen } from "@/StateManagment/Slices/CustomerTreeView";
 
 export default function CustomerTreeViewModal() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const {isOpenModal} = useSelector(CustomerTreeViewModalSelector)
+  const dispatch = useDispatch()
   return (
     <>
       <Tooltip title="نمایش لیست مشتریان">
-        <IconButton onClick={handleOpen}>
+        <IconButton onClick={() => dispatch(setIsOpen())}>
           <FormatListBulletedIcon />
         </IconButton>
       </Tooltip>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={isOpenModal}
+        onClose={() => {dispatch(setIsClose())}}
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent sx={[style, { minWidth: "40%" , overflowY:'scroll' , maxHeight:'450px' }]}>
@@ -34,7 +33,7 @@ export default function CustomerTreeViewModal() {
             <Typography variant="h5" color={"black"}>
               لیست مشتریان 
             </Typography>
-            <IconButton aria-label="close" onClick={handleClose}>
+            <IconButton aria-label="close" onClick={() => {dispatch(setIsClose())}}>
               <CloseIcon />
             </IconButton>
           </Box>
@@ -46,9 +45,6 @@ export default function CustomerTreeViewModal() {
           >
             <CustomerTreeViewList/>
           </Grid>
-          <Box>
-            <Button variant="contained">تایید</Button>
-          </Box>
         </ModalContent>
       </Modal>
     </>

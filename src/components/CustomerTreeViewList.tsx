@@ -7,10 +7,14 @@ import { toast } from "react-toastify";
 import { RecrusiveTreeView } from "./RecrusiveTreeView";
 import { recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
 import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
+import { useDispatch } from "react-redux";
+import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
+import { setIsClose } from "@/StateManagment/Slices/CustomerTreeView";
 
 export default function CustomerTreeViewList() {
   const [TreeViewList, setTreeViewList] = useState<TreeViewList[]>();
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
+  const dispatch = useDispatch()
 
   const getCustomerList = () => {
     axios
@@ -45,11 +49,17 @@ export default function CustomerTreeViewList() {
     }
   };
 
+  const onSelectCustomer = (i:TreeViewList)=>{
+    if(i.childCount == 0) {
+      dispatch(customerCode(i.code))
+      dispatch(customerName(i.name))
+      dispatch(setIsClose())
+    }
+  }
 
   return (
     <>
       <SimpleTreeView
-        // expandedItems={defaultExpanded}
         slots={{
           expandIcon: ExpandIcon,
           collapseIcon: CollapseIcon,
@@ -58,6 +68,7 @@ export default function CustomerTreeViewList() {
         sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
         <RecrusiveTreeView
+          Select={onSelectCustomer}
           getKala={getCustomerTreeViewChildrenList}
           data={TreeViewList}
         />

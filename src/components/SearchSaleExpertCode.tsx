@@ -25,7 +25,7 @@ export default function SearchSaleExpertCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
-        value={OrderStore.saleExpertCode || ""}
+        value={OrderStore.saleExpertName || ""}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch(saleExpertCode(newValue?.code));
