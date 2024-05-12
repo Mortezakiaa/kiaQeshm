@@ -9,11 +9,10 @@ import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchProduct() {
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath, codeRgx } = useFilterByName();
+  const { loading, options, setParams, params, setPath } = useFilterByName();
 
   useEffect(() => {
     if (params == "") setPath("api/Kala/SearchListView");
-    if (codeRgx.test(params)) setPath(`api/Kala/SearchListView?Code=${params}`);
     else setPath(`api/Kala/SearchListView?Filter=${params}`);
   }, [params]);
 

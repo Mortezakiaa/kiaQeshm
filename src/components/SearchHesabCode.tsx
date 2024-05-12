@@ -11,12 +11,10 @@ import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchHesabCode() {
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath, codeRgx } = useFilterByName();
+  const { loading, options, setParams, params, setPath } = useFilterByName();
 
   useEffect(() => {
     if (params == "") setPath("api/Markaz1/SearchListView");
-    if (codeRgx.test(params))
-      setPath(`api/Markaz1/SearchListView?Code=${params}`);
     else setPath(`api/Markaz1/SearchListView?Filter=${params}`);
   }, [params]);
   return (

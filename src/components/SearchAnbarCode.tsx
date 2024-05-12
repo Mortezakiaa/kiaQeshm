@@ -7,15 +7,14 @@ import {
   inventoryCode,
   inventoryName,
 } from "@/StateManagment/Slices/OrderSlice";
-import useFilterByName from "@/hooks/useFilterByName"; 
+import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchAnbarCode() {
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath, codeRgx } = useFilterByName();
+  const { loading, options, setParams, params, setPath } = useFilterByName();
 
   useEffect(() => {
     if (params == "") setPath("api/Warehouse/Search");
-    if (codeRgx.test(params)) setPath(`api/Warehouse/Search?Code=${params}`);
     else setPath(`api/Warehouse/Search?Code=${params}`);
   }, [params]);
 

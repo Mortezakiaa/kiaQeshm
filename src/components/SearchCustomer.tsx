@@ -9,19 +9,14 @@ import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchCustomer() {
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath, codeRgx } = useFilterByName();
+  const { loading, options, setParams, params, setPath } = useFilterByName();
 
   useEffect(() => {
     if (params == "") {
-      setPath("api/Markaz1/SearchListView")
+      setPath("api/Markaz1/SearchListView");
+    } else {
+      setPath(`api/Markaz1/SearchListView?Filter=${params}`);
     }
-    if (codeRgx.test(params)) {
-      setPath(`api/Markaz1/GetByCode/${params}`)
-    }
-    else {
-      setPath(`api/Markaz1/SearchListView?Filter=${params}`)
-    }
-    
   }, [params]);
 
   return (

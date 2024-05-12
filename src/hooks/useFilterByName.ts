@@ -9,7 +9,6 @@ export default function useFilterByName() {
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
   const [path, setPath] = useState("");
-  const codeRgx = /^\d+$/;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -40,5 +39,5 @@ export default function useFilterByName() {
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
-  return { loading, options, setParams, params, setPath, codeRgx };
+  return { loading, options, setParams, params, setPath };
 }

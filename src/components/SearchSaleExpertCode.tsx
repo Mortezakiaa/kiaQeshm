@@ -11,11 +11,10 @@ import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchSaleExpertCode() {
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath ,codeRgx } = useFilterByName();
+  const { loading, options, setParams, params, setPath } = useFilterByName();
 
   useEffect(() => {
     if (params == "") setPath("api/Markaz3/SearchListView");
-    if (codeRgx.test(params)) setPath(`api/Markaz3/SearchListView?Code=${params}`);
     else setPath(`api/Markaz3/SearchListView?Filter=${params}`);
   }, [params]);
 
