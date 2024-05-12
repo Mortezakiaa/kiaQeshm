@@ -10,8 +10,8 @@ import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 
 export default function ProductTreeViewList() {
   const [TreeViewList, setTreeViewList] = useState<TreeViewList[]>();
-  const [num , setNum] = useState(0)
-  
+  const [num, setNum] = useState(0);
+
   const getKalaTree = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Kala/SearchTreeView`)
@@ -39,11 +39,13 @@ export default function ProductTreeViewList() {
       res.data.map((i: any) => (i.children = []));
       const newData = await recrusiveStateUpdate(TreeViewList, data, id);
       setTreeViewList(newData);
-      setNum(prev => ++prev)
+      setNum((prev) => ++prev);
     } catch (error) {
       toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
     }
   };
+
+  const onSelect = () => {};
 
   return (
     <>
@@ -56,6 +58,7 @@ export default function ProductTreeViewList() {
         sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
       >
         <RecrusiveTreeView
+          Select={onSelect}
           getKala={getKalaTreeViewListChildren}
           data={TreeViewList}
         />

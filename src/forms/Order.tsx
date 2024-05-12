@@ -174,7 +174,7 @@ export default function Order() {
             <Grid item md={7} xs={12}>
               <SearchCustomer />
             </Grid>
-            <CustomerTreeViewModal />
+            {/* <CustomerTreeViewModal /> */}
           </Grid>
 
           <Grid container spacing={2}>

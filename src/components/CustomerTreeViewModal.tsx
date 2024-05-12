@@ -5,7 +5,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
 import CustomerTreeViewList from "./CustomerTreeViewList";
 import { useDispatch, useSelector } from "react-redux";
-import { CustomerTreeViewModalSelector, setIsClose, setIsOpen } from "@/StateManagment/Slices/CustomerTreeView";
+import { CustomerTreeViewModalSelector, setIsOpen } from "@/StateManagment/Slices/CustomerTreeView";
 
 export default function CustomerTreeViewModal() {
   const {isOpenModal} = useSelector(CustomerTreeViewModalSelector)
@@ -13,13 +13,13 @@ export default function CustomerTreeViewModal() {
   return (
     <>
       <Tooltip title="نمایش لیست مشتریان">
-        <IconButton onClick={() => dispatch(setIsOpen())}>
+        <IconButton onClick={() => dispatch(setIsOpen(true))}>
           <FormatListBulletedIcon />
         </IconButton>
       </Tooltip>
       <Modal
         open={isOpenModal}
-        onClose={() => {dispatch(setIsClose())}}
+        onClose={() => {dispatch(setIsOpen(false))}}
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent sx={[style, { minWidth: "40%" , overflowY:'scroll' , maxHeight:'450px' }]}>
@@ -33,7 +33,7 @@ export default function CustomerTreeViewModal() {
             <Typography variant="h5" color={"black"}>
               لیست مشتریان 
             </Typography>
-            <IconButton aria-label="close" onClick={() => {dispatch(setIsClose())}}>
+            <IconButton aria-label="close" onClick={() => {dispatch(setIsOpen(false))}}>
               <CloseIcon />
             </IconButton>
           </Box>
