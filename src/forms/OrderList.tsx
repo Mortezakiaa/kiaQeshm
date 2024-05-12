@@ -5,6 +5,7 @@ import DatePickerTime from "@/components/DatePickerTime";
 import OrderListTable from "@/components/OrderListsTable";
 import RTLTextField from "@/components/RTLTextField";
 import Spinner from "@/components/Spinner";
+import { p2e } from "@/utils/ReplaceNumber";
 import { Button, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -21,10 +22,17 @@ export default function OrderList() {
   const [data, setData] = useState<OrderLists[]>();
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getFilterdList();
+  }, []);
 
-  useEffect(()=>{
-    getFilterdList()
-  },[])
+  useEffect(() => {
+    const az = new Date(p2e(OrderList.dateFrom)).toLocaleDateString("en-US");
+    const to = new Date(p2e(OrderList.dateTo)).toLocaleDateString("en-US");
+    if(to < az){
+      setOrderList({...OrderList , dateTo:''})
+    }
+  }, [OrderList.dateFrom, OrderList.dateTo]);
 
   const getFilterdList = async () => {
     setLoading(true);
@@ -35,9 +43,9 @@ export default function OrderList() {
       );
       const data = res.data;
       setData(data.rows);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       toast.error("مشکلی پیش آمده است مجدد امتحان کنید.");
     }
   };
@@ -81,6 +89,7 @@ export default function OrderList() {
         <DatePickerTime
           label="تا تاریخ"
           DateValue={OrderList?.dateTo}
+          minDate={p2e(OrderList?.dateFrom)}
           onChange={(e) => {
             setOrderList({
               ...OrderList,
@@ -93,7 +102,7 @@ export default function OrderList() {
         {loading ? (
           <Spinner />
         ) : (
-          <Button variant="outlined" onClick={()=> getFilterdList()}>
+          <Button variant="outlined" onClick={() => getFilterdList()}>
             فیلتر کردن
           </Button>
         )}

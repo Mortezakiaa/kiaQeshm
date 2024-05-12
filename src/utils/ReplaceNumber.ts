@@ -5,3 +5,6 @@ export const sp = (number: number | null) => {
   const joinedNumber = seperatedNumber?.join(",");
   return joinedNumber;
 };
+
+export const p2e = (s: any) =>
+  s.toString().replace(/[۰-۹]/g, (d: string) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));

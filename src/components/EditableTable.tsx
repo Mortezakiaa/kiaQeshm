@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip } from "@mui/material";
 import { OrderLines } from "@/Types/Types";
-import { sp } from "@/utils/SeperateNumber";
+import { sp } from "@/utils/ReplaceNumber";
 import { useDispatch, useSelector } from "react-redux";
 import {
   discountPercent,

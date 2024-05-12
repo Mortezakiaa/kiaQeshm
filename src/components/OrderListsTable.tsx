@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { OrderLists } from "@/Types/Types";
-import { sp } from "@/utils/SeperateNumber";
+import { sp } from "@/utils/ReplaceNumber";
 
 export interface Data {
   data: OrderLists[];
