@@ -13,7 +13,7 @@ export default function SearchProduct() {
 
   useEffect(() => {
     if (params == "") setPath("api/Kala/SearchListView");
-    else setPath(`api/Kala/SearchListView?Filter=${params}`);
+    else setPath(`api/Kala/SearchListView?Code=1&Filter=${params}`);
   }, [params]);
 
   return (

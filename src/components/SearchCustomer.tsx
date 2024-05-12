@@ -15,7 +15,7 @@ export default function SearchCustomer() {
     if (params == "") {
       setPath("api/Markaz1/SearchListView");
     } else {
-      setPath(`api/Markaz1/SearchListView?Filter=${params}`);
+      setPath(`api/Markaz1/SearchListView?Code=1&Filter=${params}`);
     }
   }, [params]);
 

@@ -15,7 +15,7 @@ export default function SearchSaleExpertCode() {
 
   useEffect(() => {
     if (params == "") setPath("api/Markaz3/SearchListView");
-    else setPath(`api/Markaz3/SearchListView?Filter=${params}`);
+    else setPath(`api/Markaz3/SearchListView?Code=1&Filter=${params}`);
   }, [params]);
 
   return (
