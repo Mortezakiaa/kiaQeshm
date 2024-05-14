@@ -3,11 +3,12 @@
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { itemCode, itemName } from "@/StateManagment/Slices/OrderLinesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { OrderLinesSelector, itemCode, itemName } from "@/StateManagment/Slices/OrderLinesSlice";
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchProduct() {
+  const OrderLinesStore = useSelector(OrderLinesSelector)
   const dispatch = useDispatch();
   const { loading, options, setParams, params, setPath } = useFilterByName();
 
@@ -20,6 +21,8 @@ export default function SearchProduct() {
     <Autocomplete
       style={{ width: "100%" }}
       disablePortal
+      // defaultValue={{label:o?.itemName , code:o?.itemCode}}
+      value={OrderLinesStore.itemName}
       noOptionsText="محصولی یافت نشد"
       onChange={(event: any, newValue: any) => {
         dispatch(itemCode(+newValue?.code));
@@ -33,7 +36,7 @@ export default function SearchProduct() {
         value === undefined || value === "" || option.id === value.id
       }
       filterOptions={(opt) => opt}
-      getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}
+      // getOptionLabel={(opt) => `(${opt?.code}) ` + opt?.label}
       options={options || []}
       sx={{ width: 300 }}
       renderInput={(params) => (

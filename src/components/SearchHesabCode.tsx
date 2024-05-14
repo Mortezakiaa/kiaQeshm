@@ -2,14 +2,16 @@
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  OrderSelector,
   accountingCode,
   accountingName,
 } from "@/StateManagment/Slices/OrderSlice";
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchHesabCode() {
+  const orderStore = useSelector(OrderSelector)
   const dispatch = useDispatch();
   const { loading, options, setParams, params, setPath } = useFilterByName();
 
@@ -22,6 +24,7 @@ export default function SearchHesabCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
+        value={orderStore.accountingName}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch(accountingCode(newValue?.code));
@@ -35,7 +38,7 @@ export default function SearchHesabCode() {
           value === undefined || value === "" || option.id === value.id
         }
         filterOptions={(opt) => opt}
-        getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}
+        // getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}
         options={options || []}
         sx={{ width: 300 }}
         renderInput={(params) => (

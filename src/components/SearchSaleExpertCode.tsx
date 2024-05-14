@@ -2,14 +2,16 @@
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  OrderSelector,
   saleExpertCode,
   saleExpertName,
 } from "@/StateManagment/Slices/OrderSlice";
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchSaleExpertCode() {
+  const orderStore = useSelector(OrderSelector)
   const dispatch = useDispatch();
   const { loading, options, setParams, params, setPath } = useFilterByName();
 
@@ -23,6 +25,7 @@ export default function SearchSaleExpertCode() {
       <Autocomplete
         style={{ width: "100%" }}
         disablePortal
+        value={orderStore.saleExpertName}
         noOptionsText="محصولی یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch(saleExpertCode(newValue?.code));
