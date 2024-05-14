@@ -1,7 +1,7 @@
 "use client";
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   OrderSelector,
@@ -11,14 +11,10 @@ import {
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchSaleExpertCode() {
-  const orderStore = useSelector(OrderSelector)
+  const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath } = useFilterByName();
-
-  useEffect(() => {
-    if (params == "") setPath("api/Markaz3/SearchListView");
-    else setPath(`api/Markaz3/SearchListView?Code=1&Filter=${params}`);
-  }, [params]);
+  const [path, setPath] = useState<string>("api/Markaz3/SearchListView");
+  const { loading, options, setParams } = useFilterByName(path);
 
   return (
     <>
@@ -34,6 +30,7 @@ export default function SearchSaleExpertCode() {
         onInputChange={(e: any) => {
           if (e == null) return;
           setParams(e.target.value);
+          setPath(`api/Markaz3/SearchListView?Code=1&Filter=${e.target.value}`);
         }}
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option.id === value.id

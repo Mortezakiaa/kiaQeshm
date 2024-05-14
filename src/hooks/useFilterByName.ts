@@ -4,11 +4,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function useFilterByName() {
+export default function useFilterByName(path: string) {
   const [loading, setLoading] = useState<boolean>(false);
   const [options, setOptions] = useState([]);
   const [params, setParams] = useState("");
-  const [path, setPath] = useState("");
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -39,5 +38,5 @@ export default function useFilterByName() {
         toast.error("خطا در گرفتن اطلاعات");
       });
   };
-  return { loading, options, setParams, params, setPath };
+  return { loading, options, setParams };
 }

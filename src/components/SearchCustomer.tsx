@@ -2,23 +2,20 @@
 
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { OrderSelector, customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
+import {
+  OrderSelector,
+  customerCode,
+  customerName,
+} from "@/StateManagment/Slices/OrderSlice";
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchCustomer() {
-  const orderStore = useSelector(OrderSelector)
+  const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath } = useFilterByName();
-
-  useEffect(() => {
-    if (params == "") {
-      setPath("api/Markaz1/SearchListView");
-    } else {
-      setPath(`api/Markaz1/SearchListView?Code=1&Filter=${params}`);
-    }
-  }, [params]);
+  const [path, setPath] = useState<string>("api/Markaz1/SearchListView");
+  const { loading, options, setParams } = useFilterByName(path);
 
   return (
     <Autocomplete
@@ -33,6 +30,7 @@ export default function SearchCustomer() {
       onInputChange={(e: any) => {
         if (e == null) return;
         setParams(e.target.value);
+        setPath(`api/Markaz1/SearchListView?Code=1&Filter=${e.target.value}`);
       }}
       filterOptions={(opt) => opt}
       // getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}

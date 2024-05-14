@@ -2,20 +2,20 @@
 
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { OrderLinesSelector, itemCode, itemName } from "@/StateManagment/Slices/OrderLinesSlice";
+import {
+  OrderLinesSelector,
+  itemCode,
+  itemName,
+} from "@/StateManagment/Slices/OrderLinesSlice";
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchProduct() {
-  const OrderLinesStore = useSelector(OrderLinesSelector)
+  const OrderLinesStore = useSelector(OrderLinesSelector);
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath } = useFilterByName();
-
-  useEffect(() => {
-    if (params == "") setPath("api/Kala/SearchListView");
-    else setPath(`api/Kala/SearchListView?Code=1&Filter=${params}`);
-  }, [params]);
+  const [path, setPath] = useState<string>("api/Kala/SearchListView");
+  const { loading, options, setParams } = useFilterByName(path);
 
   return (
     <Autocomplete
@@ -31,6 +31,7 @@ export default function SearchProduct() {
       onInputChange={(e: any) => {
         if (e == null) return;
         setParams(e.target.value);
+        setPath(`api/Kala/SearchListView?Code=1&Filter=${e.target.value}`);
       }}
       isOptionEqualToValue={(option, value) =>
         value === undefined || value === "" || option.id === value.id

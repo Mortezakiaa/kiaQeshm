@@ -1,7 +1,7 @@
 "use client";
 import { Autocomplete } from "@mui/material";
 import RTLTextField from "./RTLTextField";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   OrderSelector,
@@ -11,14 +11,10 @@ import {
 import useFilterByName from "@/hooks/useFilterByName";
 
 export default function SearchAnbarCode() {
-  const orderStore = useSelector(OrderSelector)
+  const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const { loading, options, setParams, params, setPath } = useFilterByName();
-
-  useEffect(() => {
-    if (params == "") setPath("api/Warehouse/Search");
-    else setPath(`api/Warehouse/Search?Code=${params}`);
-  }, [params]);
+  const [path, setPath] = useState<string>("api/Warehouse/Search");
+  const { loading, options, setParams } = useFilterByName(path);
 
   return (
     <>
@@ -34,6 +30,7 @@ export default function SearchAnbarCode() {
         onInputChange={(e: any) => {
           if (e == null) return;
           setParams(e.target.value);
+          setPath(`api/Warehouse/Search?Code=${e.target.value}`);
         }}
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option.id === value.id
