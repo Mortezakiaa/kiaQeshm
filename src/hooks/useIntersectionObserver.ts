@@ -41,4 +41,6 @@ export default function useIntersectionObserver({
       }
     };
   }, [ref, hasNextPage, fetchNextPage]);
+
+  return { ref };
 }
