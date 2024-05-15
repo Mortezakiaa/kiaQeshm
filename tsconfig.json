@@ -3,6 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "types": ["node" , "jest"],
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -21,6 +22,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/Provider/OrderProvider.tsx", "src/Provider/OrderLinesProvider.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/Provider/OrderProvider.tsx",
+    "src/Provider/OrderLinesProvider.jsx"
+  ],
   "exclude": ["node_modules"]
 }
