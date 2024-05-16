@@ -1,15 +1,10 @@
 "use server";
 import { cookies } from "next/headers";
 import { UserLogin } from "@/Types/Types";
-import axios from "axios";
+import ApiService from "@/utils/axios";
 
 const Auth = async (Data: UserLogin) => {
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Auth/Login`,
-    Data
-  );
-  const data = res.data;
-
+  const data = await ApiService.post('Auth/Login' , Data)
   if (data.isSuccess) {
     const cookiesList = cookies();
     cookiesList.set({
