@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import Order from "@/forms/Order";
-import { redirect } from "next/navigation";
-import { getCookie } from "@/actions/getCookie";
 import GlobalOrderProvider from "@/Provider/GlobalOrderProvider";
 
 export const metadata: Metadata = {
@@ -10,9 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-  const isExistCookie = await getCookie();
-  if (!isExistCookie) redirect("/Login");
-
   return (
     <div dir="rtl">
       <GlobalOrderProvider>
