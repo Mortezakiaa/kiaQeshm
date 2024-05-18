@@ -4,6 +4,7 @@ import "./globals.css";
 import Favicon from "./favicon.ico";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import QueryProvider from "@/Provider/QueryProvider";
 
 export const metadata: Metadata = {
   title: "گروه کیا قشم - Kiaqeshm Group",
@@ -20,7 +21,7 @@ export default function RootLayout({
     <html lang="en" dir="rtl">
       <body>
         <AppRouterCacheProvider>
-          {children}
+          <QueryProvider>{children}</QueryProvider>
           <ToastContainer />
         </AppRouterCacheProvider>
       </body>

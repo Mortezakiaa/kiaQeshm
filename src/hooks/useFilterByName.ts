@@ -1,5 +1,6 @@
 "use client";
 
+import ApiService from "@/utils/axios";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -18,8 +19,9 @@ export default function useFilterByName(path: string) {
     };
   }, [params]);
 
-  const getList = () => {
+  const getList = async () => {
     setLoading(true);
+    // const data = await ApiService.get(`/${path}`)
     axios
       .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/${path}`)
       .then((res) => {

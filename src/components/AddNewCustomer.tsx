@@ -1,15 +1,22 @@
 "use client";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Modal,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import RTLTextField from "./RTLTextField";
 import { InsertCustomer } from "@/Types/Types";
-import axios from "axios";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
+import ApiService from "@/utils/axios";
 
 export default function AddNewCustomer() {
   const [open, setOpen] = useState(false);
@@ -47,16 +54,12 @@ export default function AddNewCustomer() {
       return;
     }
     setLoading(true);
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Customer/Insert`,
-        customer
-      );
-      const data = await res.data;
+    const data = await ApiService.post("/Customer/Insert", customer);
+    if (data.isSuccess) {
       setLoading(false);
       toast.success("علمیات با موفقیت انجام شد");
       handleClose();
-    } catch (error) {
+    } else {
       setLoading(false);
       toast.error("خطایی پیش آمده است لطفا مجدد امتحان کنید");
     }
@@ -167,4 +170,3 @@ export default function AddNewCustomer() {
     </>
   );
 }
-

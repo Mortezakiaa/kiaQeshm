@@ -6,8 +6,8 @@ import OrderListTable from "@/components/OrderListsTable";
 import RTLTextField from "@/components/RTLTextField";
 import Spinner from "@/components/Spinner";
 import { p2e } from "@/utils/ReplaceNumber";
+import ApiService from "@/utils/axios";
 import { Button, Grid } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import { toast } from "react-toastify";
@@ -29,22 +29,19 @@ export default function OrderList() {
   useEffect(() => {
     const az = new Date(p2e(OrderList.dateFrom)).toLocaleDateString("en-US");
     const to = new Date(p2e(OrderList.dateTo)).toLocaleDateString("en-US");
-    if(to < az){
-      setOrderList({...OrderList , dateTo:''})
+    if (to < az) {
+      setOrderList({ ...OrderList, dateTo: "" });
     }
   }, [OrderList.dateFrom, OrderList.dateTo]);
 
   const getFilterdList = async () => {
     setLoading(true);
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/Order/Search`,
-        OrderList
-      );
-      const data = res.data;
+    const data = await ApiService.post("/Order/Search", OrderList);
+    console.log(data);
+    if (data.isSuccess) {
       setData(data.rows);
       setLoading(false);
-    } catch (error) {
+    } else {
       setLoading(false);
       toast.error("مشکلی پیش آمده است مجدد امتحان کنید.");
     }
