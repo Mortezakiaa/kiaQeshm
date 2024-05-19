@@ -15,3 +15,14 @@ export const recrusiveStateUpdate = async (
   return state;
 };
 
+export const isTreeExist = (data: TreeViewList[], id: number | string): boolean => {
+  return data?.some((item) => {
+    if (item.id == id) {
+      if (item.children.length > 0) {
+        return true;
+      }
+    } else {
+      return isTreeExist(item.children, id);
+    }
+  });
+};

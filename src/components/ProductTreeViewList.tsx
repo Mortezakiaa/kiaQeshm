@@ -4,7 +4,7 @@ import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { RecrusiveTreeView } from "./RecrusiveTreeView";
-import { recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
+import { isTreeExist, recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
 import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 import ApiService from "@/utils/axios";
 import { Box } from "@mui/material";
@@ -12,7 +12,7 @@ import PageLoader from "./PageLoader";
 
 export default function ProductTreeViewList() {
   const [loading, setLoading] = useState(false);
-  const [TreeViewList, setTreeViewList] = useState<TreeViewList[]>();
+  const [TreeViewList, setTreeViewList] = useState<TreeViewList[] | any>();
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
 
   const getKalaTree = async () => {
@@ -40,6 +40,8 @@ export default function ProductTreeViewList() {
       setDefaultExpanded(expandedItems);
       return;
     }
+    const isExist = isTreeExist(TreeViewList, id);
+    if (isExist) return;
     const data: any = await ApiService.get(`/Kala/GetTreeViewChildren/${id}`);
     if (data.error) {
       toast.error(data.error);

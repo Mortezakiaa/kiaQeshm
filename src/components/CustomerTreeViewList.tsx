@@ -4,7 +4,7 @@ import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { RecrusiveTreeView } from "./RecrusiveTreeView";
-import { recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
+import { isTreeExist, recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
 import { CollapseIcon, ExpandIcon } from "./CustomTreeItem";
 import { useDispatch } from "react-redux";
 import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
@@ -22,10 +22,10 @@ export default function CustomerTreeViewList() {
   const getCustomerList = async () => {
     setLoading(true);
     const data: any = await ApiService.get("/Markaz1/SearchTreeView");
-    if(data.error){
+    if (data.error) {
       setLoading(false);
       toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
-    }else{
+    } else {
       setLoading(false);
       data?.map((i: any) => (i.children = []));
       setTreeViewList(data);
@@ -44,12 +44,14 @@ export default function CustomerTreeViewList() {
       setDefaultExpanded(expandedItems);
       return;
     }
+    const isExist = isTreeExist(TreeViewList, id);
+    if (isExist) return;
     const data: any = await ApiService.get(
       `/Markaz1/GetTreeViewChildren/${id}`
     );
-    if(data.error){
-      toast.error(data.message)
-    }else{
+    if (data.error) {
+      toast.error(data.message);
+    } else {
       const duplicate = data?.some((x: any) => x.id === id);
       if (duplicate || data?.length == 0) return;
       data?.map((i: any) => (i.children = []));
@@ -93,3 +95,4 @@ export default function CustomerTreeViewList() {
     </>
   );
 }
+
