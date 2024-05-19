@@ -40,8 +40,6 @@ export default function CustomerTreeViewList() {
       setDefaultExpanded(expandedItems);
       return;
     }
-    console.log(TreeViewList);
-
     const data: any = await ApiService.get(
       `/Markaz1/GetTreeViewChildren/${id}`
     );
