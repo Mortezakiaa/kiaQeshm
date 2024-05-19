@@ -60,7 +60,7 @@ export default function Order() {
 
   const SaveOrder = async () => {
     setLoading(true);
-    const data = await ApiService.post("/Order/Insert", OrderStore);
+    const data:any = await ApiService.post("/Order/Insert", OrderStore);
     if (data.isSuccess) {
       setNum1(data.num1);
       setLoading(false);
@@ -175,7 +175,7 @@ export default function Order() {
             <Grid item md={7} xs={12}>
               <SearchCustomer />
             </Grid>
-            <CustomerTreeViewModal />
+            {/* <CustomerTreeViewModal /> */}
           </Grid>
 
           <Grid container spacing={2}>
