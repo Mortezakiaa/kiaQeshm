@@ -6,10 +6,13 @@ type get = { path: string; params?: string; enabled?: boolean };
 
 export function useGet({ path, params, enabled }: get) {
   const { data, isSuccess, error, isLoading, isError } = useQuery({
-    queryKey: [path],
+    queryKey: [{ path, params }],
     queryFn: async () => {
-      const data = await ApiService.get(path, params);
-      return data;
+      const data: any = await ApiService.get(path, params);
+      if (data.error) {
+      } else {
+        return data;
+      }
     },
     enabled: enabled,
   });
@@ -23,8 +26,11 @@ export function usePost({ path, Data, enabled }: T) {
   const { data, isSuccess, error, isLoading, isError } = useQuery({
     queryKey: [Data],
     queryFn: async () => {
-      const data = await ApiService.post(path, Data);
-      return data;
+      const data: any = await ApiService.post(path, Data);
+      if (data.error) {
+      } else {
+        return data;
+      }
     },
     enabled: enabled,
   });

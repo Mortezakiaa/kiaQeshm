@@ -14,7 +14,7 @@ import useFilterByName from "@/hooks/useFilterByName";
 export default function SearchProduct() {
   const OrderLinesStore = useSelector(OrderLinesSelector);
   const dispatch = useDispatch();
-  const [path, setPath] = useState<string>("api/Kala/SearchListView");
+  const [path, setPath] = useState<string>("Kala/SearchListView");
   const { loading, options, setParams } = useFilterByName(path);
 
   return (
@@ -31,7 +31,7 @@ export default function SearchProduct() {
       onInputChange={(e: any) => {
         if (e == null) return;
         setParams(e.target.value);
-        setPath(`api/Kala/SearchListView?Code=1&Filter=${e.target.value}`);
+        setPath(`Kala/SearchListView?Code=1&Filter=${e.target.value}`);
       }}
       isOptionEqualToValue={(option, value) =>
         value === undefined || value === "" || option.id === value.id

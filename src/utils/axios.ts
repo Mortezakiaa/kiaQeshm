@@ -15,8 +15,8 @@ class Axios {
       const res = await this.axios.get<T>(url, { params });
       return res.data;
     } catch (e) {
-      if (e instanceof AxiosError) return e.response;
-      return e;
+      if (e instanceof AxiosError) return {error:true , message:e.response?.data};
+      return e
     }
   }
 
@@ -25,8 +25,8 @@ class Axios {
       const res = await this.axios.post<T>(url, data);
       return res.data;
     } catch (e) {
-      if (e instanceof AxiosError) return e.response;
-      return e as any;
+      if (e instanceof AxiosError) return {error:true , message:e.response?.data};
+      return e;
     }
   }
 

@@ -22,10 +22,14 @@ export default function CustomerTreeViewList() {
   const getCustomerList = async () => {
     setLoading(true);
     const data: any = await ApiService.get("/Markaz1/SearchTreeView");
-    data?.map((i: any) => (i.children = []));
-    setTreeViewList(data);
-    setLoading(false);
-    // toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
+    if(data.error){
+      setLoading(false);
+      toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
+    }else{
+      setLoading(false);
+      data?.map((i: any) => (i.children = []));
+      setTreeViewList(data);
+    }
   };
 
   useEffect(() => {
@@ -43,13 +47,16 @@ export default function CustomerTreeViewList() {
     const data: any = await ApiService.get(
       `/Markaz1/GetTreeViewChildren/${id}`
     );
-    const duplicate = data?.some((x: any) => x.id === id);
-    if (duplicate || data?.length == 0) return;
-    data?.map((i: any) => (i.children = []));
-    data.map((i: any) => (i.isExist = true));
-    const newData = await recrusiveStateUpdate(TreeViewList, data, id);
-    setTreeViewList(newData);
-    setDefaultExpanded([...defaultExpanded, id.toString()]);
+    if(data.error){
+      toast.error(data.message)
+    }else{
+      const duplicate = data?.some((x: any) => x.id === id);
+      if (duplicate || data?.length == 0) return;
+      data?.map((i: any) => (i.children = []));
+      const newData = await recrusiveStateUpdate(TreeViewList, data, id);
+      setTreeViewList(newData);
+      setDefaultExpanded([...defaultExpanded, id.toString()]);
+    }
   };
 
   const onSelectCustomer = (i: TreeViewList) => {

@@ -4,6 +4,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import DisabledByDefaultRoundedIcon from "@mui/icons-material/DisabledByDefaultRounded";
 import { styled, alpha } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const CustomTreeItem = styled(TreeItem)(({ theme }) => ({
   [`& .${treeItemClasses.content}`]: {
@@ -36,4 +37,8 @@ export function EndIcon(
   props: React.PropsWithoutRef<typeof DisabledByDefaultRoundedIcon>
 ) {
   return <DisabledByDefaultRoundedIcon {...props} sx={{ opacity: 0.3 }} />;
+}
+
+export function CircularSpinner(props: React.PropsWithoutRef<typeof CircularProgress>) {
+  return <CircularProgress {...props} style={{width:'20px' , height:'20px'}} />;
 }

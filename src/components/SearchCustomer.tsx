@@ -14,7 +14,7 @@ import useFilterByName from "@/hooks/useFilterByName";
 export default function SearchCustomer() {
   const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const [path, setPath] = useState<string>("api/Markaz1/SearchListView");
+  const [path, setPath] = useState<string>("Markaz1/SearchListView");
   const { loading, options, setParams } = useFilterByName(path);
 
   return (
@@ -30,7 +30,7 @@ export default function SearchCustomer() {
       onInputChange={(e: any) => {
         if (e == null) return;
         setParams(e.target.value);
-        setPath(`api/Markaz1/SearchListView?Code=1&Filter=${e.target.value}`);
+        setPath(`Markaz1/SearchListView?Code=1&Filter=${e.target.value}`);
       }}
       filterOptions={(opt) => opt}
       // getOptionLabel={(opt) => `(${opt.code}) ` + opt.label}

@@ -1,7 +1,5 @@
 "use client";
-
 import ApiService from "@/utils/axios";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -21,24 +19,21 @@ export default function useFilterByName(path: string) {
 
   const getList = async () => {
     setLoading(true);
-    // const data = await ApiService.get(`/${path}`)
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/${path}`)
-      .then((res) => {
-        const d = res.data.rows?.map((item: any) => {
-          const o: any = {};
-          o.label = item.name;
-          o.id = item.id;
-          o.code = item.code;
-          return o;
-        });
-        setLoading(false);
-        setOptions(d);
-      })
-      .catch((e) => {
-        setLoading(false);
-        toast.error("خطا در گرفتن اطلاعات");
+    const data: any = await ApiService.get(`/${path}`);
+    if (data.error) {
+      setLoading(false);
+      toast.error(data.message);
+    } else {
+      const newData = data?.rows?.map((item: any) => {
+        const o: any = {};
+        o.label = item.name;
+        o.id = item.id;
+        o.code = item.code;
+        return o;
       });
+      setLoading(false);
+      setOptions(newData);
+    }
   };
   return { loading, options, setParams };
 }

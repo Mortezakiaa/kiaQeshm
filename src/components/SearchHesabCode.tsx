@@ -13,7 +13,7 @@ import useFilterByName from "@/hooks/useFilterByName";
 export default function SearchHesabCode() {
   const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const [path, setPath] = useState<string>("api/Markaz1/SearchListView");
+  const [path, setPath] = useState<string>("Markaz1/SearchListView");
   const { loading, options, setParams } = useFilterByName(path);
 
   return (
@@ -22,7 +22,7 @@ export default function SearchHesabCode() {
         style={{ width: "100%" }}
         disablePortal
         value={orderStore.accountingName}
-        noOptionsText="محصولی یافت نشد"
+        noOptionsText="کد مورد نظر یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch(accountingCode(newValue?.code));
           dispatch(accountingName(newValue?.label));
@@ -30,7 +30,7 @@ export default function SearchHesabCode() {
         onInputChange={(e: any) => {
           if (e == null) return;
           setParams(e.target.value);
-          setPath(`api/Markaz1/SearchListView?Code=1&Filter=${e.target.value}`);
+          setPath(`Markaz1/SearchListView?Code=1&Filter=${e.target.value}`);
         }}
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option.id === value.id

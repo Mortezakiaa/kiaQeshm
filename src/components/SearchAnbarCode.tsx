@@ -13,7 +13,7 @@ import useFilterByName from "@/hooks/useFilterByName";
 export default function SearchAnbarCode() {
   const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const [path, setPath] = useState<string>("api/Warehouse/Search");
+  const [path, setPath] = useState<string>("Warehouse/Search");
   const { loading, options, setParams } = useFilterByName(path);
 
   return (
@@ -22,7 +22,7 @@ export default function SearchAnbarCode() {
         style={{ width: "100%" }}
         disablePortal
         value={orderStore.inventoryName}
-        noOptionsText="محصولی یافت نشد"
+        noOptionsText="کد مورد نظر یافت نشد"
         onChange={(event: any, newValue: any) => {
           dispatch(inventoryCode(newValue?.code));
           dispatch(inventoryName(newValue?.label));
@@ -30,7 +30,7 @@ export default function SearchAnbarCode() {
         onInputChange={(e: any) => {
           if (e == null) return;
           setParams(e.target.value);
-          setPath(`api/Warehouse/Search?Code=${e.target.value}`);
+          setPath(`Warehouse/Search?Code=${e.target.value}`);
         }}
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option.id === value.id

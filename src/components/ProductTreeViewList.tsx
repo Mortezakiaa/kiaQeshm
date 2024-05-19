@@ -18,10 +18,14 @@ export default function ProductTreeViewList() {
   const getKalaTree = async () => {
     setLoading(true);
     const data: any = await ApiService.get("/Kala/SearchTreeView");
-    data?.map((i: any) => (i.children = []));
-    setTreeViewList(data);
-    setLoading(false);
-    // toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
+    if (data.error) {
+      data?.map((i: any) => (i.children = []));
+      setTreeViewList(data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
+    }
   };
 
   useEffect(() => {
@@ -37,12 +41,16 @@ export default function ProductTreeViewList() {
       return;
     }
     const data: any = await ApiService.get(`/Kala/GetTreeViewChildren/${id}`);
-    const duplicate = data?.some((x: any) => x.id === id);
-    if (duplicate || data.length == 0) return;
-    data?.map((i: any) => (i.children = []));
-    const newData = await recrusiveStateUpdate(TreeViewList, data, id);
-    setTreeViewList(newData);
-    // toast.error("مشکلی پیش آمده است. لطفا مجدد تلاش کنید!!");
+    if (data.error) {
+      toast.error(data.error);
+    } else {
+      const duplicate = data?.some((x: any) => x.id === id);
+      if (duplicate || data.length == 0) return;
+      data?.map((i: any) => (i.children = []));
+      const newData = await recrusiveStateUpdate(TreeViewList, data, id);
+      setTreeViewList(newData);
+      setDefaultExpanded([...defaultExpanded, id.toString()]);
+    }
   };
 
   const onSelect = () => {};
