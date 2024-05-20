@@ -3,7 +3,7 @@ import { TreeViewList } from "@/Types/Types";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { RecrusiveTreeView } from "./RecrusiveTreeView";
+import { RecrusiveTreeView } from "./RecursiveTreeView";
 import { isTreeExist, recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
 import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 import ApiService from "@/utils/axios";

@@ -1,5 +1,3 @@
-import { DateObject } from "react-multi-date-picker";
-
 export interface OrderLines {
   id: number | null;
   itemCode: string;
@@ -30,8 +28,8 @@ export interface DatePickerArguments {
   DateValue: string | undefined;
   onChange: (e: any) => void;
   label: string;
-  minDate?:string
-  maxDate?:string
+  minDate?: string;
+  maxDate?: string;
 }
 
 export interface MobileDrawer {
@@ -130,4 +128,8 @@ export type OrderContextProviderType = {
 export type OrderLinesContextProviderType = {
   state: OrderLinesContext;
   dispatch: () => void;
+};
+export type TreeApiProps = {
+  id: number | string;
+  CurrentPage: number;
 };

@@ -1,16 +1,9 @@
 "use client";
-
-import {
-  InfiniteData,
-  InfiniteQueryObserverResult,
-} from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 
 type T = {
   hasNextPage: boolean;
-  fetchNextPage: () => Promise<
-    InfiniteQueryObserverResult<InfiniteData<any, unknown>, Error>
-  >;
+  fetchNextPage: () => any;
 };
 
 export default function useIntersectionObserver({
@@ -40,7 +33,7 @@ export default function useIntersectionObserver({
         observer.unobserve(ref.current);
       }
     };
-  }, [ref, hasNextPage, fetchNextPage]);
+  }, [ref, fetchNextPage, hasNextPage]);
 
   return { ref };
 }
