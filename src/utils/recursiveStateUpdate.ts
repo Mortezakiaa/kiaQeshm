@@ -1,24 +1,28 @@
 import { TreeViewList } from "@/Types/Types";
 
-export const recrusiveStateUpdate = async (
+export const recursiveStateUpdate = async (
   state: TreeViewList[] | undefined,
-  data: TreeViewList[],
+  data: any,
   id: string | number
 ) => {
   state?.forEach((item) => {
     if (item.id === id) {
-      item.children = data;
+      item.children = [...item.children, ...data.rows];
+      item.totalItems = data.totalItems;
     } else {
-      recrusiveStateUpdate(item.children, data, id);
+      recursiveStateUpdate(item.children, data, id);
     }
   });
   return state;
 };
 
-export const isTreeExist = (data: TreeViewList[], id: number | string): boolean => {
+export const isTreeExist = (
+  data: TreeViewList[],
+  id: number | string
+): boolean => {
   return data?.some((item) => {
     if (item.id == id) {
-      if (item.children.length > 0) {
+      if (item.totalItems == item.children.length) {
         return true;
       }
     } else {

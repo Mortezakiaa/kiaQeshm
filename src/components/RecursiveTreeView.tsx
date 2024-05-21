@@ -1,18 +1,25 @@
 "use client";
 import { TreeViewList } from "@/Types/Types";
 import { CustomTreeItem } from "./CustomTreeItem";
+import { Box } from "@mui/material";
+import Spinner from "./Spinner";
 
 export type data = {
   data: TreeViewList[] | undefined;
-  getKala: (id: number | string) => void;
-  Select: (i: TreeViewList) => void;
+  getTreeItems: (id: number | string) => void;
+  selectTreeItems: (i: TreeViewList) => void;
   Ref: any;
 };
 
-export const RecursiveTreeView = ({ data, getKala, Select, Ref }: data) => {
+export const RecursiveTreeView = ({
+  data,
+  getTreeItems,
+  selectTreeItems,
+  Ref,
+}: data) => {
   return (
     <>
-      {data?.map((i) => (
+      {data?.map((i: TreeViewList) => (
         <CustomTreeItem
           sx={{
             "& .MuiTreeItem-iconContainer": {
@@ -23,27 +30,31 @@ export const RecursiveTreeView = ({ data, getKala, Select, Ref }: data) => {
           itemId={i.id.toString()}
           label={i.name}
           onClick={() => {
-            getKala(i.id);
+            getTreeItems(i.id);
           }}
           onDoubleClick={(e) => {
-            Select(i);
+            selectTreeItems(i);
           }}
         >
-          {i.children.length > 0 && (
+          {i.childCount > 0 && (
             <>
               <RecursiveTreeView
                 Ref={Ref}
-                Select={Select}
+                selectTreeItems={selectTreeItems}
                 data={i.children}
-                getKala={(e) => {
-                  getKala(e);
+                getTreeItems={(e) => {
+                  getTreeItems(e);
                 }}
               />
             </>
           )}
+          {i.totalItems > i.children.length && (
+            <Box sx={{ display: "flex", justifyContent: "center" }} ref={Ref}>
+              <Spinner/>
+            </Box>
+          )}
         </CustomTreeItem>
       ))}
-      <div ref={Ref}></div>
     </>
   );
 };

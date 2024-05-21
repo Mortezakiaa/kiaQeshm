@@ -4,7 +4,7 @@ import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { RecrusiveTreeView } from "./RecursiveTreeView";
-import { isTreeExist, recrusiveStateUpdate } from "@/utils/recrusiveStateUpdate";
+import { isTreeExist, recrusiveStateUpdate } from "@/utils/recursiveStateUpdate";
 import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 import ApiService from "@/utils/axios";
 import { Box } from "@mui/material";

@@ -1,13 +1,13 @@
 "use client";
 import { TreeViewList } from "@/Types/Types";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
-import { useEffect,  useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { RecursiveTreeView } from "./RecursiveTreeView";
 import {
   isTreeExist,
-  recrusiveStateUpdate,
-} from "@/utils/recrusiveStateUpdate";
+  recursiveStateUpdate,
+} from "@/utils/recursiveStateUpdate";
 import { CollapseIcon, ExpandIcon } from "./CustomTreeItem";
 import { useDispatch } from "react-redux";
 import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
@@ -29,16 +29,6 @@ export default function CustomerTreeViewList() {
   const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
   const dispatch = useDispatch();
 
-  const { data, fetchNextPage, hasNextPage, isPending, isError, error } =
-    useInfiniteLoadTreeItem({
-      id:state.id
-  });
-
-  const { ref } = useIntersectionObserver({
-    fetchNextPage,
-    hasNextPage,
-  });
-
   const getCustomerList = async () => {
     setLoading(true);
     const data: any = await ApiService.get("/Markaz1/SearchTreeView");
@@ -56,26 +46,59 @@ export default function CustomerTreeViewList() {
     getCustomerList();
   }, []);
 
+  const ref = useRef();
 
-  const getCustomerTreeViewChildrenList = async (id: number | string) => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setState({ ...state, CurrentPage: ++state.CurrentPage });
+        }
+      },
+      {
+        threshold: 1,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, defaultExpanded]);
+
+  useEffect(() => {
+    if (state.id) {
+      fetchTreeItems(state.id);
+    }
+  }, [state.CurrentPage]);
+
+  const fetchTreeItems = async (id: number | string) => {
     setState({ ...state, id: id });
+    const isExist = isTreeExist(TreeViewList, id);
+
     if (!defaultExpanded.includes(id.toString())) {
       setDefaultExpanded([...defaultExpanded, id.toString()]);
-    } else {
+    } else if (isExist) {
       const expandedItems = defaultExpanded.filter((i) => i != id);
       setDefaultExpanded(expandedItems);
-      return;
     }
+
+    if (isExist) return;
     const data: any = await ApiService.get(
-      `/Markaz1/GetTreeViewChildren/${id}?CurrentPage=${state.CurrentPage}&ItemsPerPage=10`
+      `/Markaz1/GetTreeViewChildren/${id}?CurrentPage=${state.CurrentPage}&ItemsPerPage=20`
     );
     if (data.error) {
       toast.error(data?.message);
     } else {
-      const duplicate = data?.some((x: any) => x.id == id);
-      if (duplicate || data?.length == 0) return;
-      data?.map((i: any) => (i.children = []));
-      const newData = await recrusiveStateUpdate(TreeViewList, data, id);
+      const duplicate = data.rows?.some((x: any) => x.id == id);
+      if (duplicate || data.rows?.length == 0) return;
+      data.rows?.map((i: any) => (i.children = []));
+      const newData = await recursiveStateUpdate(TreeViewList, data, id);
       setTreeViewList(newData);
       setDefaultExpanded([...defaultExpanded, id.toString()]);
     }
@@ -107,8 +130,8 @@ export default function CustomerTreeViewList() {
         >
           <RecursiveTreeView
             Ref={ref}
-            Select={onSelectCustomer}
-            getKala={getCustomerTreeViewChildrenList}
+            selectTreeItems={onSelectCustomer}
+            getTreeItems={fetchTreeItems}
             data={TreeViewList}
           />
         </SimpleTreeView>

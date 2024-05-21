@@ -47,6 +47,7 @@ export interface TreeViewFullNameList {
 }
 
 export interface TreeViewList {
+  totalItems: number;
   id: number;
   code: string;
   childCount: number;
