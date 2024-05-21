@@ -13,7 +13,7 @@ import useFilterByName from "@/hooks/useFilterByName";
 export default function SearchHesabCode() {
   const orderStore = useSelector(OrderSelector);
   const dispatch = useDispatch();
-  const [path, setPath] = useState<string>("Markaz1/SearchListView");
+  const [path, setPath] = useState<string>("Account/SearchTreeView");
   const { loading, options, setParams } = useFilterByName(path);
 
   return (
@@ -30,7 +30,7 @@ export default function SearchHesabCode() {
         onInputChange={(e: any) => {
           if (e == null) return;
           setParams(e.target.value);
-          setPath(`Markaz1/SearchListView?Code=1&Filter=${e.target.value}`);
+          setPath(`Account/SearchTreeView?Code=1&Filter=${e.target.value}`);
         }}
         isOptionEqualToValue={(option, value) =>
           value === undefined || value === "" || option.id === value.id

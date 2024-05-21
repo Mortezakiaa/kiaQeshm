@@ -15,8 +15,6 @@ import { DateObject } from "react-multi-date-picker";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { toast } from "react-toastify";
 import AddNewCustomer from "@/components/AddNewCustomer";
-import ProductTreeViewModal from "@/components/ProductTreeViewModal";
-import CustomerTreeViewModal from "@/components/CustomerTreeViewModal";
 import SearchProduct from "@/components/SearchProduct";
 import SearchCustomer from "@/components/SearchCustomer";
 import PageLoader from "@/components/PageLoader";
@@ -60,7 +58,7 @@ export default function Order() {
 
   const SaveOrder = async () => {
     setLoading(true);
-    const data:any = await ApiService.post("/Order/Insert", OrderStore);
+    const data: any = await ApiService.post("/Order/Insert", OrderStore);
     if (data.isSuccess) {
       setNum1(data.num1);
       setLoading(false);
@@ -175,7 +173,6 @@ export default function Order() {
             <Grid item md={7} xs={12}>
               <SearchCustomer />
             </Grid>
-            <CustomerTreeViewModal />
           </Grid>
 
           <Grid container spacing={2}>
@@ -286,9 +283,6 @@ export default function Order() {
                 type="number"
                 label="کد محصول"
               />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <ProductTreeViewModal />
             </Grid>
             <Grid item xs={12} md={7}>
               <SearchProduct />

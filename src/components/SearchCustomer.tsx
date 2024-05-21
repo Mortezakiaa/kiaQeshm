@@ -1,6 +1,6 @@
 "use client";
 
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, InputAdornment } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import {
   customerName,
 } from "@/StateManagment/Slices/OrderSlice";
 import useFilterByName from "@/hooks/useFilterByName";
+import CustomerTreeViewModal from "./CustomerTreeViewModal";
 
 export default function SearchCustomer() {
   const orderStore = useSelector(OrderSelector);
@@ -40,6 +41,14 @@ export default function SearchCustomer() {
         <RTLTextField
           {...params}
           label={loading ? "در حال جستجو..." : "جستجوی متنی مشتریان"}
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment  position="start">
+                <CustomerTreeViewModal />
+              </InputAdornment>
+            ),
+          }}
         />
       )}
     />
