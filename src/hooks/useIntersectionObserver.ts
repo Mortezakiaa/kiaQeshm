@@ -1,22 +1,25 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { TreeApiProps } from "@/Types/Types";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 type T = {
-  hasNextPage: boolean;
-  fetchNextPage: () => any;
+  observerDependency: string[];
+  setState: Dispatch<SetStateAction<TreeApiProps>>;
+  state: TreeApiProps;
 };
 
 export default function useIntersectionObserver({
-  hasNextPage,
-  fetchNextPage,
+  observerDependency,
+  setState,
+  state,
 }: T) {
   const ref = useRef();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (hasNextPage && entries[0].isIntersecting) {
-          fetchNextPage();
+        if (entries[0].isIntersecting) {
+          setState({ ...state, CurrentPage: ++state.CurrentPage });
         }
       },
       {
@@ -33,7 +36,7 @@ export default function useIntersectionObserver({
         observer.unobserve(ref.current);
       }
     };
-  }, [ref, fetchNextPage, hasNextPage]);
+  }, [ref, observerDependency]);
 
   return { ref };
 }
