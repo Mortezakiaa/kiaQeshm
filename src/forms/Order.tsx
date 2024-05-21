@@ -287,9 +287,9 @@ export default function Order() {
                 label="کد محصول"
               />
             </Grid>
-            {/* <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4}>
               <ProductTreeViewModal />
-            </Grid> */}
+            </Grid>
             <Grid item xs={12} md={7}>
               <SearchProduct />
             </Grid>

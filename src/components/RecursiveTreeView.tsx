@@ -19,7 +19,7 @@ export const RecursiveTreeView = ({
 }: data) => {
   return (
     <>
-      {data?.map((i: TreeViewList) => (
+      {data?.map((i: TreeViewList , index) => (
         <CustomTreeItem
           sx={{
             "& .MuiTreeItem-iconContainer": {
