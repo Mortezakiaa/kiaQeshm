@@ -6,7 +6,7 @@ export function trailingDebounce(func: any, t: number | string) {
   return (...args: any) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      func.apply(this, args);
+      func.apply(args);
     }, t as any);
   };
 }
@@ -17,7 +17,7 @@ export function leadingDebounce(func: any, t: string | number) {
   let timer: any;
   return (...args: any) => {
     if (!timer) {
-      func.apply(this, args);
+      func.apply(args);
     }
     clearTimeout(timer);
     timer = setTimeout(() => (timer = undefined), t as any);

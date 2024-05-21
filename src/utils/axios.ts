@@ -22,7 +22,7 @@ class Axios {
 
   async post<T = any>(url: string, data: Partial<T> | any) {
     try {
-      const res = await this.axios.post<T>(url, data);
+      const res:any = await this.axios.post<T>(url, data);
       return res.data;
     } catch (e) {
       if (e instanceof AxiosError) return {error:true , message:e.response?.data};
