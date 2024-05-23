@@ -1,9 +1,9 @@
 import { TreeViewList } from "@/Types/Types";
 
-export const recursiveStateUpdate = async (
+export const recursiveStateUpdate = (
   state: TreeViewList[] | undefined,
   data: any,
-  id: string | number
+  id: number | string
 ) => {
   state?.forEach((item) => {
     if (item.id === id) {
@@ -16,7 +16,7 @@ export const recursiveStateUpdate = async (
   return state;
 };
 
-export const isTreeExist = (
+export const isCompletedTreeItems = (
   data: TreeViewList[],
   id: number | string
 ): boolean => {
@@ -26,7 +26,7 @@ export const isTreeExist = (
         return true;
       }
     } else {
-      return isTreeExist(item.children, id);
+      return isCompletedTreeItems(item.children, id);
     }
   });
 };

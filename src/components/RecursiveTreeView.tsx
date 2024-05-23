@@ -17,6 +17,7 @@ export const RecursiveTreeView = ({
   selectTreeItems,
   Ref,
 }: data) => {
+
   return (
     <>
       {data?.map((i: TreeViewList , index) => (
@@ -26,10 +27,10 @@ export const RecursiveTreeView = ({
               display: `${i.childCount == 0 && "none"}`,
             },
           }}
-          key={i.id}
+          key={Math.floor(Math.random() * 10000000)}
           itemId={i.id.toString()}
           label={i.name}
-          onClick={() => {
+          onClick={(e) => {
             getTreeItems(i.id);
           }}
           onDoubleClick={(e) => {
@@ -49,7 +50,7 @@ export const RecursiveTreeView = ({
             </>
           )}
           {i.totalItems > i.children.length && (
-            <Box sx={{ display: "flex", justifyContent: "center" }} ref={Ref}>
+            <Box key={Math.floor(Math.random() * 100000000)} sx={{ display: "flex", justifyContent: "center" }} ref={Ref}>
               <Spinner/>
             </Box>
           )}

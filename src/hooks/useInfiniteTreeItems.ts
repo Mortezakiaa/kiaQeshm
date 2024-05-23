@@ -1,57 +1,60 @@
 "use client";
 
-import { TreeApiProps, TreeViewList } from "@/Types/Types";
-import ApiService from "@/utils/axios";
 import {
-  isTreeExist,
-  recursiveStateUpdate,
-} from "@/utils/recursiveStateUpdate";
-import { useEffect, useState } from "react";
+  InfiniteTreeSelector,
+  resetCurrentPage,
+  setDefaultExpanded,
+  setID,
+  setTreeViewList,
+} from "@/StateManagment/Slices/InfiniteTreeView";
+import { TreeViewList } from "@/Types/Types";
+import ApiService from "@/utils/axios";
+import { isCompletedTreeItems } from "@/utils/recursiveStateUpdate";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function useInfiniteTreeItems(mainPath: string) {
-  const [state, setState] = useState<TreeApiProps>({
-    id: "",
-    CurrentPage: 1,
-  });
-  const [defaultExpanded, setDefaultExpanded] = useState<string[]>([]);
-  const [TreeViewList, setTreeViewList] = useState<TreeViewList[] | any>();
+  const dispatch = useDispatch();
+  const { CurrentPage, TreeViewList, defaultExpanded, ID } =
+    useSelector(InfiniteTreeSelector);
 
   useEffect(() => {
-    if (state.id) {
-      fetchTreeItems(state.id);
+    if (ID) {
+      dispatch(resetCurrentPage());
     }
-  }, [state.CurrentPage]);
+  }, [ID]);
+
+  useEffect(() => {
+    if (ID) {
+      fetchTreeItems(ID);
+    }
+  }, [CurrentPage]);
 
   const fetchTreeItems = async (id: number | string) => {
-    setState({ ...state, id: id });
-    const isExist = isTreeExist(TreeViewList, id);
-    if (!defaultExpanded.includes(id.toString())) {
-      setDefaultExpanded([...defaultExpanded, id.toString()]);
-    } else if (isExist) {
-      const expandedItems = defaultExpanded.filter((i) => i != id);
-      setDefaultExpanded(expandedItems);
+    if (ID != id) {
+      dispatch(setID(id));
     }
-    if (isExist) return;
+    const isExist = isCompletedTreeItems(TreeViewList, id);
+    
     const data: any = await ApiService.get(
-      `/${mainPath}/${id}?CurrentPage=${state.CurrentPage}&ItemsPerPage=20`
+      `/${mainPath}/${id}?CurrentPage=${CurrentPage}&ItemsPerPage=20`
     );
     if (data.error) {
       toast.error(data?.message);
     } else {
       data.rows?.map((i: TreeViewList) => (i.children = []));
-      const newData = await recursiveStateUpdate(TreeViewList, data, id);
-      setTreeViewList(newData);
-      setDefaultExpanded([...defaultExpanded, id.toString()]);
+      dispatch(setTreeViewList(data));
+      if (!defaultExpanded.includes(id.toString())) {
+        dispatch(setDefaultExpanded([...defaultExpanded, id.toString()]));
+      } else if(defaultExpanded.includes(id.toString()) && isExist){
+        const expandedItems = defaultExpanded.filter((i) => i != id);
+        dispatch(setDefaultExpanded(expandedItems));
+      }
     }
   };
 
   return {
     fetchTreeItems,
-    defaultExpanded,
-    TreeViewList,
-    state,
-    setState,
-    setTreeViewList,
   };
 }

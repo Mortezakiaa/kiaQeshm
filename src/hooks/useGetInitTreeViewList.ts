@@ -1,17 +1,14 @@
 "use client";
 
-import { TreeViewList } from "@/Types/Types";
+import { setInitTreeViewList } from "@/StateManagment/Slices/InfiniteTreeView";
 import ApiService from "@/utils/axios";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-type T = {
-  setTreeViewList: Dispatch<SetStateAction<TreeViewList[]>>;
-  path: string;
-};
-
-export default function useGetInitTreeViewList({ setTreeViewList, path }: T) {
+export default function useGetInitTreeViewList(path: string) {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const getInitTreeViewList = async () => {
     setLoading(true);
@@ -22,7 +19,7 @@ export default function useGetInitTreeViewList({ setTreeViewList, path }: T) {
     } else {
       setLoading(false);
       data?.map((i: any) => (i.children = []));
-      setTreeViewList(data);
+      dispatch(setInitTreeViewList(data));
     }
   };
 

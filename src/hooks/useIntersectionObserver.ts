@@ -1,25 +1,21 @@
 "use client";
-import { TreeApiProps } from "@/Types/Types";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import {
+  InfiniteTreeSelector,
+  increaseCurrentPage,
+} from "@/StateManagment/Slices/InfiniteTreeView";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-type T = {
-  observerDependency: string[];
-  setState: Dispatch<SetStateAction<TreeApiProps>>;
-  state: TreeApiProps;
-};
-
-export default function useIntersectionObserver({
-  observerDependency,
-  setState,
-  state,
-}: T) {
+export default function useIntersectionObserver() {
   const ref = useRef();
+  const dispatch = useDispatch();
+  const { TreeViewList } = useSelector(InfiniteTreeSelector);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setState({ ...state, CurrentPage: ++state.CurrentPage });
+          dispatch(increaseCurrentPage());
         }
       },
       {
@@ -36,7 +32,7 @@ export default function useIntersectionObserver({
         observer.unobserve(ref.current);
       }
     };
-  }, [ref, observerDependency]);
+  }, [ref, TreeViewList]);
 
   return { ref };
 }

@@ -2,8 +2,8 @@
 import { TreeViewList } from "@/Types/Types";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { RecursiveTreeView } from "./RecursiveTreeView";
-import { CollapseIcon, ExpandIcon } from "./CustomTreeItem";
-import { useDispatch } from "react-redux";
+import { CollapseIcon,  ExpandIcon } from "./CustomTreeItem";
+import { useDispatch, useSelector } from "react-redux";
 import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
 import { setIsOpen } from "@/StateManagment/Slices/CustomerTreeView";
 import PageLoader from "./PageLoader";
@@ -11,28 +11,15 @@ import { Box } from "@mui/material";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import useInfiniteTreeItems from "@/hooks/useInfiniteTreeItems";
 import useGetInitTreeViewList from "@/hooks/useGetInitTreeViewList";
+import { InfiniteTreeSelector } from "@/StateManagment/Slices/InfiniteTreeView";
 
 export default function CustomerTreeViewList() {
   const dispatch = useDispatch();
-  const {
-    fetchTreeItems,
-    TreeViewList,
-    defaultExpanded,
-    state,
-    setState,
-    setTreeViewList,
-  } = useInfiniteTreeItems("Markaz1/GetTreeViewChildren");
+  const { defaultExpanded, TreeViewList } = useSelector(InfiniteTreeSelector);
+  const { fetchTreeItems } = useInfiniteTreeItems("Markaz1/GetTreeViewChildren");
+  const { ref } = useIntersectionObserver();
 
-  const { ref } = useIntersectionObserver({
-    observerDependency: defaultExpanded,
-    setState,
-    state,
-  });
-
-  const { loading } = useGetInitTreeViewList({
-    setTreeViewList,
-    path: "/Markaz1/SearchTreeView",
-  });
+  const { loading } = useGetInitTreeViewList("/Markaz1/SearchTreeView");
 
   const onSelectCustomer = (i: TreeViewList) => {
     if (i.childCount == 0) {
@@ -41,7 +28,7 @@ export default function CustomerTreeViewList() {
       dispatch(setIsOpen(false));
     }
   };
-
+  
   return (
     <>
       {loading ? (
@@ -54,7 +41,7 @@ export default function CustomerTreeViewList() {
           slots={{
             expandIcon: ExpandIcon,
             collapseIcon: CollapseIcon,
-            endIcon: ExpandIcon,
+            endIcon: CollapseIcon,
           }}
           sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
         >
