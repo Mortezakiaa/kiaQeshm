@@ -1,5 +1,5 @@
 "use client";
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, InputAdornment } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import {
   accountingName,
 } from "@/StateManagment/Slices/OrderSlice";
 import useFilterByName from "@/hooks/useFilterByName";
+import HesabCodeTreeViewModal from "./HesabCodeTreeViewModal";
 
 export default function SearchHesabCode() {
   const orderStore = useSelector(OrderSelector);
@@ -43,6 +44,14 @@ export default function SearchHesabCode() {
           <RTLTextField
             {...params}
             label={loading ? "در حال جستجو...." : "جستجوی متنی کد حساب"}
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <HesabCodeTreeViewModal />
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

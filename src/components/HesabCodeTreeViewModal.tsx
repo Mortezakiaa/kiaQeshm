@@ -11,18 +11,18 @@ import {
 } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
-import ProductTreeViewList from "./ProductTreeViewList";
 import { useDispatch } from "react-redux";
 import { reset } from "@/StateManagment/Slices/InfiniteTreeView";
+import HesabCodeTreeViewList from "./HesabCodeTreeViewList";
 
-export default function ProductTreeViewModal() {
+export default function HesabCodeTreeViewModal() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
     <>
-      <Tooltip title="نمایش کالاها">
+      <Tooltip title="نمایش کد حساب">
         <IconButton
           onClick={() => {
             handleOpen();
@@ -51,14 +51,14 @@ export default function ProductTreeViewModal() {
             }}
           >
             <Typography variant="h5" color={"black"}>
-              لیست محصولات
+              لیست کد حسابها
             </Typography>
             <IconButton aria-label="close" onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </Box>
           <Grid display={"flex"} flexDirection={"column"} container spacing={2}>
-            <ProductTreeViewList />
+            <HesabCodeTreeViewList />
           </Grid>
         </ModalContent>
       </Modal>
