@@ -25,9 +25,7 @@ export default function ProductTreeViewList() {
           <PageLoader />
         </Box>
       ) : (
-        <SimpleTreeView
-          sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
-        >
+        <SimpleTreeView sx={{ overflowX: "hidden", flexGrow: 1 }}>
           <RecursiveTreeView
             Ref={ref}
             data={TreeViewList}

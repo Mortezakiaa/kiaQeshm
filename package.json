@@ -1,11 +1,11 @@
 {
   "name": "kia-gheshm",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "node server.js",
+    "start": "next start",
     "lint": "next lint",
     "test": "jest --watch --coverage=false"
   },

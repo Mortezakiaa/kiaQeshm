@@ -37,9 +37,7 @@ export default function CustomerTreeViewList() {
           <PageLoader />
         </Box>
       ) : (
-        <SimpleTreeView
-          sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
-        >
+        <SimpleTreeView sx={{ overflowX: "hidden", flexGrow: 1 }}>
           <RecursiveTreeView
             Ref={ref}
             selectTreeItems={onSelectCustomer}
