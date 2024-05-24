@@ -2,7 +2,6 @@
 import { TreeViewList } from "@/Types/Types";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { RecursiveTreeView } from "./RecursiveTreeView";
-import { CollapseIcon,  ExpandIcon } from "./CustomTreeItem";
 import { useDispatch, useSelector } from "react-redux";
 import { customerCode, customerName } from "@/StateManagment/Slices/OrderSlice";
 import { setIsOpen } from "@/StateManagment/Slices/CustomerTreeView";
@@ -15,8 +14,10 @@ import { InfiniteTreeSelector } from "@/StateManagment/Slices/InfiniteTreeView";
 
 export default function CustomerTreeViewList() {
   const dispatch = useDispatch();
-  const { defaultExpanded, TreeViewList } = useSelector(InfiniteTreeSelector);
-  const { fetchTreeItems } = useInfiniteTreeItems("Markaz1/GetTreeViewChildren");
+  const { TreeViewList } = useSelector(InfiniteTreeSelector);
+  const { fetchTreeItems } = useInfiniteTreeItems(
+    "Markaz1/GetTreeViewChildren"
+  );
   const { ref } = useIntersectionObserver();
 
   const { loading } = useGetInitTreeViewList("/Markaz1/SearchTreeView");
@@ -28,7 +29,7 @@ export default function CustomerTreeViewList() {
       dispatch(setIsOpen(false));
     }
   };
-  
+
   return (
     <>
       {loading ? (
@@ -37,12 +38,6 @@ export default function CustomerTreeViewList() {
         </Box>
       ) : (
         <SimpleTreeView
-          expandedItems={defaultExpanded}
-          slots={{
-            expandIcon: ExpandIcon,
-            collapseIcon: CollapseIcon,
-            endIcon: CollapseIcon,
-          }}
           sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
         >
           <RecursiveTreeView

@@ -3,7 +3,6 @@
 import {
   InfiniteTreeSelector,
   resetCurrentPage,
-  setDefaultExpanded,
   setID,
   setTreeViewList,
 } from "@/StateManagment/Slices/InfiniteTreeView";
@@ -16,8 +15,7 @@ import { toast } from "react-toastify";
 
 export default function useInfiniteTreeItems(mainPath: string) {
   const dispatch = useDispatch();
-  const { CurrentPage, TreeViewList, defaultExpanded, ID } =
-    useSelector(InfiniteTreeSelector);
+  const { CurrentPage, TreeViewList, ID } = useSelector(InfiniteTreeSelector);
 
   useEffect(() => {
     if (ID) {
@@ -36,7 +34,7 @@ export default function useInfiniteTreeItems(mainPath: string) {
       dispatch(setID(id));
     }
     const isExist = isCompletedTreeItems(TreeViewList, id);
-    
+    if (isExist) return;
     const data: any = await ApiService.get(
       `/${mainPath}/${id}?CurrentPage=${CurrentPage}&ItemsPerPage=20`
     );
@@ -45,12 +43,6 @@ export default function useInfiniteTreeItems(mainPath: string) {
     } else {
       data.rows?.map((i: TreeViewList) => (i.children = []));
       dispatch(setTreeViewList(data));
-      if (!defaultExpanded.includes(id.toString())) {
-        dispatch(setDefaultExpanded([...defaultExpanded, id.toString()]));
-      } else if(defaultExpanded.includes(id.toString()) && isExist){
-        const expandedItems = defaultExpanded.filter((i) => i != id);
-        dispatch(setDefaultExpanded(expandedItems));
-      }
     }
   };
 

@@ -48,6 +48,7 @@ export interface TreeViewFullNameList {
 
 export interface TreeViewList {
   totalItems: number;
+  expandClickEvent: boolean;
   id: number;
   code: string;
   childCount: number;

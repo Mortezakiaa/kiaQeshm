@@ -7,14 +7,12 @@ type T = {
   ID: number | string;
   CurrentPage: number;
   TreeViewList: TreeViewList[] | any;
-  defaultExpanded: [];
 };
 
 const initialState: T = {
   ID: "",
   CurrentPage: 1,
   TreeViewList: [],
-  defaultExpanded: [],
 };
 
 const TreeSlice = createSlice({
@@ -40,19 +38,17 @@ const TreeSlice = createSlice({
     setInitTreeViewList: (state, action) => {
       state.TreeViewList = action.payload;
     },
-    setDefaultExpanded: (state, action) => {
-      state.defaultExpanded = action.payload;
-    },
+    reset: () => initialState,
   },
 });
 
 export default TreeSlice.reducer;
 export const {
   increaseCurrentPage,
-  setDefaultExpanded,
   setID,
   setTreeViewList,
   resetCurrentPage,
   setInitTreeViewList,
+  reset
 } = TreeSlice.actions;
 export const InfiniteTreeSelector = (store: IRootState) => store.TreeReducer;
