@@ -1,33 +1,20 @@
 "use client";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
-import { CollapseIcon, EndIcon, ExpandIcon } from "./CustomTreeItem";
 import { Box } from "@mui/material";
 import PageLoader from "./PageLoader";
 import useInfiniteTreeItems from "@/hooks/useInfiniteTreeItems";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import useGetInitTreeViewList from "@/hooks/useGetInitTreeViewList";
 import { RecursiveTreeView } from "./RecursiveTreeView";
+import { InfiniteTreeSelector } from "@/StateManagment/Slices/InfiniteTreeView";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProductTreeViewList() {
-  const {
-    fetchTreeItems,
-    TreeViewList,
-    defaultExpanded,
-    state,
-    setState,
-    setTreeViewList,
-  } = useInfiniteTreeItems("Kala/GetTreeViewChildren");
-
-  const { ref } = useIntersectionObserver({
-    observerDependency: defaultExpanded,
-    setState,
-    state,
-  });
-
-  const { loading } = useGetInitTreeViewList({
-    setTreeViewList,
-    path: "/Kala/SearchTreeView",
-  });
+  const dispatch = useDispatch();
+  const { TreeViewList } = useSelector(InfiniteTreeSelector);
+  const { fetchTreeItems } = useInfiniteTreeItems("Kala/GetTreeViewChildren");
+  const { ref } = useIntersectionObserver();
+  const { loading } = useGetInitTreeViewList("/Kala/SearchTreeView");
 
   const onSelect = () => {};
 
@@ -39,12 +26,6 @@ export default function ProductTreeViewList() {
         </Box>
       ) : (
         <SimpleTreeView
-          expandedItems={defaultExpanded}
-          slots={{
-            expandIcon: ExpandIcon,
-            collapseIcon: CollapseIcon,
-            endIcon: EndIcon,
-          }}
           sx={{ overflowX: "hidden", flexGrow: 1, maxWidth: 300 }}
         >
           <RecursiveTreeView
