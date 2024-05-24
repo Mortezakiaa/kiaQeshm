@@ -8,15 +8,29 @@ import useGetInitTreeViewList from "@/hooks/useGetInitTreeViewList";
 import { RecursiveTreeView } from "./RecursiveTreeView";
 import { InfiniteTreeSelector } from "@/StateManagment/Slices/InfiniteTreeView";
 import { useDispatch, useSelector } from "react-redux";
+import { TreeViewList } from "@/Types/Types";
+import {
+  accountingCode,
+  accountingName,
+} from "@/StateManagment/Slices/OrderSlice";
+import { setIsOpen } from "@/StateManagment/Slices/HesabCodeTreeView";
 
 export default function HesabCodeTreeViewList() {
   const dispatch = useDispatch();
   const { TreeViewList } = useSelector(InfiniteTreeSelector);
-  const { fetchTreeItems } = useInfiniteTreeItems("Account/GetTreeViewChildren");
+  const { fetchTreeItems } = useInfiniteTreeItems(
+    "Account/GetTreeViewChildren"
+  );
   const { ref } = useIntersectionObserver();
   const { loading } = useGetInitTreeViewList("Account/SearchTreeView");
 
-  const onSelect = () => {};
+  const onSelect = (i: TreeViewList) => {
+    if (i.childCount == 0) {
+      dispatch(accountingCode(i.code));
+      dispatch(accountingName(i.name));
+      dispatch(setIsOpen(false));
+    }
+  };
 
   return (
     <>

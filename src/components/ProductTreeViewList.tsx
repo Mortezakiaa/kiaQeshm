@@ -8,6 +8,9 @@ import useGetInitTreeViewList from "@/hooks/useGetInitTreeViewList";
 import { RecursiveTreeView } from "./RecursiveTreeView";
 import { InfiniteTreeSelector } from "@/StateManagment/Slices/InfiniteTreeView";
 import { useDispatch, useSelector } from "react-redux";
+import { TreeViewList } from "@/Types/Types";
+import { itemCode, itemName } from "@/StateManagment/Slices/OrderLinesSlice";
+import { setIsOpen } from "@/StateManagment/Slices/ProductTreeView";
 
 export default function ProductTreeViewList() {
   const dispatch = useDispatch();
@@ -16,7 +19,13 @@ export default function ProductTreeViewList() {
   const { ref } = useIntersectionObserver();
   const { loading } = useGetInitTreeViewList("/Kala/SearchTreeView");
 
-  const onSelect = () => {};
+  const onSelect = (i:TreeViewList) => {
+    if(i.childCount == 0){
+      dispatch(itemCode(i.code))
+      dispatch(itemName(i.name))
+      dispatch(setIsOpen(false))
+    }
+  };
 
   return (
     <>

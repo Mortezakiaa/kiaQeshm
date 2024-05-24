@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
@@ -11,21 +10,23 @@ import {
 } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { ModalContent, StyledBackdrop, style } from "./ModalPropertys";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reset } from "@/StateManagment/Slices/InfiniteTreeView";
 import HesabCodeTreeViewList from "./HesabCodeTreeViewList";
+import {
+  HesabCodeTreeViewModalSelector,
+  setIsOpen,
+} from "@/StateManagment/Slices/HesabCodeTreeView";
 
 export default function HesabCodeTreeViewModal() {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const { isOpenModal } = useSelector(HesabCodeTreeViewModalSelector);
   return (
     <>
       <Tooltip title="نمایش کد حساب">
         <IconButton
           onClick={() => {
-            handleOpen();
+            dispatch(setIsOpen(true));
             dispatch(reset());
           }}
         >
@@ -33,8 +34,8 @@ export default function HesabCodeTreeViewModal() {
         </IconButton>
       </Tooltip>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={isOpenModal}
+        onClose={() => dispatch(setIsOpen(false))}
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent
@@ -53,7 +54,10 @@ export default function HesabCodeTreeViewModal() {
             <Typography variant="h5" color={"black"}>
               لیست کد حسابها
             </Typography>
-            <IconButton aria-label="close" onClick={handleClose}>
+            <IconButton
+              aria-label="close"
+              onClick={() => dispatch(setIsOpen(false))}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
