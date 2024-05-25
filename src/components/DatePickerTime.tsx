@@ -1,5 +1,5 @@
 "use client";
-import DatePicker, { DateObject } from "react-multi-date-picker";
+import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { IconButton, InputAdornment } from "@mui/material";
@@ -12,7 +12,7 @@ export default function DatePickerTime({
   onChange,
   label,
   maxDate,
-  minDate
+  minDate,
 }: DatePickerArguments) {
   return (
     <div className="DatePickerContainer">

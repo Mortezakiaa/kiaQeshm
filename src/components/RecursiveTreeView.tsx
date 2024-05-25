@@ -31,10 +31,11 @@ export const RecursiveTreeView = ({
           itemId={i.id.toString()}
           label={i.name}
           onClick={(e) => {
-            getTreeItems(i.id);
-          }}
-          onDoubleClick={(e) => {
-            selectTreeItems(i);
+            if(i.childCount == 0){
+              selectTreeItems(i);
+            }else{
+              getTreeItems(i.id);
+            }
           }}
         >
           {i.childCount > 0 && (
