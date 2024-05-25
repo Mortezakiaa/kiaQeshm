@@ -1,5 +1,5 @@
 "use client";
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, InputAdornment } from "@mui/material";
 import RTLTextField from "./RTLTextField";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import {
   saleExpertName,
 } from "@/StateManagment/Slices/OrderSlice";
 import useFilterByName from "@/hooks/useFilterByName";
+import SaleExpertCodeTreeViewModal from "./SaleExpertCodeTreeViewModal";
 
 export default function SearchSaleExpertCode() {
   const orderStore = useSelector(OrderSelector);
@@ -41,6 +42,14 @@ export default function SearchSaleExpertCode() {
           <RTLTextField
             {...params}
             label={loading ? "در حال جستجو...." : "جستجوی متنی کد کارشناس فروش"}
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SaleExpertCodeTreeViewModal />
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

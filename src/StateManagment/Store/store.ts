@@ -5,6 +5,7 @@ import CustomerTreeViewReducer from "@/StateManagment/Slices/CustomerTreeView";
 import TreeReducer from "../Slices/InfiniteTreeView";
 import ProductTreeViewReducer from "../Slices/ProductTreeView";
 import HesabCodeTreeViewReducer from "../Slices/HesabCodeTreeView";
+import SaleExpertCodeReducer from "../Slices/SaleExpertTreeView";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     CustomerTreeViewReducer,
     TreeReducer,
     ProductTreeViewReducer,
-    HesabCodeTreeViewReducer
+    HesabCodeTreeViewReducer,
+    SaleExpertCodeReducer
   },
 });
 export type IRootState = ReturnType<typeof store.getState>;
