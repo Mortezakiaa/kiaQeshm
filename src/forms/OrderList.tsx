@@ -37,7 +37,6 @@ export default function OrderList() {
   const getFilterdList = async () => {
     setLoading(true);
     const data = await ApiService.post("/Order/Search", OrderList);
-    console.log(data);
     if (data.isSuccess) {
       setData(data.rows);
       setLoading(false);
