@@ -3,10 +3,12 @@ import DatePickerTime from "@/components/DatePickerTime";
 import EditableTable from "@/components/EditableTable";
 import RTLTextField from "@/components/RTLTextField";
 import {
+  Alert,
   Box,
   Button,
   Grid,
   IconButton,
+  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -53,16 +55,16 @@ export default function Order() {
   const OrderStore = useSelector(OrderSelector);
   const OrderLinesStore = useSelector(OrderLinesSelector);
   const dispatch = useDispatch();
-  const [num1, setNum1] = useState<number>();
+  const [num1, setNum1] = useState<number | any>();
   const [loading, setLoading] = useState(false);
 
   const SaveOrder = async () => {
     setLoading(true);
     const data: any = await ApiService.post("/Order/Insert", OrderStore);
     if (data.isSuccess) {
-      setNum1(data.num1);
       setLoading(false);
       toast.success("عملیات با موفقیت انجام شد");
+      setNum1(data.data.num1);
     } else {
       setLoading(false);
       toast.error("خطا در عملیات");
@@ -147,15 +149,11 @@ export default function Order() {
             </Grid>
           </Grid>
 
-          <Grid>
-            <RTLTextField
-              value={num1}
-              InputProps={{
-                readOnly: true,
-              }}
-              label="شماره فاکتور"
-            />
-          </Grid>
+          <Stack>
+            {typeof num1 === "number" && (
+              <Alert severity="success">شماره فاکتور : {num1}</Alert>
+            )}
+          </Stack>
 
           <Grid container spacing={2}>
             <Grid item md={5} xs={12}>
