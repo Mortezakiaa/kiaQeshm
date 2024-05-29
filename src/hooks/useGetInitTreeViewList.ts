@@ -2,30 +2,25 @@
 
 import { setInitTreeViewList } from "@/StateManagment/Slices/InfiniteTreeView";
 import ApiService from "@/utils/axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function useGetInitTreeViewList(path: string) {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
-  const getInitTreeViewList = async () => {
-    setLoading(true);
-    const data: any = await ApiService.get(path);
-    if (data.error) {
-      setLoading(false);
-      toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
-    } else {
-      setLoading(false);
-      data?.map((i: any) => (i.children = []));
-      dispatch(setInitTreeViewList(data));
-    }
-  };
-
-  useEffect(() => {
-    getInitTreeViewList();
-  }, []);
-
+  const { isLoading: loading } = useQuery({
+    queryKey: ["intiTreeItems", path],
+    queryFn: async () => {
+      const data: any = await ApiService.get(path);
+      if (data.error) {
+        toast.error("مشکلی پیش آمده است مجدد امتحان کنید");
+        return null;
+      } else {
+        data?.map((i: any) => (i.children = []));
+        dispatch(setInitTreeViewList(data));
+        return null;
+      }
+    },
+  });
   return { loading };
 }
